@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 
 namespace BrainologyDatabaseManager.Common
 {
-    public class DriveObject
+    public class DriveObject : IEquatable<DriveObject>
     {
         public string path;
         public string name;
@@ -71,6 +71,18 @@ namespace BrainologyDatabaseManager.Common
                 subDirectories.Add(dir);
             }
         }
+
+        public DriveObject(DriveObject prevDriveObj)
+        {
+            this.driveObjectType = prevDriveObj.driveObjectType;
+            this.path = prevDriveObj.path;
+            this.name = prevDriveObj.name;
+            this.date = prevDriveObj.date;
+            this.size = prevDriveObj.size;
+            this.comments = prevDriveObj.comments;
+            this.tags = new List<Tag>(prevDriveObj.tags);
+            this.subDirectories = new List<DriveObject>();
+        }
         #endregion
 
         public List<DriveObject> getSubDirectories()
@@ -86,6 +98,16 @@ namespace BrainologyDatabaseManager.Common
         public string getDriveObjectType()
         {
             return driveObjectType.ToString();
+        }
+
+        public string getFormattedSize()
+        {
+            if (size / (1024m * 1024m) > 1m)
+                return ((size / (1024m * 1024m)).ToString("f2") + " GB");
+            else if (size / (1024m) > 1m)
+                return ((size / (1024m)).ToString("f2") + " MB");
+            else
+                return (size.ToString("f2") + "KB");
         }
 
         public DriveObject getSubDirectory(int index)
@@ -135,16 +157,16 @@ namespace BrainologyDatabaseManager.Common
 
         public bool Equals(DriveObject obj)
         {
-            return this.path == obj.path;
-        }
-
-        public bool Match(DriveObject obj)
-        {
             return (
                 this.name == obj.name &&
                 this.date == obj.date &&
                 this.size == obj.size
                 );
+        }
+
+        public override int GetHashCode()
+        {
+            return string.Format("{0}-{1}-{2}", name, date.ToString(), size.ToString()).GetHashCode();
         }
 
     }

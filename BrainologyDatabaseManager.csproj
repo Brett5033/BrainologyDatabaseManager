@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>marketingbrainologylogo_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Apis, Version=1.49.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
       <HintPath>packages\Google.Apis.1.49.0\lib\net45\Google.Apis.dll</HintPath>
@@ -81,6 +84,12 @@
     <Compile Include="DataAccess\DriveDB.cs" />
     <Compile Include="DataAccess\DriveReader.cs" />
     <Compile Include="DataAccess\DataManager.cs" />
+    <Compile Include="FRMLoadingPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FRMLoadingPanel.Designer.cs">
+      <DependentUpon>FRMLoadingPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FRMMBDatabase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +98,9 @@
     </Compile>
     <Compile Include="Common\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FRMLoadingPanel.resx">
+      <DependentUpon>FRMLoadingPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FRMMBDatabase.resx">
       <DependentUpon>FRMMBDatabase.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +112,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -116,7 +129,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Styles\" />
     <Folder Include="WorkFlow\" />
   </ItemGroup>
@@ -130,6 +142,30 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MarketingBrainologyLogoWebsiteNew.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MarketingBrainologyLogoNoBG 2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Brain Key Circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MarketingBrainologyLogoWebsiteNewS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MarketingBrainologyLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MBIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\marketingbrainologylogo_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="marketingbrainologylogo_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

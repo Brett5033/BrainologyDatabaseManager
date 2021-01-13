@@ -342,3 +342,7 @@ healthchecksdb
 # DriveBackup Database
 Drives.xml
 DrivesBackup.xml
+
+# Google Drive
+token.json/
+token.json

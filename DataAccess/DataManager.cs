@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BrainologyDatabaseManager.Common;
 using BrainologyDatabaseManager;
+using System.IO;
 
 namespace BrainologyDatabaseManager.DataAccess
 {
@@ -17,7 +18,60 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private static List<Tag> RegisteredTags = new List<Tag>();
 
-        public static bool databaseChangesMade = false;
+        /// <summary>
+        /// True when new files have been manually added but not written to XML file.
+        /// </summary>
+        public static bool UnsavedChanges = false;
+
+        /// <summary>
+        /// True when any saved change has occured and XML should be uploaded
+        /// </summary>
+        public static bool DatabaseChanges = false;
+
+        public static List<DriveObject> ChangedObjects = new List<DriveObject>();
+
+        public static void IncorporateDriveData(List<DriveObject> newList)
+        {
+            // Look through the drives that the new list and copy the drive contents, ignoring the currently accessible drives
+            // In theory (I hope) any drives currently accessible shouldnt be changed by any other system
+            // We assume other drives are more up-to-date
+            var driveList = DriveInfo.GetDrives();
+
+
+            foreach (DriveObject newListObject in newList)
+            {
+                bool FoundOnLocalSystem = false;
+                // Check if active on system
+                foreach(DriveObject localObject in ChangedObjects)
+                {
+                    if(newListObject.Equals(localObject))
+                    {
+                        // Local DriveObject found, leave alone
+                        FoundOnLocalSystem = true;
+                        break;
+                    }
+                }
+                if (!FoundOnLocalSystem)
+                {
+                    // No local changes
+                    bool newDriveObject = true;
+                    for(int i = 0; i < DriveData.Count; i++)
+                    {
+                        if (newDriveObject.Equals(DriveData.ElementAt(i)))
+                        {
+                            // Current Object Found, replace
+                            DriveData[i] = newListObject;
+                            newDriveObject = false;
+                        }
+                    }
+                    if (newDriveObject)
+                    {
+                        DriveData.Add(newListObject);
+                    }
+                }
+            }
+            ChangedObjects.Clear();
+        }
 
         public static List<string> GetDriveObjectData(DriveObject obj)
         {
@@ -31,13 +85,7 @@ namespace BrainologyDatabaseManager.DataAccess
             attributes.Add("Path: " + obj.path);
             attributes.Add("Name: " + obj.name);
             attributes.Add("Date: " + obj.date);
-            if(obj.size / (1024m * 1024m) > 1m)
-                attributes.Add("Size: " + (obj.size / (1024m * 1024m)).ToString("f2") + " GB");
-            else if (obj.size / (1024m) > 1m)
-                attributes.Add("Size: " + (obj.size / (1024m)).ToString("f2") + " MB");
-            else
-                attributes.Add("Size: " + obj.size.ToString("f2") + "KB");
-            attributes.Add("Tags:");
+            attributes.Add("Size: " + obj.getFormattedSize());
             foreach(Tag tag in obj.getTags())
             {
                 attributes.Add("\t" + tag.ID);
