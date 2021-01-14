@@ -13,6 +13,9 @@ using BrainologyDatabaseManager.DataAccess;
 using MetroFramework.Forms;
 using MetroFramework.Controls;
 using System.Threading;
+using System.Runtime.InteropServices;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Diagnostics;
 
 namespace BrainologyDatabaseManager
 {
@@ -41,11 +44,13 @@ namespace BrainologyDatabaseManager
         private int Search_TotalSearches = 0;
         private FilterOptions Search_filterOptions;
         private DriveObject Search_SelectedNode = null;
+        private List<int> Search_SelectedNodeIndexes = new List<int>();
         private TagPreset Search_SelectedPreset = null;
         private List<List<DriveObject>> Search_DisplayedObjects;
 
         // Optimization Manager
         List<List<DriveObject>> Opti_DeletableObjects;
+        string ExcelPath = string.Format(@"{0}\BrainologyDatbaseExcelSaves",Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
 
         public FRMMBDatabase()
         {
@@ -198,10 +203,10 @@ namespace BrainologyDatabaseManager
             {
                 for (int i = 0; i < Search_DisplayedObjects.Count; i++)
                 {
-                    if (Search_DisplayedObjects[i].Count == 0)
+                    /*if (Search_DisplayedObjects[i].Count == 0)
                     {
                         continue;
-                    }
+                    }*/
 
                     TreeNode driveNode = new TreeNode(DataManager.DriveData.ElementAt(i).name);
 
@@ -321,6 +326,7 @@ namespace BrainologyDatabaseManager
             }
         }
 
+
         private void RefreshTagList()
         {
 
@@ -388,15 +394,27 @@ namespace BrainologyDatabaseManager
         {
             List<int> indexes = new List<int>();
             TreeNode tNode = e.Node;
+            // Just By-Pass The Data About a Node
+            //if (tNode.Nodes.Count == 0)
+            //    return;
             
             while (tNode.Parent != null)
             {
                 indexes.Add(tNode.Parent.Nodes.IndexOf(tNode));
+                if (indexes.Last() < 0)
+                {
+                    Console.WriteLine(string.Format("{0} could not find self: Parent: {1}", tNode.Name, tNode.Parent.Name));
+                    return;
+                }
                 tNode = tNode.Parent;
             }
             indexes.Add(TVSearchView.Nodes.IndexOf(tNode));
             indexes.Reverse();
+            Search_SelectedNodeIndexes = indexes;
 
+            foreach (int i in indexes)
+                Console.WriteLine(i);
+            //Console.WriteLine(string.Format("Fetching Data of {0}", tNode.Name));
             if (e.Node.Parent != null)
                 Search_SelectedNode = Search_DisplayedObjects.ElementAt(indexes[0]).ElementAt(indexes[1]);
             else
@@ -970,9 +988,14 @@ namespace BrainologyDatabaseManager
             {
                 MessageBox.Show("Please input a valid whole number for # of Copies", "Input Error");
             }
-            else {
+            else if (TXTMinimumSize.Text == "" || !Decimal.TryParse(TXTMinimumSize.Text, out decimal minimumSize))
+            {
+                MessageBox.Show("Please input a valid decimal or whole number for Minimum Size", "Input Error");
+            }
+            else
+                {
                 int[] sortedDrivePriority = GetDrivePriority();
-
+                minimumSize *= 1024;
 
                 // Set Filter Options and then search by Filter
 
@@ -1027,17 +1050,78 @@ namespace BrainologyDatabaseManager
                         }
                     }
                 }
-                DisplayOptimizationList(sortedDrivePriority);
+                if (CBXConsolidateResults.Checked)
+                    ConsolidateResults();
+                if (!CBXSaveToExcel.Checked)
+                    DisplayOptimizationList(sortedDrivePriority, minimumSize);
+                else
+                    WriteExcelSheet(sortedDrivePriority, minimumSize);
             }
         }
 
-        private void DisplayOptimizationList(int[] priorityList)
+        /// <summary>
+        /// Minimizes the list of Deletable DriveObjects by removing child Objects whose parent and siblings are also deletable
+        /// </summary>
+        private void ConsolidateResults()
+        {
+            for(int i = 0; i < DataManager.DriveData.Count; i++)
+            {
+                Console.WriteLine(string.Format("{0} deletable objects in {1} before Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
+                ConsolidateHelper(i, DataManager.DriveData.ElementAt(i), false);
+                Console.WriteLine(string.Format("{0} deletable objects in {1} after Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
+                // A root node should never be removed cause yeah
+            }
+        }
+
+        private bool ConsolidateHelper(int listIndex, DriveObject currObj, bool IntentToRemove)
+        {
+            if (!IntentToRemove) // First Pass, looking to see if children match
+            {
+                bool AllChildrenAreRedundant = true;
+                for (int i = 0; i < currObj.getSubDirectories().Count; i++)
+                {
+                    if (!ConsolidateHelper(listIndex, currObj.getSubDirectory(i), false))
+                    {
+                        // A single child is not deletable, the whole root folder should not be deleted
+                        AllChildrenAreRedundant = false;
+                    }
+                }
+                if (AllChildrenAreRedundant)
+                {
+                    // All children should be removed from the deletable list
+                    for (int i = 0; i < currObj.getSubDirectories().Count; i++)
+                    {
+                        ConsolidateHelper(listIndex, currObj.getSubDirectory(i), true);
+                    }
+                }
+                // True only if itself and all its children are deletable
+                return DriveObjectIsDeletable(currObj) && AllChildrenAreRedundant;
+            }
+            else
+            {
+                // I think this doesnt not have to traverse down as each parent should only have to look at its children nodes
+                return Opti_DeletableObjects.ElementAt(listIndex).Remove(currObj);
+            }
+
+        }
+
+        private bool DriveObjectIsDeletable(DriveObject obj)
+        {
+            foreach(List<DriveObject> list in Opti_DeletableObjects)
+            {
+                if (list.Contains(obj))
+                    return true;
+            }
+            return false;
+        }
+
+        private void DisplayOptimizationList(int[] priorityList, decimal minSize)
         {
             LVOptimizationResults.Items.Clear();
             for(int i = 0; i < Opti_DeletableObjects.Count; i++)
             {
                 string driveName = i + ":" + DataManager.DriveData.ElementAt(priorityList[i]).name;
-                Console.WriteLine(string.Format("{0} Deletable Objects in {1} found",Opti_DeletableObjects.ElementAt(i).Count , driveName));
+                //Console.WriteLine(string.Format("{0} Deletable Objects in {1} found",Opti_DeletableObjects.ElementAt(i).Count , driveName));
                 var driveGroup = new ListViewGroup();
                 driveGroup.Name = driveName;
                 driveGroup.Header = driveName;
@@ -1045,6 +1129,8 @@ namespace BrainologyDatabaseManager
                 
                 foreach(DriveObject obj in Opti_DeletableObjects.ElementAt(i))
                 {
+                    if (obj.size < minSize)
+                        continue;
                     string[] values = { obj.name, obj.path, obj.date.ToString(), obj.getFormattedSize() };
                     var item = new ListViewItem();
                     item.Text = obj.name;
@@ -1061,6 +1147,77 @@ namespace BrainologyDatabaseManager
                 
                 
             }
+        }
+
+        private void WriteExcelSheet(int[] priorityList, decimal minSize)
+        {
+            Excel.Application xlApp = new Excel.Application();
+            if(xlApp == null)
+            {
+                MessageBox.Show("Excel is not properly installed, please check that excel is working first.", "Excel Error");
+                return;
+            }
+
+            Excel.Workbook xlWorkBook;
+            Excel.Worksheet xlWorkSheet = new Excel.Worksheet();
+            object misValue = System.Reflection.Missing.Value;
+            string fileName = "Brainology_Database_Optimization.xls";
+
+            xlWorkBook = xlApp.Workbooks.Add(misValue);
+            for(int i = 0; i < priorityList.Length; i++)
+            {
+                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.Add(xlWorkBook.Worksheets[i+1], misValue, misValue, misValue);
+                xlWorkSheet.Name = DataManager.DriveData.ElementAt(priorityList[i]).name;
+                
+                xlWorkSheet.Cells[1, 1] = "Name";
+                xlWorkSheet.Cells[1, 2] = "Path";
+                xlWorkSheet.Cells[1, 3] = "Date";
+                xlWorkSheet.Cells[1, 4] = "Size";
+
+                int xOffset = 0;
+                for (int x = 2; x <= Opti_DeletableObjects.ElementAt(i).Count+1; x++)
+                {
+                    if (Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).size > minSize)
+                    {
+                        // An individual Drive Object
+                        xlWorkSheet.Cells[x - xOffset, 1] = Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).name;
+                        xlWorkSheet.Cells[x - xOffset, 2] = Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).path;
+                        xlWorkSheet.Cells[x - xOffset, 3] = Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).date.ToString();
+                        xlWorkSheet.Cells[x - xOffset, 4] = Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).getFormattedSize();
+                    }
+                    else
+                    {
+                        //Console.WriteLine(string.Format("The size of {0} is smaller than the min {1} kb)", Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).size, minSize));
+                        xOffset++;
+                    }
+                }
+                xlWorkSheet.Columns.AutoFit();
+            }
+
+            if(!Directory.Exists(ExcelPath))
+            {
+                Directory.CreateDirectory(ExcelPath);
+            }
+
+            Console.WriteLine(string.Format(@"Attempting to save Excel Sheet to {0}\.{1}", ExcelPath, fileName));
+            if (Directory.Exists(ExcelPath))
+            {
+                Console.WriteLine("Directory Exists");
+                xlWorkBook.SaveAs(string.Format(@"{0}\.{1}", ExcelPath, fileName), Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+            }
+            else
+            {
+                Console.WriteLine("Directory Not Found");
+            }
+            xlWorkBook.Close(true, misValue, misValue);
+            xlApp.Quit();
+
+            Marshal.ReleaseComObject(xlWorkSheet);
+            Marshal.ReleaseComObject(xlWorkBook);
+            Marshal.ReleaseComObject(xlApp);
+
+            MessageBox.Show(string.Format("Your Excel File is saved to {0}", ExcelPath));
+            Process.Start("explorer", string.Format(@"{0}\.{1}", ExcelPath, fileName));
         }
         #endregion
 
@@ -1198,5 +1355,11 @@ namespace BrainologyDatabaseManager
             if (DataManager.DatabaseChanges)
                 driveDatabase.UploadGoogleDriveData(false);
         }
+
+        #region ToolTips
+
+        // Main App
+
+        #endregion
     }
 }

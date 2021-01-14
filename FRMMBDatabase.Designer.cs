@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             ""}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.Window, null);
             this.PNLSubForms = new System.Windows.Forms.Panel();
             this.MTABWindowSelector = new MetroFramework.Controls.MetroTabControl();
@@ -101,6 +101,7 @@
             this.LBXFileData = new System.Windows.Forms.ListBox();
             this.TVDriveView = new System.Windows.Forms.TreeView();
             this.TPStorageOptimization = new System.Windows.Forms.TabPage();
+            this.CBXConsolidateResults = new MetroFramework.Controls.MetroCheckBox();
             this.LBLOptiNumCopies = new MetroFramework.Controls.MetroLabel();
             this.TXTOptiNumCopies = new MetroFramework.Controls.MetroTextBox();
             this.LBLOptiFilter = new MetroFramework.Controls.MetroLabel();
@@ -125,6 +126,10 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.LBLFormClosing = new MetroFramework.Controls.MetroLabel();
             this.metroToolTip1 = new MetroFramework.Components.MetroToolTip();
+            this.CBXSaveToExcel = new MetroFramework.Controls.MetroCheckBox();
+            this.TXTMinimumSize = new MetroFramework.Controls.MetroTextBox();
+            this.LBLMinimunSize = new MetroFramework.Controls.MetroLabel();
+            this.LBLMegaBytes = new MetroFramework.Controls.MetroLabel();
             this.MTABWindowSelector.SuspendLayout();
             this.TPWelcome.SuspendLayout();
             this.TPSearchManager.SuspendLayout();
@@ -159,7 +164,7 @@
             this.MTABWindowSelector.Controls.Add(this.TPStorageOptimization);
             this.MTABWindowSelector.Location = new System.Drawing.Point(3, 87);
             this.MTABWindowSelector.Name = "MTABWindowSelector";
-            this.MTABWindowSelector.SelectedIndex = 1;
+            this.MTABWindowSelector.SelectedIndex = 3;
             this.MTABWindowSelector.Size = new System.Drawing.Size(1012, 640);
             this.MTABWindowSelector.Style = MetroFramework.MetroColorStyle.Magenta;
             this.MTABWindowSelector.TabIndex = 4;
@@ -175,7 +180,7 @@
             this.TPWelcome.Location = new System.Drawing.Point(4, 38);
             this.TPWelcome.Margin = new System.Windows.Forms.Padding(2);
             this.TPWelcome.Name = "TPWelcome";
-            this.TPWelcome.Size = new System.Drawing.Size(969, 573);
+            this.TPWelcome.Size = new System.Drawing.Size(1004, 598);
             this.TPWelcome.TabIndex = 0;
             this.TPWelcome.Text = "  Welcome  ";
             // 
@@ -842,7 +847,7 @@
             this.TPDriveManager.Location = new System.Drawing.Point(4, 38);
             this.TPDriveManager.Name = "TPDriveManager";
             this.TPDriveManager.Padding = new System.Windows.Forms.Padding(23, 27, 23, 27);
-            this.TPDriveManager.Size = new System.Drawing.Size(969, 573);
+            this.TPDriveManager.Size = new System.Drawing.Size(1004, 598);
             this.TPDriveManager.TabIndex = 2;
             this.TPDriveManager.Text = "  Drive Manager  ";
             // 
@@ -1143,6 +1148,11 @@
             // TPStorageOptimization
             // 
             this.TPStorageOptimization.BackColor = System.Drawing.SystemColors.Window;
+            this.TPStorageOptimization.Controls.Add(this.LBLMegaBytes);
+            this.TPStorageOptimization.Controls.Add(this.LBLMinimunSize);
+            this.TPStorageOptimization.Controls.Add(this.TXTMinimumSize);
+            this.TPStorageOptimization.Controls.Add(this.CBXSaveToExcel);
+            this.TPStorageOptimization.Controls.Add(this.CBXConsolidateResults);
             this.TPStorageOptimization.Controls.Add(this.LBLOptiNumCopies);
             this.TPStorageOptimization.Controls.Add(this.TXTOptiNumCopies);
             this.TPStorageOptimization.Controls.Add(this.LBLOptiFilter);
@@ -1155,9 +1165,20 @@
             this.TPStorageOptimization.Location = new System.Drawing.Point(4, 38);
             this.TPStorageOptimization.Margin = new System.Windows.Forms.Padding(2);
             this.TPStorageOptimization.Name = "TPStorageOptimization";
-            this.TPStorageOptimization.Size = new System.Drawing.Size(969, 573);
+            this.TPStorageOptimization.Size = new System.Drawing.Size(1004, 598);
             this.TPStorageOptimization.TabIndex = 3;
             this.TPStorageOptimization.Text = "  Storage Optimization  ";
+            // 
+            // CBXConsolidateResults
+            // 
+            this.CBXConsolidateResults.AutoSize = true;
+            this.CBXConsolidateResults.Location = new System.Drawing.Point(8, 333);
+            this.CBXConsolidateResults.Name = "CBXConsolidateResults";
+            this.CBXConsolidateResults.Size = new System.Drawing.Size(126, 15);
+            this.CBXConsolidateResults.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.CBXConsolidateResults.TabIndex = 9;
+            this.CBXConsolidateResults.Text = "Consolidate Results";
+            this.CBXConsolidateResults.UseSelectable = true;
             // 
             // LBLOptiNumCopies
             // 
@@ -1313,9 +1334,9 @@
             this.LVOptimizationResults.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.LVOptimizationResults.FullRowSelect = true;
             this.LVOptimizationResults.GridLines = true;
-            listViewItem5.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
             this.LVOptimizationResults.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem5});
+            listViewItem2});
             this.LVOptimizationResults.Location = new System.Drawing.Point(141, 46);
             this.LVOptimizationResults.Margin = new System.Windows.Forms.Padding(2);
             this.LVOptimizationResults.Name = "LVOptimizationResults";
@@ -1446,6 +1467,68 @@
             this.metroToolTip1.Style = MetroFramework.MetroColorStyle.Blue;
             this.metroToolTip1.StyleManager = null;
             this.metroToolTip1.Theme = MetroFramework.MetroThemeStyle.Light;
+            // 
+            // CBXSaveToExcel
+            // 
+            this.CBXSaveToExcel.AutoSize = true;
+            this.CBXSaveToExcel.Location = new System.Drawing.Point(8, 360);
+            this.CBXSaveToExcel.Name = "CBXSaveToExcel";
+            this.CBXSaveToExcel.Size = new System.Drawing.Size(133, 15);
+            this.CBXSaveToExcel.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.CBXSaveToExcel.TabIndex = 10;
+            this.CBXSaveToExcel.Text = "Save To Excel Instead";
+            this.CBXSaveToExcel.UseSelectable = true;
+            // 
+            // TXTMinimumSize
+            // 
+            // 
+            // 
+            // 
+            this.TXTMinimumSize.CustomButton.Image = null;
+            this.TXTMinimumSize.CustomButton.Location = new System.Drawing.Point(59, 1);
+            this.TXTMinimumSize.CustomButton.Name = "";
+            this.TXTMinimumSize.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.TXTMinimumSize.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.TXTMinimumSize.CustomButton.TabIndex = 1;
+            this.TXTMinimumSize.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TXTMinimumSize.CustomButton.UseSelectable = true;
+            this.TXTMinimumSize.CustomButton.Visible = false;
+            this.TXTMinimumSize.Lines = new string[] {
+        "1"};
+            this.TXTMinimumSize.Location = new System.Drawing.Point(828, 18);
+            this.TXTMinimumSize.MaxLength = 32767;
+            this.TXTMinimumSize.Name = "TXTMinimumSize";
+            this.TXTMinimumSize.PasswordChar = '\0';
+            this.TXTMinimumSize.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.TXTMinimumSize.SelectedText = "";
+            this.TXTMinimumSize.SelectionLength = 0;
+            this.TXTMinimumSize.SelectionStart = 0;
+            this.TXTMinimumSize.ShortcutsEnabled = true;
+            this.TXTMinimumSize.Size = new System.Drawing.Size(81, 23);
+            this.TXTMinimumSize.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.TXTMinimumSize.TabIndex = 11;
+            this.TXTMinimumSize.Text = "1";
+            this.TXTMinimumSize.UseSelectable = true;
+            this.TXTMinimumSize.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.TXTMinimumSize.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // LBLMinimunSize
+            // 
+            this.LBLMinimunSize.AutoSize = true;
+            this.LBLMinimunSize.Location = new System.Drawing.Point(730, 19);
+            this.LBLMinimunSize.Name = "LBLMinimunSize";
+            this.LBLMinimunSize.Size = new System.Drawing.Size(95, 19);
+            this.LBLMinimunSize.TabIndex = 12;
+            this.LBLMinimunSize.Text = "Minimum Size:";
+            // 
+            // LBLMegaBytes
+            // 
+            this.LBLMegaBytes.AutoSize = true;
+            this.LBLMegaBytes.Location = new System.Drawing.Point(908, 19);
+            this.LBLMegaBytes.Name = "LBLMegaBytes";
+            this.LBLMegaBytes.Size = new System.Drawing.Size(29, 19);
+            this.LBLMegaBytes.TabIndex = 13;
+            this.LBLMegaBytes.Text = "mb";
             // 
             // FRMMBDatabase
             // 
@@ -1599,5 +1682,10 @@
         private MetroFramework.Controls.MetroButton BTNDeleteTag;
         private MetroFramework.Controls.MetroLabel LBLFormClosing;
         private MetroFramework.Components.MetroToolTip metroToolTip1;
+        private MetroFramework.Controls.MetroCheckBox CBXConsolidateResults;
+        private MetroFramework.Controls.MetroCheckBox CBXSaveToExcel;
+        private MetroFramework.Controls.MetroLabel LBLMegaBytes;
+        private MetroFramework.Controls.MetroLabel LBLMinimunSize;
+        private MetroFramework.Controls.MetroTextBox TXTMinimumSize;
     }
 }

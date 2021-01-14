@@ -15,6 +15,9 @@ namespace BrainologyDatabaseManager.Common
         public string path;
         public string name;
         public DateTime date;
+        /// <summary>
+        /// File Size stored in KB
+        /// </summary>
         public decimal size;
         public string comments;
 
