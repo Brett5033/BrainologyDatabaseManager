@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem5 = new System.Windows.Forms.ListViewItem(new string[] {
             ""}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.Window, null);
             this.PNLSubForms = new System.Windows.Forms.Panel();
             this.MTABWindowSelector = new MetroFramework.Controls.MetroTabControl();
@@ -36,6 +36,25 @@
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.TPSearchManager = new System.Windows.Forms.TabPage();
+            this.BTNRemoveAllTags = new MetroFramework.Controls.MetroButton();
+            this.BTNClearSelectedTags = new MetroFramework.Controls.MetroButton();
+            this.BTNRemoveSelectedTags = new MetroFramework.Controls.MetroButton();
+            this.metroPanel3 = new MetroFramework.Controls.MetroPanel();
+            this.BTNNewTagPreset = new MetroFramework.Controls.MetroButton();
+            this.LBLNewPresetName = new MetroFramework.Controls.MetroLabel();
+            this.TXTTagPresetName = new MetroFramework.Controls.MetroTextBox();
+            this.BTNTagPresetRemove = new MetroFramework.Controls.MetroButton();
+            this.LBLTagPresetWizard = new MetroFramework.Controls.MetroLabel();
+            this.BTNTagPresetAdd = new MetroFramework.Controls.MetroButton();
+            this.BTNApplyTagPreset = new MetroFramework.Controls.MetroButton();
+            this.LBXTagPresets = new System.Windows.Forms.ListBox();
+            this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.BTNApplyTags = new MetroFramework.Controls.MetroButton();
+            this.metroPanel2 = new MetroFramework.Controls.MetroPanel();
+            this.BTNDeleteTag = new MetroFramework.Controls.MetroButton();
+            this.LBLTagWizardCreate = new MetroFramework.Controls.MetroLabel();
+            this.BTNTagCreate = new MetroFramework.Controls.MetroButton();
+            this.TXTTagWizardName = new MetroFramework.Controls.MetroTextBox();
             this.TXTSearchData = new MetroFramework.Controls.MetroTextBox();
             this.TXTTagSearch = new MetroFramework.Controls.MetroTextBox();
             this.BTNSearch = new MetroFramework.Controls.MetroButton();
@@ -104,9 +123,13 @@
             this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.LBLUploadProgress = new MetroFramework.Controls.MetroLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.LBLFormClosing = new MetroFramework.Controls.MetroLabel();
+            this.metroToolTip1 = new MetroFramework.Components.MetroToolTip();
             this.MTABWindowSelector.SuspendLayout();
             this.TPWelcome.SuspendLayout();
             this.TPSearchManager.SuspendLayout();
+            this.metroPanel3.SuspendLayout();
+            this.metroPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.GBSearchAttributes.SuspendLayout();
             this.GBXFilter.SuspendLayout();
@@ -136,8 +159,8 @@
             this.MTABWindowSelector.Controls.Add(this.TPStorageOptimization);
             this.MTABWindowSelector.Location = new System.Drawing.Point(3, 87);
             this.MTABWindowSelector.Name = "MTABWindowSelector";
-            this.MTABWindowSelector.SelectedIndex = 3;
-            this.MTABWindowSelector.Size = new System.Drawing.Size(963, 599);
+            this.MTABWindowSelector.SelectedIndex = 1;
+            this.MTABWindowSelector.Size = new System.Drawing.Size(1012, 640);
             this.MTABWindowSelector.Style = MetroFramework.MetroColorStyle.Magenta;
             this.MTABWindowSelector.TabIndex = 4;
             this.MTABWindowSelector.UseSelectable = true;
@@ -152,7 +175,7 @@
             this.TPWelcome.Location = new System.Drawing.Point(4, 38);
             this.TPWelcome.Margin = new System.Windows.Forms.Padding(2);
             this.TPWelcome.Name = "TPWelcome";
-            this.TPWelcome.Size = new System.Drawing.Size(955, 557);
+            this.TPWelcome.Size = new System.Drawing.Size(969, 573);
             this.TPWelcome.TabIndex = 0;
             this.TPWelcome.Text = "  Welcome  ";
             // 
@@ -180,6 +203,12 @@
             // TPSearchManager
             // 
             this.TPSearchManager.BackColor = System.Drawing.SystemColors.Window;
+            this.TPSearchManager.Controls.Add(this.BTNRemoveAllTags);
+            this.TPSearchManager.Controls.Add(this.BTNClearSelectedTags);
+            this.TPSearchManager.Controls.Add(this.BTNRemoveSelectedTags);
+            this.TPSearchManager.Controls.Add(this.metroPanel3);
+            this.TPSearchManager.Controls.Add(this.BTNApplyTags);
+            this.TPSearchManager.Controls.Add(this.metroPanel2);
             this.TPSearchManager.Controls.Add(this.TXTSearchData);
             this.TPSearchManager.Controls.Add(this.TXTTagSearch);
             this.TPSearchManager.Controls.Add(this.BTNSearch);
@@ -197,9 +226,256 @@
             this.TPSearchManager.Location = new System.Drawing.Point(4, 38);
             this.TPSearchManager.Margin = new System.Windows.Forms.Padding(2);
             this.TPSearchManager.Name = "TPSearchManager";
-            this.TPSearchManager.Size = new System.Drawing.Size(955, 557);
+            this.TPSearchManager.Size = new System.Drawing.Size(1004, 598);
             this.TPSearchManager.TabIndex = 1;
             this.TPSearchManager.Text = "  Search Database  ";
+            // 
+            // BTNRemoveAllTags
+            // 
+            this.BTNRemoveAllTags.Location = new System.Drawing.Point(661, 412);
+            this.BTNRemoveAllTags.Name = "BTNRemoveAllTags";
+            this.BTNRemoveAllTags.Size = new System.Drawing.Size(81, 23);
+            this.BTNRemoveAllTags.TabIndex = 47;
+            this.BTNRemoveAllTags.Text = "Remove All";
+            this.BTNRemoveAllTags.UseSelectable = true;
+            this.BTNRemoveAllTags.Click += new System.EventHandler(this.BTNRemoveAllTags_Click);
+            // 
+            // BTNClearSelectedTags
+            // 
+            this.BTNClearSelectedTags.Location = new System.Drawing.Point(575, 412);
+            this.BTNClearSelectedTags.Name = "BTNClearSelectedTags";
+            this.BTNClearSelectedTags.Size = new System.Drawing.Size(82, 23);
+            this.BTNClearSelectedTags.TabIndex = 46;
+            this.BTNClearSelectedTags.Text = "Clear Selected";
+            this.BTNClearSelectedTags.UseSelectable = true;
+            this.BTNClearSelectedTags.Click += new System.EventHandler(this.BTNClearSelectedTags_Click);
+            // 
+            // BTNRemoveSelectedTags
+            // 
+            this.BTNRemoveSelectedTags.Location = new System.Drawing.Point(662, 381);
+            this.BTNRemoveSelectedTags.Name = "BTNRemoveSelectedTags";
+            this.BTNRemoveSelectedTags.Size = new System.Drawing.Size(80, 25);
+            this.BTNRemoveSelectedTags.TabIndex = 45;
+            this.BTNRemoveSelectedTags.Text = "Remove Tags";
+            this.BTNRemoveSelectedTags.UseSelectable = true;
+            this.BTNRemoveSelectedTags.Click += new System.EventHandler(this.BTNRemoveSelectedTags_Click);
+            // 
+            // metroPanel3
+            // 
+            this.metroPanel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel3.Controls.Add(this.BTNNewTagPreset);
+            this.metroPanel3.Controls.Add(this.LBLNewPresetName);
+            this.metroPanel3.Controls.Add(this.TXTTagPresetName);
+            this.metroPanel3.Controls.Add(this.BTNTagPresetRemove);
+            this.metroPanel3.Controls.Add(this.LBLTagPresetWizard);
+            this.metroPanel3.Controls.Add(this.BTNTagPresetAdd);
+            this.metroPanel3.Controls.Add(this.BTNApplyTagPreset);
+            this.metroPanel3.Controls.Add(this.LBXTagPresets);
+            this.metroPanel3.Controls.Add(this.metroLabel3);
+            this.metroPanel3.HorizontalScrollbarBarColor = true;
+            this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel3.HorizontalScrollbarSize = 10;
+            this.metroPanel3.Location = new System.Drawing.Point(748, 162);
+            this.metroPanel3.Name = "metroPanel3";
+            this.metroPanel3.Size = new System.Drawing.Size(208, 373);
+            this.metroPanel3.TabIndex = 44;
+            this.metroPanel3.VerticalScrollbarBarColor = true;
+            this.metroPanel3.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel3.VerticalScrollbarSize = 10;
+            // 
+            // BTNNewTagPreset
+            // 
+            this.BTNNewTagPreset.Location = new System.Drawing.Point(14, 337);
+            this.BTNNewTagPreset.Name = "BTNNewTagPreset";
+            this.BTNNewTagPreset.Size = new System.Drawing.Size(179, 26);
+            this.BTNNewTagPreset.TabIndex = 10;
+            this.BTNNewTagPreset.Text = "Create New Preset";
+            this.BTNNewTagPreset.UseSelectable = true;
+            this.BTNNewTagPreset.Click += new System.EventHandler(this.BTNNewTagPreset_Click);
+            // 
+            // LBLNewPresetName
+            // 
+            this.LBLNewPresetName.AutoSize = true;
+            this.LBLNewPresetName.Location = new System.Drawing.Point(14, 281);
+            this.LBLNewPresetName.Name = "LBLNewPresetName";
+            this.LBLNewPresetName.Size = new System.Drawing.Size(118, 19);
+            this.LBLNewPresetName.TabIndex = 9;
+            this.LBLNewPresetName.Text = "New Preset Name:";
+            // 
+            // TXTTagPresetName
+            // 
+            // 
+            // 
+            // 
+            this.TXTTagPresetName.CustomButton.Image = null;
+            this.TXTTagPresetName.CustomButton.Location = new System.Drawing.Point(157, 1);
+            this.TXTTagPresetName.CustomButton.Name = "";
+            this.TXTTagPresetName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.TXTTagPresetName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.TXTTagPresetName.CustomButton.TabIndex = 1;
+            this.TXTTagPresetName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TXTTagPresetName.CustomButton.UseSelectable = true;
+            this.TXTTagPresetName.CustomButton.Visible = false;
+            this.TXTTagPresetName.Lines = new string[0];
+            this.TXTTagPresetName.Location = new System.Drawing.Point(14, 306);
+            this.TXTTagPresetName.MaxLength = 32767;
+            this.TXTTagPresetName.Name = "TXTTagPresetName";
+            this.TXTTagPresetName.PasswordChar = '\0';
+            this.TXTTagPresetName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.TXTTagPresetName.SelectedText = "";
+            this.TXTTagPresetName.SelectionLength = 0;
+            this.TXTTagPresetName.SelectionStart = 0;
+            this.TXTTagPresetName.ShortcutsEnabled = true;
+            this.TXTTagPresetName.Size = new System.Drawing.Size(179, 23);
+            this.TXTTagPresetName.TabIndex = 8;
+            this.TXTTagPresetName.UseSelectable = true;
+            this.TXTTagPresetName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.TXTTagPresetName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // BTNTagPresetRemove
+            // 
+            this.BTNTagPresetRemove.Location = new System.Drawing.Point(108, 250);
+            this.BTNTagPresetRemove.Name = "BTNTagPresetRemove";
+            this.BTNTagPresetRemove.Size = new System.Drawing.Size(85, 23);
+            this.BTNTagPresetRemove.TabIndex = 7;
+            this.BTNTagPresetRemove.Text = "Remove Tags";
+            this.BTNTagPresetRemove.UseSelectable = true;
+            this.BTNTagPresetRemove.Click += new System.EventHandler(this.BTNTagPresetRemove_Click);
+            // 
+            // LBLTagPresetWizard
+            // 
+            this.LBLTagPresetWizard.AutoSize = true;
+            this.LBLTagPresetWizard.Location = new System.Drawing.Point(14, 218);
+            this.LBLTagPresetWizard.Name = "LBLTagPresetWizard";
+            this.LBLTagPresetWizard.Size = new System.Drawing.Size(118, 19);
+            this.LBLTagPresetWizard.TabIndex = 6;
+            this.LBLTagPresetWizard.Text = "Tag Preset Wizard:";
+            // 
+            // BTNTagPresetAdd
+            // 
+            this.BTNTagPresetAdd.Location = new System.Drawing.Point(14, 250);
+            this.BTNTagPresetAdd.Name = "BTNTagPresetAdd";
+            this.BTNTagPresetAdd.Size = new System.Drawing.Size(88, 23);
+            this.BTNTagPresetAdd.TabIndex = 5;
+            this.BTNTagPresetAdd.Text = "Add Tags";
+            this.BTNTagPresetAdd.UseSelectable = true;
+            this.BTNTagPresetAdd.Click += new System.EventHandler(this.BTNTagPresetAdd_Click);
+            // 
+            // BTNApplyTagPreset
+            // 
+            this.BTNApplyTagPreset.Location = new System.Drawing.Point(14, 179);
+            this.BTNApplyTagPreset.Name = "BTNApplyTagPreset";
+            this.BTNApplyTagPreset.Size = new System.Drawing.Size(179, 23);
+            this.BTNApplyTagPreset.TabIndex = 4;
+            this.BTNApplyTagPreset.Text = "Apply Preset";
+            this.BTNApplyTagPreset.UseSelectable = true;
+            this.BTNApplyTagPreset.Click += new System.EventHandler(this.BTNApplyTagPreset_Click);
+            // 
+            // LBXTagPresets
+            // 
+            this.LBXTagPresets.FormattingEnabled = true;
+            this.LBXTagPresets.Location = new System.Drawing.Point(14, 45);
+            this.LBXTagPresets.Name = "LBXTagPresets";
+            this.LBXTagPresets.Size = new System.Drawing.Size(179, 121);
+            this.LBXTagPresets.Sorted = true;
+            this.LBXTagPresets.TabIndex = 3;
+            this.LBXTagPresets.SelectedIndexChanged += new System.EventHandler(this.LBXTagPresets_SelectedIndexChanged);
+            // 
+            // metroLabel3
+            // 
+            this.metroLabel3.AutoSize = true;
+            this.metroLabel3.Location = new System.Drawing.Point(3, 9);
+            this.metroLabel3.Name = "metroLabel3";
+            this.metroLabel3.Size = new System.Drawing.Size(77, 19);
+            this.metroLabel3.TabIndex = 2;
+            this.metroLabel3.Text = "Tag Presets:";
+            // 
+            // BTNApplyTags
+            // 
+            this.BTNApplyTags.Location = new System.Drawing.Point(575, 381);
+            this.BTNApplyTags.Name = "BTNApplyTags";
+            this.BTNApplyTags.Size = new System.Drawing.Size(81, 25);
+            this.BTNApplyTags.TabIndex = 43;
+            this.BTNApplyTags.Text = "Apply Tags";
+            this.BTNApplyTags.UseSelectable = true;
+            this.BTNApplyTags.Click += new System.EventHandler(this.BTNApplyTag_Click);
+            // 
+            // metroPanel2
+            // 
+            this.metroPanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.metroPanel2.Controls.Add(this.BTNDeleteTag);
+            this.metroPanel2.Controls.Add(this.LBLTagWizardCreate);
+            this.metroPanel2.Controls.Add(this.BTNTagCreate);
+            this.metroPanel2.Controls.Add(this.TXTTagWizardName);
+            this.metroPanel2.HorizontalScrollbarBarColor = true;
+            this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
+            this.metroPanel2.HorizontalScrollbarSize = 10;
+            this.metroPanel2.Location = new System.Drawing.Point(575, 442);
+            this.metroPanel2.Name = "metroPanel2";
+            this.metroPanel2.Size = new System.Drawing.Size(167, 93);
+            this.metroPanel2.TabIndex = 42;
+            this.metroPanel2.VerticalScrollbarBarColor = true;
+            this.metroPanel2.VerticalScrollbarHighlightOnWheel = false;
+            this.metroPanel2.VerticalScrollbarSize = 10;
+            // 
+            // BTNDeleteTag
+            // 
+            this.BTNDeleteTag.Location = new System.Drawing.Point(86, 60);
+            this.BTNDeleteTag.Name = "BTNDeleteTag";
+            this.BTNDeleteTag.Size = new System.Drawing.Size(72, 23);
+            this.BTNDeleteTag.TabIndex = 5;
+            this.BTNDeleteTag.Text = "Delete Tag";
+            this.BTNDeleteTag.UseSelectable = true;
+            this.BTNDeleteTag.Click += new System.EventHandler(this.BTNDeleteTag_Click);
+            // 
+            // LBLTagWizardCreate
+            // 
+            this.LBLTagWizardCreate.AutoSize = true;
+            this.LBLTagWizardCreate.Location = new System.Drawing.Point(3, 7);
+            this.LBLTagWizardCreate.Name = "LBLTagWizardCreate";
+            this.LBLTagWizardCreate.Size = new System.Drawing.Size(102, 19);
+            this.LBLTagWizardCreate.TabIndex = 4;
+            this.LBLTagWizardCreate.Text = "New Tag Name:";
+            // 
+            // BTNTagCreate
+            // 
+            this.BTNTagCreate.Location = new System.Drawing.Point(6, 60);
+            this.BTNTagCreate.Name = "BTNTagCreate";
+            this.BTNTagCreate.Size = new System.Drawing.Size(71, 23);
+            this.BTNTagCreate.TabIndex = 3;
+            this.BTNTagCreate.Text = "Create Tag";
+            this.BTNTagCreate.UseSelectable = true;
+            this.BTNTagCreate.Click += new System.EventHandler(this.BTNTagCreate_Click);
+            // 
+            // TXTTagWizardName
+            // 
+            // 
+            // 
+            // 
+            this.TXTTagWizardName.CustomButton.Image = null;
+            this.TXTTagWizardName.CustomButton.Location = new System.Drawing.Point(133, 1);
+            this.TXTTagWizardName.CustomButton.Name = "";
+            this.TXTTagWizardName.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.TXTTagWizardName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.TXTTagWizardName.CustomButton.TabIndex = 1;
+            this.TXTTagWizardName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TXTTagWizardName.CustomButton.UseSelectable = true;
+            this.TXTTagWizardName.CustomButton.Visible = false;
+            this.TXTTagWizardName.Lines = new string[0];
+            this.TXTTagWizardName.Location = new System.Drawing.Point(3, 31);
+            this.TXTTagWizardName.MaxLength = 32767;
+            this.TXTTagWizardName.Name = "TXTTagWizardName";
+            this.TXTTagWizardName.PasswordChar = '\0';
+            this.TXTTagWizardName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.TXTTagWizardName.SelectedText = "";
+            this.TXTTagWizardName.SelectionLength = 0;
+            this.TXTTagWizardName.SelectionStart = 0;
+            this.TXTTagWizardName.ShortcutsEnabled = true;
+            this.TXTTagWizardName.Size = new System.Drawing.Size(155, 23);
+            this.TXTTagWizardName.TabIndex = 2;
+            this.TXTTagWizardName.UseSelectable = true;
+            this.TXTTagWizardName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.TXTTagWizardName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
             // 
             // TXTSearchData
             // 
@@ -241,7 +517,7 @@
             // 
             // 
             this.TXTTagSearch.CustomButton.Image = null;
-            this.TXTTagSearch.CustomButton.Location = new System.Drawing.Point(154, 1);
+            this.TXTTagSearch.CustomButton.Location = new System.Drawing.Point(184, 1);
             this.TXTTagSearch.CustomButton.Margin = new System.Windows.Forms.Padding(2);
             this.TXTTagSearch.CustomButton.Name = "";
             this.TXTTagSearch.CustomButton.Size = new System.Drawing.Size(17, 17);
@@ -251,7 +527,7 @@
             this.TXTTagSearch.CustomButton.UseSelectable = true;
             this.TXTTagSearch.CustomButton.Visible = false;
             this.TXTTagSearch.Lines = new string[0];
-            this.TXTTagSearch.Location = new System.Drawing.Point(649, 119);
+            this.TXTTagSearch.Location = new System.Drawing.Point(649, 129);
             this.TXTTagSearch.Margin = new System.Windows.Forms.Padding(2);
             this.TXTTagSearch.MaxLength = 32767;
             this.TXTTagSearch.Name = "TXTTagSearch";
@@ -261,12 +537,13 @@
             this.TXTTagSearch.SelectionLength = 0;
             this.TXTTagSearch.SelectionStart = 0;
             this.TXTTagSearch.ShortcutsEnabled = true;
-            this.TXTTagSearch.Size = new System.Drawing.Size(172, 19);
+            this.TXTTagSearch.Size = new System.Drawing.Size(202, 19);
             this.TXTTagSearch.Style = MetroFramework.MetroColorStyle.Magenta;
             this.TXTTagSearch.TabIndex = 40;
             this.TXTTagSearch.UseSelectable = true;
             this.TXTTagSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTTagSearch.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            this.TXTTagSearch.TextChanged += new System.EventHandler(this.TXTTagSearch_TextChanged);
             // 
             // BTNSearch
             // 
@@ -308,7 +585,7 @@
             // LBLTag
             // 
             this.LBLTag.AutoSize = true;
-            this.LBLTag.Location = new System.Drawing.Point(575, 121);
+            this.LBLTag.Location = new System.Drawing.Point(575, 129);
             this.LBLTag.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LBLTag.Name = "LBLTag";
             this.LBLTag.Size = new System.Drawing.Size(75, 19);
@@ -439,12 +716,14 @@
             // 
             // CLBXTags
             // 
+            this.CLBXTags.CheckOnClick = true;
             this.CLBXTags.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CLBXTags.FormattingEnabled = true;
             this.CLBXTags.Location = new System.Drawing.Point(575, 161);
             this.CLBXTags.Margin = new System.Windows.Forms.Padding(2);
             this.CLBXTags.Name = "CLBXTags";
-            this.CLBXTags.Size = new System.Drawing.Size(247, 276);
+            this.CLBXTags.Size = new System.Drawing.Size(167, 212);
+            this.CLBXTags.Sorted = true;
             this.CLBXTags.TabIndex = 32;
             // 
             // GBSearchAttributes
@@ -467,10 +746,10 @@
             this.metroCheckBox1.Location = new System.Drawing.Point(4, 42);
             this.metroCheckBox1.Margin = new System.Windows.Forms.Padding(2);
             this.metroCheckBox1.Name = "metroCheckBox1";
-            this.metroCheckBox1.Size = new System.Drawing.Size(88, 15);
+            this.metroCheckBox1.Size = new System.Drawing.Size(33, 15);
             this.metroCheckBox1.Style = MetroFramework.MetroColorStyle.Magenta;
             this.metroCheckBox1.TabIndex = 28;
-            this.metroCheckBox1.Text = "Exact Match";
+            this.metroCheckBox1.Text = "--";
             this.metroCheckBox1.UseSelectable = true;
             // 
             // CBXExactMatch
@@ -563,7 +842,7 @@
             this.TPDriveManager.Location = new System.Drawing.Point(4, 38);
             this.TPDriveManager.Name = "TPDriveManager";
             this.TPDriveManager.Padding = new System.Windows.Forms.Padding(23, 27, 23, 27);
-            this.TPDriveManager.Size = new System.Drawing.Size(955, 557);
+            this.TPDriveManager.Size = new System.Drawing.Size(969, 573);
             this.TPDriveManager.TabIndex = 2;
             this.TPDriveManager.Text = "  Drive Manager  ";
             // 
@@ -876,7 +1155,7 @@
             this.TPStorageOptimization.Location = new System.Drawing.Point(4, 38);
             this.TPStorageOptimization.Margin = new System.Windows.Forms.Padding(2);
             this.TPStorageOptimization.Name = "TPStorageOptimization";
-            this.TPStorageOptimization.Size = new System.Drawing.Size(955, 557);
+            this.TPStorageOptimization.Size = new System.Drawing.Size(969, 573);
             this.TPStorageOptimization.TabIndex = 3;
             this.TPStorageOptimization.Text = "  Storage Optimization  ";
             // 
@@ -1034,9 +1313,9 @@
             this.LVOptimizationResults.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.LVOptimizationResults.FullRowSelect = true;
             this.LVOptimizationResults.GridLines = true;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem5.StateImageIndex = 0;
             this.LVOptimizationResults.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem5});
             this.LVOptimizationResults.Location = new System.Drawing.Point(141, 46);
             this.LVOptimizationResults.Margin = new System.Windows.Forms.Padding(2);
             this.LVOptimizationResults.Name = "LVOptimizationResults";
@@ -1150,6 +1429,24 @@
             this.pictureBox1.TabIndex = 10;
             this.pictureBox1.TabStop = false;
             // 
+            // LBLFormClosing
+            // 
+            this.LBLFormClosing.AutoSize = true;
+            this.LBLFormClosing.FontSize = MetroFramework.MetroLabelSize.Tall;
+            this.LBLFormClosing.FontWeight = MetroFramework.MetroLabelWeight.Bold;
+            this.LBLFormClosing.Location = new System.Drawing.Point(782, 14);
+            this.LBLFormClosing.Name = "LBLFormClosing";
+            this.LBLFormClosing.Size = new System.Drawing.Size(167, 25);
+            this.LBLFormClosing.TabIndex = 11;
+            this.LBLFormClosing.Text = "Program Closing...";
+            this.LBLFormClosing.Visible = false;
+            // 
+            // metroToolTip1
+            // 
+            this.metroToolTip1.Style = MetroFramework.MetroColorStyle.Blue;
+            this.metroToolTip1.StyleManager = null;
+            this.metroToolTip1.Theme = MetroFramework.MetroThemeStyle.Light;
+            // 
             // FRMMBDatabase
             // 
             this.AcceptButton = this.BTNSearch;
@@ -1159,7 +1456,8 @@
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
-            this.ClientSize = new System.Drawing.Size(969, 689);
+            this.ClientSize = new System.Drawing.Size(1019, 731);
+            this.Controls.Add(this.LBLFormClosing);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.LBLUploadProgress);
             this.Controls.Add(this.LBLProgress);
@@ -1182,6 +1480,10 @@
             this.TPWelcome.PerformLayout();
             this.TPSearchManager.ResumeLayout(false);
             this.TPSearchManager.PerformLayout();
+            this.metroPanel3.ResumeLayout(false);
+            this.metroPanel3.PerformLayout();
+            this.metroPanel2.ResumeLayout(false);
+            this.metroPanel2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.GBSearchAttributes.ResumeLayout(false);
@@ -1276,5 +1578,26 @@
         private MetroFramework.Controls.MetroLabel LBLOptiFilter;
         private MetroFramework.Controls.MetroLabel LBLOptiNumCopies;
         private MetroFramework.Controls.MetroTextBox TXTOptiNumCopies;
+        private MetroFramework.Controls.MetroPanel metroPanel3;
+        private MetroFramework.Controls.MetroLabel metroLabel3;
+        private MetroFramework.Controls.MetroButton BTNApplyTags;
+        private MetroFramework.Controls.MetroPanel metroPanel2;
+        private MetroFramework.Controls.MetroLabel LBLTagWizardCreate;
+        private MetroFramework.Controls.MetroButton BTNTagCreate;
+        private MetroFramework.Controls.MetroTextBox TXTTagWizardName;
+        private MetroFramework.Controls.MetroLabel LBLTagPresetWizard;
+        private MetroFramework.Controls.MetroButton BTNTagPresetAdd;
+        private MetroFramework.Controls.MetroButton BTNApplyTagPreset;
+        private System.Windows.Forms.ListBox LBXTagPresets;
+        private MetroFramework.Controls.MetroButton BTNTagPresetRemove;
+        private MetroFramework.Controls.MetroButton BTNNewTagPreset;
+        private MetroFramework.Controls.MetroLabel LBLNewPresetName;
+        private MetroFramework.Controls.MetroTextBox TXTTagPresetName;
+        private MetroFramework.Controls.MetroButton BTNRemoveAllTags;
+        private MetroFramework.Controls.MetroButton BTNClearSelectedTags;
+        private MetroFramework.Controls.MetroButton BTNRemoveSelectedTags;
+        private MetroFramework.Controls.MetroButton BTNDeleteTag;
+        private MetroFramework.Controls.MetroLabel LBLFormClosing;
+        private MetroFramework.Components.MetroToolTip metroToolTip1;
     }
 }

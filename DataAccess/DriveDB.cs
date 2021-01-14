@@ -20,20 +20,29 @@ namespace BrainologyDatabaseManager.DataAccess
 {
     public class DataManagerWrapper
     {
+        public List<Tag> registeredTags;
+        public List<TagPreset> registeredPresets;
         public List<DriveObject> driveData;
-
+        
         public DataManagerWrapper()
         {
+            registeredTags = new List<Tag>();
+            registeredPresets = new List<TagPreset>();
             driveData = new List<DriveObject>();
+            
         }
 
         public void CacheData()
         {
+            registeredTags = DataManager.RegisteredTags;
+            registeredPresets = DataManager.RegisteredPresets;
             driveData = DataManager.DriveData;
         }
 
         public void SaveDriveObjects()
         {
+            DataManager.RegisteredTags = registeredTags;
+            DataManager.RegisteredPresets = registeredPresets;
             DataManager.DriveData = driveData;
         }
     }
@@ -355,6 +364,7 @@ namespace BrainologyDatabaseManager.DataAccess
             // Serializes the drives, and closes the TextWriter.
             //foreach(DriveObject obj in DataManager.DriveData)
             //serializer.Serialize(writer, obj);
+            DataManager.DatabaseChanges = true;
 
             DataManagerWrapper dataWrapper = new DataManagerWrapper();
             dataWrapper.CacheData();

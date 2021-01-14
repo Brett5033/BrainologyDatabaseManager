@@ -16,7 +16,9 @@ namespace BrainologyDatabaseManager.DataAccess
         /// </summary>
         public static List<DriveObject> DriveData = new List<DriveObject>();
 
-        private static List<Tag> RegisteredTags = new List<Tag>();
+        public static List<Tag> RegisteredTags = new List<Tag>();
+
+        public static List<TagPreset> RegisteredPresets = new List<TagPreset>();
 
         /// <summary>
         /// True when new files have been manually added but not written to XML file.
@@ -102,7 +104,7 @@ namespace BrainologyDatabaseManager.DataAccess
             List<List<DriveObject>> sortedFoundObjects = new List<List<DriveObject>>();
             for(int i = 0; i < DriveData.Count; i++)
             {
-                if (options.SpecifyDrives && i == options.DriveIndex)
+                if (options.SpecifyDrives && i != options.DriveIndex)
                     continue;
                 List<DriveObject> foundObjects = new List<DriveObject>();
                 SearchByNameHelper(foundObjects, DriveData.ElementAt(i), searchParamter, ref SearchCount, options);
@@ -115,12 +117,6 @@ namespace BrainologyDatabaseManager.DataAccess
         {
             if(currentNode != null)
             {
-                foreach(DriveObject child in currentNode.getSubDirectories())
-                {
-                    SearchByNameHelper(foundObjects, child, searchParameter, ref SearchCount, options);
-                }
-                // Any Filter Options go here \/
-
                 switch (options.searchFilter)
                 {
                     case SearchFilter.Name:
@@ -140,12 +136,20 @@ namespace BrainologyDatabaseManager.DataAccess
                         {
                             if (currentNode.getTags().Contains(new Tag(searchParameter)))
                                 foundObjects.Add(currentNode);
-                                    
+
                             break;
                         }
                 }
 
                 SearchCount++;
+
+                foreach (DriveObject child in currentNode.getSubDirectories())
+                {
+                    SearchByNameHelper(foundObjects, child, searchParameter, ref SearchCount, options);
+                }
+                // Any Filter Options go here \/
+
+                
             }
             return foundObjects;
         }
@@ -234,14 +238,15 @@ namespace BrainologyDatabaseManager.DataAccess
         #region Tags
         public static bool RegisterTag(string ID)
         {
-            Tag t = new Tag(ID.ToUpper());
-            if (RegisteredTags.Contains(t))
+            if (IsTagRegistered(ID))
             {
                 return false;
             }
             else
             {
-                for(int i = 0; i < RegisteredTags.Count-1; i++)
+                Tag t = new Tag(ID.ToUpper());
+                t.ID.Replace(' ', '_');
+                for (int i = 0; i < RegisteredTags.Count-1; i++)
                 {
                     if(RegisteredTags.ElementAt(i+1).ID.CompareTo(t.ID) >= 0)
                     {
@@ -254,17 +259,121 @@ namespace BrainologyDatabaseManager.DataAccess
             return false;
         }
 
-        public static bool TagIsRegistered(Tag t)
+        public static bool IsTagRegistered(Tag t)
         {
             return RegisteredTags.Contains(t);
         }
 
-        public static bool TagIsRegistered(string ID)
+        public static bool IsTagRegistered(string ID)
+        {
+            return RegisteredTags.Contains(GetTag(ID));
+        }
+
+        public static Tag GetTag(string ID)
         {
             Tag t = new Tag(ID.ToUpper());
-            return RegisteredTags.Contains(t);
+            t.ID.Replace(' ', '_');
+            int index = RegisteredTags.IndexOf(t);
+            if (index != -1)
+            {
+                return RegisteredTags.ElementAt(index);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static TagPreset GetPreset(string ID)
+        {
+            foreach(TagPreset preset in RegisteredPresets)
+            {
+                if (preset.ID == ID)
+                    return preset;
+            }
+            return null;
         }
         #endregion
+    }
+
+    public class Tag
+    {
+        public string ID;
+
+        public Tag()
+        {
+            ID = "NULL_TAG";
+        }
+
+        public Tag(string ID)
+        {
+            this.ID = ID;
+        }
+
+        public override bool Equals(Object otherTag)
+        {
+            return ID == ((Tag)otherTag).ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+
+    public class TagPreset
+    {
+        public string ID;
+
+        public List<Tag> Tags;
+
+        public TagPreset()
+        {
+            this.ID = "Null_Preset";
+            Tags = new List<Tag>();
+        }
+
+        public TagPreset(string ID)
+        {
+            this.ID = ID;
+            Tags = new List<Tag>();
+        }
+
+        public TagPreset(string ID, List<Tag> Tags)
+        {
+            this.ID = ID;
+            this.Tags = Tags;
+        }
+
+        public bool AddTag(Tag t)
+        {
+            if (!Tags.Contains(t))
+            {
+                Tags.Add(t);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveTag(Tag t)
+        {
+            if (Tags.Contains(t))
+            {
+                Tags.Remove(t);
+                return true;
+            }
+            return false;
+        }
+
+        public override bool Equals(Object otherPreset)
+        {
+            return ID == ((TagPreset)otherPreset).ID;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class FilterOptions

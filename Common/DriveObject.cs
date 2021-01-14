@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using BrainologyDatabaseManager.DataAccess;
 
 namespace BrainologyDatabaseManager.Common
 {
@@ -95,6 +96,26 @@ namespace BrainologyDatabaseManager.Common
             return tags;
         }
 
+        public bool AddRegisteredTag(Tag t)
+        {
+            if (!tags.Contains(t))
+            {
+                tags.Add(t);
+                return true;
+            }
+            return false;
+        }
+
+        public bool RemoveRegisteredTag(Tag t)
+        {
+            if (tags.Contains(t))
+            {
+                tags.Remove(t);
+                return true;
+            }
+            return false;
+        }
+
         public string getDriveObjectType()
         {
             return driveObjectType.ToString();
@@ -171,18 +192,5 @@ namespace BrainologyDatabaseManager.Common
 
     }
 
-    public class Tag
-    {
-        public string ID;
-        
-        public Tag()
-        {
-            ID = "Null Tag";
-        }
-
-        public Tag(string ID)
-        {
-            this.ID = ID;
-        }
-    }
+    
 }
