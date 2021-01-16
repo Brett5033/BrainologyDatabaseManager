@@ -33,6 +33,29 @@ namespace BrainologyDatabaseManager.DataAccess
 
         public static List<DriveObject> ChangedObjects = new List<DriveObject>();
 
+        public static List<string> DebugMessages = new List<string>();
+
+        public static void LogMessage(string s)
+        {
+            Console.WriteLine(s);
+            DebugMessages.Add(s);
+        }
+
+        public static void LogMessage(string s, object a)
+        {
+            LogMessage(string.Format(s, a));
+        }
+
+        public static void LogMessage(string s, object a, object b)
+        {
+            LogMessage(string.Format(s, a, b));
+        }
+
+        public static void LogMessage(string s, object a, object b, object c)
+        {
+            LogMessage(string.Format(s, a, b, c));
+        }
+
         public static void IncorporateDriveData(List<DriveObject> newList)
         {
             // Look through the drives that the new list and copy the drive contents, ignoring the currently accessible drives

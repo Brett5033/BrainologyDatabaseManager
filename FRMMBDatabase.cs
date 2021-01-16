@@ -52,6 +52,10 @@ namespace BrainologyDatabaseManager
         List<List<DriveObject>> Opti_DeletableObjects;
         string ExcelPath = string.Format(@"{0}\BrainologyDatbaseExcelSaves",Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
 
+        // Debug
+        public bool DebugFormShowing = false;
+        FRMDebug DebugForm;
+
         public FRMMBDatabase(DriveDB db)
         {
             InitializeComponent();
@@ -76,7 +80,11 @@ namespace BrainologyDatabaseManager
             RefreshTagList();
             RefreshPresetList();
 
-            // 
+            // Optimization
+
+            // Debug
+            DebugForm = new FRMDebug(this);
+            HideDebug();
 
             MTABWindowSelector.SelectTab((int)TabFormControl.Welcome);
         }
@@ -140,6 +148,18 @@ namespace BrainologyDatabaseManager
                 }
             }
         }
+
+        #region Welcome
+        private void LNKUserGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(LNKUserGuide.Text);
+        }
+
+        private void LNKGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(LNKGithub.Text);
+        }
+        #endregion 
 
         #region SearchManager
         private void ReadInFilters()
@@ -338,7 +358,7 @@ namespace BrainologyDatabaseManager
             }
 
             CLBXTags.Items.Clear();
-            Console.WriteLine(string.Format("{0} items in checked list", checkedItems.Count));
+            DataManager.LogMessage(string.Format("{0} items in checked list", checkedItems.Count));
             
             foreach(Tag t in DataManager.RegisteredTags)
             {
@@ -347,7 +367,7 @@ namespace BrainologyDatabaseManager
                 
                 if (checkedItems.Contains(t.ID))
                 {
-                    Console.WriteLine(string.Format("{0} was check, checking again", t.ID));
+                    DataManager.LogMessage(string.Format("{0} was check, checking again", t.ID));
                     CLBXTags.SetItemChecked(CLBXTags.Items.Count - 1, true);
                 }
             }
@@ -409,7 +429,7 @@ namespace BrainologyDatabaseManager
                 indexes.Add(tNode.Parent.Nodes.IndexOf(tNode));
                 if (indexes.Last() < 0)
                 {
-                    Console.WriteLine(string.Format("{0} could not find self: Parent: {1}", tNode.Name, tNode.Parent.Name));
+                    DataManager.LogMessage(string.Format("{0} could not find self: Parent: {1}", tNode.Name, tNode.Parent.Name));
                     return;
                 }
                 tNode = tNode.Parent;
@@ -419,8 +439,8 @@ namespace BrainologyDatabaseManager
             Search_SelectedNodeIndexes = indexes;
 
             foreach (int i in indexes)
-                Console.WriteLine(i);
-            //Console.WriteLine(string.Format("Fetching Data of {0}", tNode.Name));
+                DataManager.LogMessage(i.ToString());
+            //DataManager.LogMessage(string.Format("Fetching Data of {0}", tNode.Name));
             if (e.Node.Parent != null)
                 Search_SelectedNode = Search_DisplayedObjects.ElementAt(indexes[0]).ElementAt(indexes[1]);
             else
@@ -461,7 +481,7 @@ namespace BrainologyDatabaseManager
                     }
                     else
                     {
-                        Console.WriteLine(string.Format("Null tag found at {0}", tag));
+                        DataManager.LogMessage(string.Format("Null tag found at {0}", tag));
                     }
                 }
                 DataManager.UnsavedChanges = true;
@@ -486,7 +506,7 @@ namespace BrainologyDatabaseManager
                     }
                     else
                     {
-                        Console.WriteLine(string.Format("Null tag found at {0}", tag));
+                        DataManager.LogMessage(string.Format("Null tag found at {0}", tag));
                     }
                 }
                 DataManager.UnsavedChanges = true;
@@ -520,7 +540,7 @@ namespace BrainologyDatabaseManager
                     }
                     else
                     {
-                        Console.WriteLine(string.Format("Null tag found at {0}", tag));
+                        DataManager.LogMessage(string.Format("Null tag found at {0}", tag));
                     }
                 }
                 DataManager.UnsavedChanges = true;
@@ -571,7 +591,7 @@ namespace BrainologyDatabaseManager
                     foreach(TagPreset preset in DataManager.RegisteredPresets)
                     {
                         if (preset.RemoveTag(t))
-                            Console.WriteLine(string.Format("Tag ({0}) removed from preset {1}", t.ID, preset.ID));
+                            DataManager.LogMessage(string.Format("Tag ({0}) removed from preset {1}", t.ID, preset.ID));
                     }
 
                     DataManager.RegisteredTags.Remove(t);
@@ -595,7 +615,7 @@ namespace BrainologyDatabaseManager
             {
                 DeleteTagHelper(obj, t);
                 if (obj.RemoveRegisteredTag(t))
-                    Console.WriteLine(string.Format("Deleted Tag ({0}) from {1}", t.ID, obj.path));
+                    DataManager.LogMessage(string.Format("Deleted Tag ({0}) from {1}", t.ID, obj.path));
             }
         }
 
@@ -638,7 +658,7 @@ namespace BrainologyDatabaseManager
                 if (!Search_SelectedPreset.Tags.Contains(t))
                 {
                     Search_SelectedPreset.Tags.Add(t);
-                    Console.WriteLine(string.Format("Tag ({0}) added to Preset {1}", t.ID, Search_SelectedPreset.ID));
+                    DataManager.LogMessage(string.Format("Tag ({0}) added to Preset {1}", t.ID, Search_SelectedPreset.ID));
                 }
             }
             DataManager.UnsavedChanges = true;
@@ -657,7 +677,7 @@ namespace BrainologyDatabaseManager
                 if (Search_SelectedPreset.Tags.Contains(t))
                 {
                     Search_SelectedPreset.Tags.Remove(t);
-                    Console.WriteLine(string.Format("Tag ({0}) removed from Preset {1}", t.ID, Search_SelectedPreset.ID));
+                    DataManager.LogMessage(string.Format("Tag ({0}) removed from Preset {1}", t.ID, Search_SelectedPreset.ID));
                 }
             }
             DataManager.UnsavedChanges = true;
@@ -780,7 +800,7 @@ namespace BrainologyDatabaseManager
 
         private void TVDriveView_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            Console.WriteLine("Selected the node: " + e.Node.Text);
+            DataManager.LogMessage("Selected the node: " + e.Node.Text);
             LBXFileData.Items.Clear();
             DriveObject selectedObject = getSelectedDriveObject(e.Node);
             List<string> attributes = DataManager.GetDriveObjectData(selectedObject);
@@ -798,7 +818,7 @@ namespace BrainologyDatabaseManager
             while (n != null)
             {
                 path.Add(n.Index);
-                Console.WriteLine(path.Last());
+                DataManager.LogMessage(path.Last().ToString());
                 n = n.Parent;
             }
 
@@ -809,7 +829,7 @@ namespace BrainologyDatabaseManager
             DriveObject driveObject = DataManager.DriveData.ElementAt(path.ElementAt(0));
             for (int i = 1; i < path.Count; i++)
             {
-                Console.WriteLine(driveObject.name);
+                DataManager.LogMessage(driveObject.name);
                 if (i == path.Count - 1)
                     DM_ParentOfCurrent = driveObject;
                 driveObject = driveObject.getSubDirectory(path.ElementAt(i));
@@ -904,12 +924,12 @@ namespace BrainologyDatabaseManager
 
                     if (DM_ParentOfCurrent == null)
                     {
-                        Console.WriteLine("Current: " + DM_CurrentlySelectedObject.name + " : Parent is null");
+                        DataManager.LogMessage("Current: " + DM_CurrentlySelectedObject.name + " : Parent is null");
                         deleted = DataManager.DriveData.Remove(DM_CurrentlySelectedObject);
                     }
                     else
                     {
-                        Console.WriteLine("Current: " + DM_CurrentlySelectedObject.name + " : Parent: " + DM_ParentOfCurrent.name);
+                        DataManager.LogMessage("Current: " + DM_CurrentlySelectedObject.name + " : Parent: " + DM_ParentOfCurrent.name);
                         deleted = DM_ParentOfCurrent.getSubDirectories().Remove(DM_CurrentlySelectedObject);
                     }
 
@@ -1076,9 +1096,9 @@ namespace BrainologyDatabaseManager
         {
             for(int i = 0; i < DataManager.DriveData.Count; i++)
             {
-                Console.WriteLine(string.Format("{0} deletable objects in {1} before Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
+                DataManager.LogMessage(string.Format("{0} deletable objects in {1} before Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
                 ConsolidateHelper(i, DataManager.DriveData.ElementAt(i), false);
-                Console.WriteLine(string.Format("{0} deletable objects in {1} after Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
+                DataManager.LogMessage(string.Format("{0} deletable objects in {1} after Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
                 // A root node should never be removed cause yeah
             }
         }
@@ -1131,7 +1151,7 @@ namespace BrainologyDatabaseManager
             for(int i = 0; i < Opti_DeletableObjects.Count; i++)
             {
                 string driveName = i + ":" + DataManager.DriveData.ElementAt(priorityList[i]).name;
-                //Console.WriteLine(string.Format("{0} Deletable Objects in {1} found",Opti_DeletableObjects.ElementAt(i).Count , driveName));
+                //DataManager.LogMessage(string.Format("{0} Deletable Objects in {1} found",Opti_DeletableObjects.ElementAt(i).Count , driveName));
                 var driveGroup = new ListViewGroup();
                 driveGroup.Name = driveName;
                 driveGroup.Header = driveName;
@@ -1148,7 +1168,7 @@ namespace BrainologyDatabaseManager
                     item.SubItems.Add(obj.date.ToString());
                     item.SubItems.Add(obj.getFormattedSize());
                     item.BackColor = Color.Red;
-                    //Console.WriteLine(item.ToString());
+                    //DataManager.LogMessage(item.ToString());
 
                     // Add to both list and grouping
                     LVOptimizationResults.Items.Add(item);
@@ -1205,7 +1225,7 @@ namespace BrainologyDatabaseManager
                     }
                     else
                     {
-                        //Console.WriteLine(string.Format("The size of {0} is smaller than the min {1} kb)", Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).size, minSize));
+                        //DataManager.LogMessage(string.Format("The size of {0} is smaller than the min {1} kb)", Opti_DeletableObjects.ElementAt(i).ElementAt(x - 2).size, minSize));
                         xOffset++;
                     }
                 }
@@ -1217,15 +1237,15 @@ namespace BrainologyDatabaseManager
                 Directory.CreateDirectory(ExcelPath);
             }
 
-            Console.WriteLine(string.Format(@"Attempting to save Excel Sheet to {0}\.{1}", ExcelPath, fileName));
+            DataManager.LogMessage(string.Format(@"Attempting to save Excel Sheet to {0}\.{1}", ExcelPath, fileName));
             if (Directory.Exists(ExcelPath))
             {
-                Console.WriteLine("Directory Exists");
+                DataManager.LogMessage("Directory Exists");
                 xlWorkBook.SaveAs(string.Format(@"{0}\.{1}", ExcelPath, fileName), Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
             }
             else
             {
-                Console.WriteLine("Directory Not Found");
+                DataManager.LogMessage("Directory Not Found");
             }
             xlWorkBook.Close(true, misValue, misValue);
             xlApp.Quit();
@@ -1239,9 +1259,34 @@ namespace BrainologyDatabaseManager
         }
         #endregion
 
+        #region Debug
+
+        private void HideDebug()
+        {
+            
+            if (DebugForm == null || !DebugFormShowing)
+                DataManager.LogMessage("Debug Page is null");
+            else
+            {
+                DebugForm.Close();
+                DebugFormShowing = false;
+            }
+        }
+
+        private void ShowDebug()
+        {
+            if (DebugFormShowing)
+                return;
+            DebugForm = new FRMDebug(this);
+            DebugForm.Show();
+            DebugFormShowing = true;
+        }
+        
+        #endregion
+
         private void FRMMBDatabase_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if(e.Control && e.KeyCode == Keys.Enter)
             {
                 if(currentSubForm == TabFormControl.Search)
                 {
@@ -1261,11 +1306,23 @@ namespace BrainologyDatabaseManager
                 }
                 e.Handled = true;
             }
+            if(e.Control && e.Control && e.KeyCode == Keys.D)
+            {
+                if (DebugFormShowing)
+                {
+                    HideDebug();
+                }
+                else
+                {
+                    ShowDebug();
+                }
+                
+            }
         }
 
         private async void BTNScanSystem_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Starting System Scan");
+            DataManager.LogMessage("Starting System Scan");
             PGBarScanSystem.Visible = true;
             LBLProgress.Visible = true;
             //this.Enabled = false;
@@ -1312,7 +1369,7 @@ namespace BrainologyDatabaseManager
                 // TODO: More Testing required, not sure if different systems would have different C drive names
                 if (SystemDrives[i].RootDirectory.FullName == RootPath)
                 {
-                    Console.WriteLine(SystemDrives[i].Name + " is Root Directory, Pass");
+                    DataManager.LogMessage(SystemDrives[i].Name + " is Root Directory, Pass");
                     continue;
                 }
                 // Clear matching drives from the data set
@@ -1334,7 +1391,7 @@ namespace BrainologyDatabaseManager
                 if (newDrive)
                 {
                     // Read in Data from root drive
-                    Console.WriteLine("New Drive Found");
+                    DataManager.LogMessage("New Drive Found");
                     DataManager.DriveData.Add(DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName));
                 }
 
@@ -1363,7 +1420,7 @@ namespace BrainologyDatabaseManager
                     LBLFormClosing.Visible = false;
                 }
 
-                Console.WriteLine("Form Closing");
+                DataManager.LogMessage("Form Closing");
                 asyncShouldClose = true;
                 Close();
             }
@@ -1383,14 +1440,5 @@ namespace BrainologyDatabaseManager
 
         }
 
-        private void LNKUserGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(LNKUserGuide.Text);
-        }
-
-        private void LNKGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(LNKGithub.Text);
-        }
     }
 }

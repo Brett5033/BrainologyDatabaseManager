@@ -112,6 +112,12 @@
     <Compile Include="DataAccess\DriveDB.cs" />
     <Compile Include="DataAccess\DriveReader.cs" />
     <Compile Include="DataAccess\DataManager.cs" />
+    <Compile Include="FRMDebug.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FRMDebug.Designer.cs">
+      <DependentUpon>FRMDebug.cs</DependentUpon>
+    </Compile>
     <Compile Include="FRMLoadingPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +132,9 @@
     </Compile>
     <Compile Include="Common\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FRMDebug.resx">
+      <DependentUpon>FRMDebug.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FRMLoadingPanel.resx">
       <DependentUpon>FRMLoadingPanel.cs</DependentUpon>
     </EmbeddedResource>

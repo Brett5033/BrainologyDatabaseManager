@@ -67,25 +67,26 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private FRMLoadingPanel loader;
 
+
         public DriveDB(FRMLoadingPanel loader)
         {
             ApplicationSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationSavePath);
             DataPath = Path.Combine(ApplicationSavePath, DataPath);
             DataPathBackup = Path.Combine(ApplicationSavePath, DataPath);
 
-            Console.WriteLine("Save Files:");
-            Console.WriteLine(ApplicationSavePath);
-            Console.WriteLine(DataPath);
-            Console.WriteLine(DataPathBackup);
+            DataManager.LogMessage("Save Files:");
+            DataManager.LogMessage(ApplicationSavePath);
+            DataManager.LogMessage(DataPath);
+            DataManager.LogMessage(DataPathBackup);
 
             if (!Directory.Exists(ApplicationSavePath))
             {
                 Directory.CreateDirectory(ApplicationSavePath);
-                Console.WriteLine("Save folder created");
+                DataManager.LogMessage("Save folder created");
             }
             else
             {
-                Console.WriteLine("Save folder found");
+                DataManager.LogMessage("Save folder found");
             }
 
             this.loader = loader;
@@ -107,14 +108,14 @@ namespace BrainologyDatabaseManager.DataAccess
             await Task.Run(() => DownloadGoogleDriveData());
             //w.Close();
             loader.LoadMainForm();
-            //Console.WriteLine("Download complete, resume loading");
+            //DataManager.LogMessage("Download complete, resume loading");
         }
 
         #region DriveAPI
         public void UploadGoogleDriveData(bool ShowMessages)
         {
             // Authorize Google Drive
-            Console.WriteLine("Starting Data Upload");
+            DataManager.LogMessage("Starting Data Upload");
 
             UserCredential credential;
 
@@ -130,7 +131,7 @@ namespace BrainologyDatabaseManager.DataAccess
                     "user",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
+                DataManager.LogMessage("Credential file saved to: " + credPath);
             }
 
             // Create Drive API service.
@@ -149,32 +150,33 @@ namespace BrainologyDatabaseManager.DataAccess
 
             // List files.
             IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
-            Console.WriteLine("Files:");
+            DataManager.LogMessage("Files:");
             string fileID = "";
             if (files != null && files.Count > 0)
             {
                 foreach (var file in files)
                 {
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
+                    DataManager.LogMessage("{0} ({1})", file.Name, file.Id);
                     // Download Drives.xml
                     //file.ExportLinks.Keys.
                     //OutputStream outputStream = new ByteArrayOutputStream();
                     //driveService.files().get(fileId).executeMediaAndDownloadTo(outputStream);
-                    if(file.Name == "Drives.xml" && PreviousMD5 != file.Md5Checksum)
+                    if (file.Name == "Drives.xml" && PreviousMD5 != file.Md5Checksum)
                     {
-                        Console.WriteLine("Drives.xml found, changes have been made");
+                        DataManager.LogMessage("Drives.xml found, changes have been made");
+
                         fileID = file.Id;
                         // High Probability File has been modified 
                         // Download File and incorporate changes before uploading
                         string fileName = "temp" + file.Name;
                         string tempPath = string.Format(@"..\..\{0}", fileName);
-                        Console.WriteLine(string.Format("Attempting to download Google Drive data to {0}", tempPath));
+                        DataManager.LogMessage(string.Format("Attempting to download Google Drive data to {0}", tempPath));
                         DownloadFile(service, file, tempPath);
 
                         if (File.Exists(tempPath))
-                            Console.WriteLine("Temp File Successfully downloaded");
+                            DataManager.LogMessage("Temp File Successfully downloaded");
                         else
-                            Console.WriteLine("Temp File Failed to download");
+                            DataManager.LogMessage("Temp File Failed to download");
 
                         DataManagerWrapper wrapper = BaseReadXMLContents(tempPath);
                         DataManager.IncorporateDriveData(wrapper.driveData);
@@ -183,17 +185,17 @@ namespace BrainologyDatabaseManager.DataAccess
                     }
                     else if(file.Name == "Drives.xml" && PreviousMD5 == file.Md5Checksum)
                     {
-                        Console.WriteLine("Drives.xml found but no changes by other users have been made");
+                        DataManager.LogMessage("Drives.xml found but no changes by other users have been made");
                         fileID = file.Id;
                     }
                 }
-                //Console.WriteLine("Drives.xml not found in google drive");
+                //DataManager.LogMessage("Drives.xml not found in google drive");
             }
             else
             {
-                Console.WriteLine("No files found.");
+                DataManager.LogMessage("No files found.");
             }
-            Console.WriteLine("uploading Drives.xml");
+            DataManager.LogMessage("uploading Drives.xml");
             var responce = uploadFile(service, DataPath, "", fileID, ShowMessages);
             DataManager.DatabaseChanges = false;
         }
@@ -212,7 +214,7 @@ namespace BrainologyDatabaseManager.DataAccess
                 {
                     if (fileID == "")
                     {
-                        Console.WriteLine("File not found, Creating file");
+                        DataManager.LogMessage("File not found, Creating file");
                         using (var stream = new FileStream(_uploadFile, FileMode.Open))
                         {
                             FilesResource.CreateMediaUpload request = _service.Files.Create(body, stream, body.MimeType);
@@ -223,13 +225,13 @@ namespace BrainologyDatabaseManager.DataAccess
                             request.Fields = "id";
                             request.Upload();
                             if(ShowMessages)
-                            MessageBox.Show(body.Name + " successfully uploaded.", "File Upload Complete");
+                                MessageBox.Show(body.Name + " successfully uploaded.", "File Upload Complete");
                             return request.ResponseBody;
                         }
                     }
                     else
                     {
-                        Console.WriteLine("File found, Updating file");
+                        DataManager.LogMessage("File found, Updating file");
                         using (var updateStream = new FileStream(_uploadFile, FileMode.Open))
                         {
                             FilesResource.UpdateMediaUpload request = _service.Files.Update(body, fileID, updateStream, body.MimeType);
@@ -278,7 +280,8 @@ namespace BrainologyDatabaseManager.DataAccess
                     "user",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
+                DataManager.LogMessage("Credential file saved to: " + credPath);
+                
             }
 
             // Create Drive API service.
@@ -295,7 +298,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
             // List files.
             IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute().Files;
-            Console.WriteLine("Files:");
+            DataManager.LogMessage("Files:");
             if (files != null && files.Count > 0)
             {
                 foreach (var file in files)
@@ -309,13 +312,13 @@ namespace BrainologyDatabaseManager.DataAccess
                         PreviousMD5 = file.Md5Checksum;
                         DownloadFile(service, file, string.Format(@"..\..\{0}", file.Name));
                         ReadXMLContents();
-                        Console.WriteLine("{0} ({1})", file.Name, file.Id);
+                        DataManager.LogMessage("{0} ({1})", file.Name, file.Id);
                     }
                 }
             }
             else
             {
-                Console.WriteLine("No files found.");
+                DataManager.LogMessage("No files found.");
             }
 
         }
@@ -335,19 +338,19 @@ namespace BrainologyDatabaseManager.DataAccess
                 {
                     case Google.Apis.Download.DownloadStatus.Downloading:
                         {
-                            Console.WriteLine(progress.BytesDownloaded);
+                            DataManager.LogMessage(progress.BytesDownloaded.ToString());
                             break;
                         }
                     case Google.Apis.Download.DownloadStatus.Completed:
                         {
-                            Console.WriteLine("Download complete.");
+                            DataManager.LogMessage("Download complete.");
                             SaveStream(stream, saveTo);
                             //loader.LoadMainForm();
                             break;
                         }
                     case Google.Apis.Download.DownloadStatus.Failed:
                         {
-                            Console.WriteLine("Download failed.");
+                            DataManager.LogMessage("Download failed.");
                             break;
                         }
                 }
@@ -392,10 +395,12 @@ namespace BrainologyDatabaseManager.DataAccess
                 return;
 
             wrapper.SaveDriveObjects();
-            
+
             // Reads the order date.
             foreach (DriveObject obj in DataManager.DriveData)
-                Console.WriteLine("Drive Name: " + obj.name);
+            {
+                DataManager.LogMessage("Drive Name: " + obj.name);
+            }
             
 
         }
@@ -434,13 +439,13 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private void Serializer_UnknownNode(object sender, XmlNodeEventArgs e)
         {
-            Console.WriteLine("Unknown Node:" + e.Name + "\t" + e.Text);
+            DataManager.LogMessage("Unknown Node:" + e.Name + "\t" + e.Text);
         }
 
         private void serializer_UnknownAttribute(object sender, XmlAttributeEventArgs e)
         {
             System.Xml.XmlAttribute attr = e.Attr;
-            Console.WriteLine("Unknown attribute " +
+            DataManager.LogMessage("Unknown attribute " +
             attr.Name + "='" + attr.Value + "'");
         }
 

@@ -28,11 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
             ""}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.Window, null);
             this.PNLSubForms = new System.Windows.Forms.Panel();
             this.MTABWindowSelector = new MetroFramework.Controls.MetroTabControl();
             this.TPWelcome = new System.Windows.Forms.TabPage();
+            this.PNLGithub = new MetroFramework.Controls.MetroPanel();
+            this.LNKGithub = new System.Windows.Forms.LinkLabel();
+            this.LBLGitHub = new MetroFramework.Controls.MetroLabel();
+            this.PNLUserGuide = new MetroFramework.Controls.MetroPanel();
+            this.LNKUserGuide = new System.Windows.Forms.LinkLabel();
+            this.LBLUserGuide = new MetroFramework.Controls.MetroLabel();
             this.metroLabel1 = new MetroFramework.Controls.MetroLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.TPSearchManager = new System.Windows.Forms.TabPage();
@@ -124,19 +130,15 @@
             this.BTNScanSystem = new MetroFramework.Controls.MetroButton();
             this.PGBarScanSystem = new MetroFramework.Controls.MetroProgressBar();
             this.LBLProgress = new MetroFramework.Controls.MetroLabel();
-            this.fileSystemWatcher1 = new System.IO.FileSystemWatcher();
             this.LBLUploadProgress = new MetroFramework.Controls.MetroLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.LBLFormClosing = new MetroFramework.Controls.MetroLabel();
             this.TTMain = new MetroFramework.Components.MetroToolTip();
-            this.LBLUserGuide = new MetroFramework.Controls.MetroLabel();
-            this.PNLUserGuide = new MetroFramework.Controls.MetroPanel();
-            this.PNLGithub = new MetroFramework.Controls.MetroPanel();
-            this.LBLGitHub = new MetroFramework.Controls.MetroLabel();
-            this.LNKUserGuide = new System.Windows.Forms.LinkLabel();
-            this.LNKGithub = new System.Windows.Forms.LinkLabel();
+            this.LBLUserLog = new MetroFramework.Controls.MetroLabel();
             this.MTABWindowSelector.SuspendLayout();
             this.TPWelcome.SuspendLayout();
+            this.PNLGithub.SuspendLayout();
+            this.PNLUserGuide.SuspendLayout();
             this.TPSearchManager.SuspendLayout();
             this.metroPanel3.SuspendLayout();
             this.metroPanel2.SuspendLayout();
@@ -146,10 +148,7 @@
             this.TPDriveManager.SuspendLayout();
             this.TPStorageOptimization.SuspendLayout();
             this.metroPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.PNLUserGuide.SuspendLayout();
-            this.PNLGithub.SuspendLayout();
             this.SuspendLayout();
             // 
             // PNLSubForms
@@ -171,8 +170,8 @@
             this.MTABWindowSelector.Controls.Add(this.TPStorageOptimization);
             this.MTABWindowSelector.Location = new System.Drawing.Point(3, 87);
             this.MTABWindowSelector.Name = "MTABWindowSelector";
-            this.MTABWindowSelector.SelectedIndex = 3;
-            this.MTABWindowSelector.Size = new System.Drawing.Size(1012, 640);
+            this.MTABWindowSelector.SelectedIndex = 0;
+            this.MTABWindowSelector.Size = new System.Drawing.Size(1012, 608);
             this.MTABWindowSelector.Style = MetroFramework.MetroColorStyle.Magenta;
             this.MTABWindowSelector.TabIndex = 4;
             this.MTABWindowSelector.UseSelectable = true;
@@ -189,10 +188,85 @@
             this.TPWelcome.Location = new System.Drawing.Point(4, 38);
             this.TPWelcome.Margin = new System.Windows.Forms.Padding(2);
             this.TPWelcome.Name = "TPWelcome";
-            this.TPWelcome.Size = new System.Drawing.Size(1004, 598);
+            this.TPWelcome.Size = new System.Drawing.Size(1004, 566);
             this.TPWelcome.TabIndex = 0;
             this.TPWelcome.Text = "  Welcome  ";
             this.TPWelcome.ToolTipText = "Basic Info";
+            // 
+            // PNLGithub
+            // 
+            this.PNLGithub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PNLGithub.Controls.Add(this.LNKGithub);
+            this.PNLGithub.Controls.Add(this.LBLGitHub);
+            this.PNLGithub.HorizontalScrollbarBarColor = true;
+            this.PNLGithub.HorizontalScrollbarHighlightOnWheel = false;
+            this.PNLGithub.HorizontalScrollbarSize = 10;
+            this.PNLGithub.Location = new System.Drawing.Point(28, 281);
+            this.PNLGithub.Name = "PNLGithub";
+            this.PNLGithub.Size = new System.Drawing.Size(648, 100);
+            this.PNLGithub.TabIndex = 6;
+            this.PNLGithub.VerticalScrollbarBarColor = true;
+            this.PNLGithub.VerticalScrollbarHighlightOnWheel = false;
+            this.PNLGithub.VerticalScrollbarSize = 10;
+            // 
+            // LNKGithub
+            // 
+            this.LNKGithub.AutoSize = true;
+            this.LNKGithub.Location = new System.Drawing.Point(18, 46);
+            this.LNKGithub.Name = "LNKGithub";
+            this.LNKGithub.Size = new System.Drawing.Size(288, 13);
+            this.LNKGithub.TabIndex = 3;
+            this.LNKGithub.TabStop = true;
+            this.LNKGithub.Text = "https://github.com/Brett5033/BrainologyDatabaseManager";
+            this.TTMain.SetToolTip(this.LNKGithub, "Report any Bugs, Quirks, or Enhancment Ideas under issues");
+            this.LNKGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LNKGithub_LinkClicked);
+            // 
+            // LBLGitHub
+            // 
+            this.LBLGitHub.AutoSize = true;
+            this.LBLGitHub.Location = new System.Drawing.Point(21, 15);
+            this.LBLGitHub.Name = "LBLGitHub";
+            this.LBLGitHub.Size = new System.Drawing.Size(146, 19);
+            this.LBLGitHub.TabIndex = 2;
+            this.LBLGitHub.Text = "GitHub To Report Bugs:";
+            // 
+            // PNLUserGuide
+            // 
+            this.PNLUserGuide.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PNLUserGuide.Controls.Add(this.LNKUserGuide);
+            this.PNLUserGuide.Controls.Add(this.LBLUserGuide);
+            this.PNLUserGuide.HorizontalScrollbarBarColor = true;
+            this.PNLUserGuide.HorizontalScrollbarHighlightOnWheel = false;
+            this.PNLUserGuide.HorizontalScrollbarSize = 10;
+            this.PNLUserGuide.Location = new System.Drawing.Point(28, 159);
+            this.PNLUserGuide.Name = "PNLUserGuide";
+            this.PNLUserGuide.Size = new System.Drawing.Size(648, 101);
+            this.PNLUserGuide.TabIndex = 5;
+            this.PNLUserGuide.VerticalScrollbarBarColor = true;
+            this.PNLUserGuide.VerticalScrollbarHighlightOnWheel = false;
+            this.PNLUserGuide.VerticalScrollbarSize = 10;
+            // 
+            // LNKUserGuide
+            // 
+            this.LNKUserGuide.AutoSize = true;
+            this.LNKUserGuide.Location = new System.Drawing.Point(10, 42);
+            this.LNKUserGuide.Name = "LNKUserGuide";
+            this.LNKUserGuide.Size = new System.Drawing.Size(531, 13);
+            this.LNKUserGuide.TabIndex = 6;
+            this.LNKUserGuide.TabStop = true;
+            this.LNKUserGuide.Text = "https://docs.google.com/document/d/1-_55qFkDXY5pfsM403MFEtjdXk6aa1vialnIvEXgIDU/e" +
+    "dit?usp=sharing";
+            this.TTMain.SetToolTip(this.LNKUserGuide, "In-Depth Guide to the Software");
+            this.LNKUserGuide.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LNKUserGuide_LinkClicked);
+            // 
+            // LBLUserGuide
+            // 
+            this.LBLUserGuide.AutoSize = true;
+            this.LBLUserGuide.Location = new System.Drawing.Point(13, 13);
+            this.LBLUserGuide.Name = "LBLUserGuide";
+            this.LBLUserGuide.Size = new System.Drawing.Size(155, 19);
+            this.LBLUserGuide.TabIndex = 4;
+            this.LBLUserGuide.Text = "Google Docs User Guide:";
             // 
             // metroLabel1
             // 
@@ -241,7 +315,7 @@
             this.TPSearchManager.Location = new System.Drawing.Point(4, 38);
             this.TPSearchManager.Margin = new System.Windows.Forms.Padding(2);
             this.TPSearchManager.Name = "TPSearchManager";
-            this.TPSearchManager.Size = new System.Drawing.Size(1004, 598);
+            this.TPSearchManager.Size = new System.Drawing.Size(1004, 566);
             this.TPSearchManager.TabIndex = 1;
             this.TPSearchManager.Text = "  Search Database  ";
             this.TPSearchManager.ToolTipText = "Search Database with Filters and Tags";
@@ -874,7 +948,7 @@
             this.TPDriveManager.Location = new System.Drawing.Point(4, 38);
             this.TPDriveManager.Name = "TPDriveManager";
             this.TPDriveManager.Padding = new System.Windows.Forms.Padding(23, 27, 23, 27);
-            this.TPDriveManager.Size = new System.Drawing.Size(1004, 598);
+            this.TPDriveManager.Size = new System.Drawing.Size(1004, 566);
             this.TPDriveManager.TabIndex = 2;
             this.TPDriveManager.Text = "  Drive Manager  ";
             this.TPDriveManager.ToolTipText = "Manually edit data and view data layout";
@@ -1211,7 +1285,7 @@
             this.TPStorageOptimization.Location = new System.Drawing.Point(4, 38);
             this.TPStorageOptimization.Margin = new System.Windows.Forms.Padding(2);
             this.TPStorageOptimization.Name = "TPStorageOptimization";
-            this.TPStorageOptimization.Size = new System.Drawing.Size(1004, 598);
+            this.TPStorageOptimization.Size = new System.Drawing.Size(1004, 566);
             this.TPStorageOptimization.TabIndex = 3;
             this.TPStorageOptimization.Text = "  Storage Optimization  ";
             this.TPStorageOptimization.ToolTipText = "Generate report for clearing drive storage safely";
@@ -1455,9 +1529,9 @@
             this.LVOptimizationResults.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.LVOptimizationResults.FullRowSelect = true;
             this.LVOptimizationResults.GridLines = true;
-            listViewItem17.StateImageIndex = 0;
+            listViewItem1.StateImageIndex = 0;
             this.LVOptimizationResults.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem17});
+            listViewItem1});
             this.LVOptimizationResults.Location = new System.Drawing.Point(141, 46);
             this.LVOptimizationResults.Margin = new System.Windows.Forms.Padding(2);
             this.LVOptimizationResults.Name = "LVOptimizationResults";
@@ -1551,11 +1625,6 @@
             this.LBLProgress.Text = "Progress:";
             this.LBLProgress.Visible = false;
             // 
-            // fileSystemWatcher1
-            // 
-            this.fileSystemWatcher1.EnableRaisingEvents = true;
-            this.fileSystemWatcher1.SynchronizingObject = this;
-            // 
             // LBLUploadProgress
             // 
             this.LBLUploadProgress.AutoSize = true;
@@ -1596,80 +1665,15 @@
             this.TTMain.Theme = MetroFramework.MetroThemeStyle.Light;
             this.TTMain.Popup += new System.Windows.Forms.PopupEventHandler(this.TTMain_Popup);
             // 
-            // LBLUserGuide
+            // LBLUserLog
             // 
-            this.LBLUserGuide.AutoSize = true;
-            this.LBLUserGuide.Location = new System.Drawing.Point(13, 13);
-            this.LBLUserGuide.Name = "LBLUserGuide";
-            this.LBLUserGuide.Size = new System.Drawing.Size(155, 19);
-            this.LBLUserGuide.TabIndex = 4;
-            this.LBLUserGuide.Text = "Google Docs User Guide:";
-            // 
-            // PNLUserGuide
-            // 
-            this.PNLUserGuide.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PNLUserGuide.Controls.Add(this.LNKUserGuide);
-            this.PNLUserGuide.Controls.Add(this.LBLUserGuide);
-            this.PNLUserGuide.HorizontalScrollbarBarColor = true;
-            this.PNLUserGuide.HorizontalScrollbarHighlightOnWheel = false;
-            this.PNLUserGuide.HorizontalScrollbarSize = 10;
-            this.PNLUserGuide.Location = new System.Drawing.Point(28, 159);
-            this.PNLUserGuide.Name = "PNLUserGuide";
-            this.PNLUserGuide.Size = new System.Drawing.Size(648, 101);
-            this.PNLUserGuide.TabIndex = 5;
-            this.PNLUserGuide.VerticalScrollbarBarColor = true;
-            this.PNLUserGuide.VerticalScrollbarHighlightOnWheel = false;
-            this.PNLUserGuide.VerticalScrollbarSize = 10;
-            // 
-            // PNLGithub
-            // 
-            this.PNLGithub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PNLGithub.Controls.Add(this.LNKGithub);
-            this.PNLGithub.Controls.Add(this.LBLGitHub);
-            this.PNLGithub.HorizontalScrollbarBarColor = true;
-            this.PNLGithub.HorizontalScrollbarHighlightOnWheel = false;
-            this.PNLGithub.HorizontalScrollbarSize = 10;
-            this.PNLGithub.Location = new System.Drawing.Point(28, 281);
-            this.PNLGithub.Name = "PNLGithub";
-            this.PNLGithub.Size = new System.Drawing.Size(648, 100);
-            this.PNLGithub.TabIndex = 6;
-            this.PNLGithub.VerticalScrollbarBarColor = true;
-            this.PNLGithub.VerticalScrollbarHighlightOnWheel = false;
-            this.PNLGithub.VerticalScrollbarSize = 10;
-            // 
-            // LBLGitHub
-            // 
-            this.LBLGitHub.AutoSize = true;
-            this.LBLGitHub.Location = new System.Drawing.Point(21, 15);
-            this.LBLGitHub.Name = "LBLGitHub";
-            this.LBLGitHub.Size = new System.Drawing.Size(146, 19);
-            this.LBLGitHub.TabIndex = 2;
-            this.LBLGitHub.Text = "GitHub To Report Bugs:";
-            // 
-            // LNKUserGuide
-            // 
-            this.LNKUserGuide.AutoSize = true;
-            this.LNKUserGuide.Location = new System.Drawing.Point(10, 42);
-            this.LNKUserGuide.Name = "LNKUserGuide";
-            this.LNKUserGuide.Size = new System.Drawing.Size(531, 13);
-            this.LNKUserGuide.TabIndex = 6;
-            this.LNKUserGuide.TabStop = true;
-            this.LNKUserGuide.Text = "https://docs.google.com/document/d/1-_55qFkDXY5pfsM403MFEtjdXk6aa1vialnIvEXgIDU/e" +
-    "dit?usp=sharing";
-            this.TTMain.SetToolTip(this.LNKUserGuide, "In-Depth Guide to the Software");
-            this.LNKUserGuide.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LNKUserGuide_LinkClicked);
-            // 
-            // LNKGithub
-            // 
-            this.LNKGithub.AutoSize = true;
-            this.LNKGithub.Location = new System.Drawing.Point(18, 46);
-            this.LNKGithub.Name = "LNKGithub";
-            this.LNKGithub.Size = new System.Drawing.Size(288, 13);
-            this.LNKGithub.TabIndex = 3;
-            this.LNKGithub.TabStop = true;
-            this.LNKGithub.Text = "https://github.com/Brett5033/BrainologyDatabaseManager";
-            this.TTMain.SetToolTip(this.LNKGithub, "Report any Bugs, Quirks, or Enhancment Ideas under issues");
-            this.LNKGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LNKGithub_LinkClicked);
+            this.LBLUserLog.AutoSize = true;
+            this.LBLUserLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.LBLUserLog.Location = new System.Drawing.Point(15, 715);
+            this.LBLUserLog.Name = "LBLUserLog";
+            this.LBLUserLog.Size = new System.Drawing.Size(0, 0);
+            this.LBLUserLog.TabIndex = 12;
+            this.LBLUserLog.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // FRMMBDatabase
             // 
@@ -1681,6 +1685,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(1019, 731);
+            this.Controls.Add(this.LBLUserLog);
             this.Controls.Add(this.LBLFormClosing);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.LBLUploadProgress);
@@ -1697,11 +1702,14 @@
             this.Text = "Marketing Brainology Database";
             this.Theme = MetroFramework.MetroThemeStyle.Default;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FRMMBDatabase_FormClosing);
-            this.Load += new System.EventHandler(this.FRMMBDatabase_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FRMMBDatabase_KeyDown);
             this.MTABWindowSelector.ResumeLayout(false);
             this.TPWelcome.ResumeLayout(false);
             this.TPWelcome.PerformLayout();
+            this.PNLGithub.ResumeLayout(false);
+            this.PNLGithub.PerformLayout();
+            this.PNLUserGuide.ResumeLayout(false);
+            this.PNLUserGuide.PerformLayout();
             this.TPSearchManager.ResumeLayout(false);
             this.TPSearchManager.PerformLayout();
             this.metroPanel3.ResumeLayout(false);
@@ -1720,12 +1728,7 @@
             this.TPStorageOptimization.PerformLayout();
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.PNLUserGuide.ResumeLayout(false);
-            this.PNLUserGuide.PerformLayout();
-            this.PNLGithub.ResumeLayout(false);
-            this.PNLGithub.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1781,7 +1784,6 @@
         private MetroFramework.Controls.MetroProgressBar PGBarScanSystem;
         private System.Windows.Forms.ListBox LBXDrivePriority;
         private MetroFramework.Controls.MetroLabel LBLProgress;
-        private System.IO.FileSystemWatcher fileSystemWatcher1;
         private MetroFramework.Controls.MetroLabel LBLDrivePriority;
         private MetroFramework.Controls.MetroLabel LBLChangesMade;
         private MetroFramework.Controls.MetroListView LVOptimizationResults;
@@ -1837,5 +1839,6 @@
         private MetroFramework.Controls.MetroLabel LBLGitHub;
         private System.Windows.Forms.LinkLabel LNKGithub;
         private System.Windows.Forms.LinkLabel LNKUserGuide;
+        private MetroFramework.Controls.MetroLabel LBLUserLog;
     }
 }
