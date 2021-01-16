@@ -15,6 +15,7 @@ using System.Xml.Serialization;
 using System.Xml.Resolvers;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Net.NetworkInformation;
 
 namespace BrainologyDatabaseManager.DataAccess
 {
@@ -67,12 +68,14 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private FRMLoadingPanel loader;
 
+        private bool FailedConnection = false;
+
 
         public DriveDB(FRMLoadingPanel loader)
         {
             ApplicationSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationSavePath);
             DataPath = Path.Combine(ApplicationSavePath, DataPath);
-            DataPathBackup = Path.Combine(ApplicationSavePath, DataPath);
+            DataPathBackup = Path.Combine(ApplicationSavePath, DataPathBackup);
 
             DataManager.LogMessage("Save Files:");
             DataManager.LogMessage(ApplicationSavePath);
@@ -98,24 +101,30 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private async void AsyncDownloadGoogleDrive()
         {
-            //var w = new FRMLoadingPanel();
-            //w.Show();
-            //await Task.Delay(TimeSpan.FromSeconds(7))
-            //    .ContinueWith((t) => w.Close(), TaskScheduler.FromCurrentSynchronizationContext());
-            
-            //var w = new FRMLoadingPanel();
-            //w.Show();
-            await Task.Run(() => DownloadGoogleDriveData());
-            //w.Close();
+            FailedConnection = false;
+            do
+            {
+                await Task.Run(() => DownloadGoogleDriveData());
+
+                if (FailedConnection)
+                {
+                    MessageBox.Show("Google Drive Data failed to Download, trying again", "Download Failed");
+                }
+
+            } while (FailedConnection);
+
             loader.LoadMainForm();
             //DataManager.LogMessage("Download complete, resume loading");
         }
 
         #region DriveAPI
+
+        
         public void UploadGoogleDriveData(bool ShowMessages)
         {
             // Authorize Google Drive
             DataManager.LogMessage("Starting Data Upload");
+
 
             UserCredential credential;
 
@@ -265,7 +274,7 @@ namespace BrainologyDatabaseManager.DataAccess
         public void DownloadGoogleDriveData()
         {
             // Authorize Google Drive
-
+            
             UserCredential credential;
 
             using (var stream =
@@ -309,10 +318,11 @@ namespace BrainologyDatabaseManager.DataAccess
                     //driveService.files().get(fileId).executeMediaAndDownloadTo(outputStream);
                     if (file.Name == "Drives.xml")
                     {
-                        PreviousMD5 = file.Md5Checksum;
-                        DownloadFile(service, file, string.Format(@"..\..\{0}", file.Name));
-                        ReadXMLContents();
                         DataManager.LogMessage("{0} ({1})", file.Name, file.Id);
+                        PreviousMD5 = file.Md5Checksum;
+                        DownloadFile(service, file, DataPath);
+                        ReadXMLContents();
+                        
                     }
                 }
             }
@@ -345,12 +355,14 @@ namespace BrainologyDatabaseManager.DataAccess
                         {
                             DataManager.LogMessage("Download complete.");
                             SaveStream(stream, saveTo);
+                            FailedConnection = false;
                             //loader.LoadMainForm();
                             break;
                         }
                     case Google.Apis.Download.DownloadStatus.Failed:
                         {
                             DataManager.LogMessage("Download failed.");
+                            FailedConnection = true;
                             break;
                         }
                 }
@@ -392,7 +404,10 @@ namespace BrainologyDatabaseManager.DataAccess
         {
             DataManagerWrapper wrapper = BaseReadXMLContents(DataPath);
             if (wrapper == null)
+            {
+                DataManager.LogMessage("XMl Read-in failed, wrapper is null");
                 return;
+            }
 
             wrapper.SaveDriveObjects();
 

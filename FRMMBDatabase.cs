@@ -42,7 +42,7 @@ namespace BrainologyDatabaseManager
         // Search Manager
         private int Search_SearchCount = 0;
         private int Search_TotalSearches = 0;
-        private FilterOptions Search_filterOptions;
+        private FilterOptions Search_filterOptions = new FilterOptions();
         private DriveObject Search_SelectedNode = null;
         private List<int> Search_SelectedNodeIndexes = new List<int>();
         private TagPreset Search_SelectedPreset = null;
@@ -89,7 +89,6 @@ namespace BrainologyDatabaseManager
             MTABWindowSelector.SelectTab((int)TabFormControl.Welcome);
         }
 
-        
         private void MTABWindowSelector_Deselecting(object sender, TabControlCancelEventArgs e)
         {
             // Check for any saves that need to be made
