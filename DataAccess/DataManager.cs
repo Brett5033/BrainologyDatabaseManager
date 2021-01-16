@@ -30,6 +30,7 @@ namespace BrainologyDatabaseManager.DataAccess
         /// </summary>
         public static bool DatabaseChanges = false;
 
+
         public static List<DriveObject> ChangedObjects = new List<DriveObject>();
 
         public static void IncorporateDriveData(List<DriveObject> newList)
@@ -97,7 +98,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
         }
 
-        public static List<List<DriveObject>> SearchByName(string searchParamter, ref int SearchCount, FilterOptions options)
+        public static List<List<DriveObject>> SearchDrives(string searchParamter, ref int SearchCount, FilterOptions options)
         {
             if(!options.exactMatch && options.searchFilter == SearchFilter.Name)
                 searchParamter = searchParamter.ToLower();
@@ -107,13 +108,13 @@ namespace BrainologyDatabaseManager.DataAccess
                 if (options.SpecifyDrives && i != options.DriveIndex)
                     continue;
                 List<DriveObject> foundObjects = new List<DriveObject>();
-                SearchByNameHelper(foundObjects, DriveData.ElementAt(i), searchParamter, ref SearchCount, options);
+                SearchDrivesHelper(foundObjects, DriveData.ElementAt(i), searchParamter, ref SearchCount, options);
                 sortedFoundObjects.Add(foundObjects);
             }
             return sortedFoundObjects;
         }
 
-        private static List<DriveObject> SearchByNameHelper(List<DriveObject> foundObjects, DriveObject currentNode ,string searchParameter, ref int SearchCount, FilterOptions options)
+        private static List<DriveObject> SearchDrivesHelper(List<DriveObject> foundObjects, DriveObject currentNode ,string searchParameter, ref int SearchCount, FilterOptions options)
         {
             if(currentNode != null)
             {
@@ -145,7 +146,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
                 foreach (DriveObject child in currentNode.getSubDirectories())
                 {
-                    SearchByNameHelper(foundObjects, child, searchParameter, ref SearchCount, options);
+                    SearchDrivesHelper(foundObjects, child, searchParameter, ref SearchCount, options);
                 }
                 // Any Filter Options go here \/
 
@@ -194,7 +195,7 @@ namespace BrainologyDatabaseManager.DataAccess
                 for (int j = 0; j < orgin.Count; j++)
                 {
                     //Console.WriteLine("\tComparing " + orgin.ElementAt(max_index).name + " to " + orgin.ElementAt(j).name);
-                    if (orgin.ElementAt(max_index).date.CompareTo(orgin.ElementAt(j).date) > 0)
+                    if (orgin.ElementAt(max_index).date.CompareTo(orgin.ElementAt(j).date) < 0)
                     {
                         max_index = j;
                     }

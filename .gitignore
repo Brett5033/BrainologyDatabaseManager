@@ -346,3 +346,5 @@ DrivesBackup.xml
 # Google Drive
 token.json/
 token.json
+credentials.json
+credentials.json/

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using BrainologyDatabaseManager.Common;
@@ -14,7 +15,6 @@ using System.Xml.Serialization;
 using System.Xml.Resolvers;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Threading;
 
 namespace BrainologyDatabaseManager.DataAccess
 {
@@ -50,9 +50,13 @@ namespace BrainologyDatabaseManager.DataAccess
     public class DriveDB
     {
         // Currently Stored Locally, plan to integrate with Google Drive
-        private const string Path = @"..\..\Drives.xml";
+        private string ApplicationSavePath = @"BrainologyDatabaseData";
 
-        private const string PathBackup = @"..\..\DrivesBackup.xml";
+        private string DataPath = @"Drives.xml";
+
+        private string DataPathBackup = @"DrivesBackup.xml";
+
+        private  string CredentialsPath = @"credentials.json";
 
         // If modifying these scopes, delete your previously saved credentials
         // at ~/.credentials/drive-dotnet-quickstart.json
@@ -61,15 +65,31 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private string PreviousMD5 = "";
 
-        private MetroFramework.Controls.MetroLabel UploadProgress;
+        private FRMLoadingPanel loader;
 
-        public DriveDB(MetroFramework.Controls.MetroLabel UploadProgress)
+        public DriveDB(FRMLoadingPanel loader)
         {
-            this.UploadProgress = UploadProgress;
-            var w = new FRMLoadingPanel();
-            w.Show();
+            ApplicationSavePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), ApplicationSavePath);
+            DataPath = Path.Combine(ApplicationSavePath, DataPath);
+            DataPathBackup = Path.Combine(ApplicationSavePath, DataPath);
+
+            Console.WriteLine("Save Files:");
+            Console.WriteLine(ApplicationSavePath);
+            Console.WriteLine(DataPath);
+            Console.WriteLine(DataPathBackup);
+
+            if (!Directory.Exists(ApplicationSavePath))
+            {
+                Directory.CreateDirectory(ApplicationSavePath);
+                Console.WriteLine("Save folder created");
+            }
+            else
+            {
+                Console.WriteLine("Save folder found");
+            }
+
+            this.loader = loader;
             AsyncDownloadGoogleDrive();
-            w.Close();
             //MessageBox.Show(w, "Authorizing Google Drive, may ask to sign into BrainologyDatabase@gmail.com \n See Login Info if need be." , "Google Drive Prompt Potentially Incoming");
 
             //DownloadGoogleDriveData();
@@ -81,8 +101,13 @@ namespace BrainologyDatabaseManager.DataAccess
             //w.Show();
             //await Task.Delay(TimeSpan.FromSeconds(7))
             //    .ContinueWith((t) => w.Close(), TaskScheduler.FromCurrentSynchronizationContext());
+            
+            //var w = new FRMLoadingPanel();
+            //w.Show();
             await Task.Run(() => DownloadGoogleDriveData());
-
+            //w.Close();
+            loader.LoadMainForm();
+            //Console.WriteLine("Download complete, resume loading");
         }
 
         #region DriveAPI
@@ -94,7 +119,7 @@ namespace BrainologyDatabaseManager.DataAccess
             UserCredential credential;
 
             using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                new FileStream(CredentialsPath, FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
@@ -169,7 +194,7 @@ namespace BrainologyDatabaseManager.DataAccess
                 Console.WriteLine("No files found.");
             }
             Console.WriteLine("uploading Drives.xml");
-            var responce = uploadFile(service, Path, "", fileID, ShowMessages);
+            var responce = uploadFile(service, DataPath, "", fileID, ShowMessages);
             DataManager.DatabaseChanges = false;
         }
 
@@ -234,18 +259,6 @@ namespace BrainologyDatabaseManager.DataAccess
             }
         }
 
-        private void Request_ProgressChanged(Google.Apis.Upload.IUploadProgress obj)
-        {
-            UploadProgress.Text += obj.Status + " " + obj.BytesSent;
-        }
-
-        private void Request_ResponseReceived(Google.Apis.Drive.v3.Data.File obj)
-        {
-            if (obj != null)
-            {
-                MessageBox.Show("File was uploaded sucessfully--" + obj.Name);
-            }
-        }
 
         public void DownloadGoogleDriveData()
         {
@@ -254,7 +267,7 @@ namespace BrainologyDatabaseManager.DataAccess
             UserCredential credential;
 
             using (var stream =
-                new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
+                new FileStream(CredentialsPath, FileMode.Open, FileAccess.Read))
             {
                 // The file token.json stores the user's access and refresh tokens, and is created
                 // automatically when the authorization flow completes for the first time.
@@ -296,9 +309,8 @@ namespace BrainologyDatabaseManager.DataAccess
                         PreviousMD5 = file.Md5Checksum;
                         DownloadFile(service, file, string.Format(@"..\..\{0}", file.Name));
                         ReadXMLContents();
+                        Console.WriteLine("{0} ({1})", file.Name, file.Id);
                     }
-
-                    Console.WriteLine("{0} ({1})", file.Name, file.Id);
                 }
             }
             else
@@ -330,6 +342,7 @@ namespace BrainologyDatabaseManager.DataAccess
                         {
                             Console.WriteLine("Download complete.");
                             SaveStream(stream, saveTo);
+                            //loader.LoadMainForm();
                             break;
                         }
                     case Google.Apis.Download.DownloadStatus.Failed:
@@ -339,7 +352,7 @@ namespace BrainologyDatabaseManager.DataAccess
                         }
                 }
             };
-            request.Download(stream);
+            request.DownloadWithStatus(stream);
 
         }
 
@@ -359,7 +372,7 @@ namespace BrainologyDatabaseManager.DataAccess
             // specifies the type of object to serialize.
             XmlSerializer serializer =
             new XmlSerializer(typeof(DataManagerWrapper));
-            TextWriter writer = new StreamWriter(Path);
+            TextWriter writer = new StreamWriter(DataPath);
 
             // Serializes the drives, and closes the TextWriter.
             //foreach(DriveObject obj in DataManager.DriveData)
@@ -374,7 +387,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
         public void ReadXMLContents()
         {
-            DataManagerWrapper wrapper = BaseReadXMLContents(Path);
+            DataManagerWrapper wrapper = BaseReadXMLContents(DataPath);
             if (wrapper == null)
                 return;
 
@@ -404,7 +417,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
 
             // A FileStream is needed to read the XML document.
-            FileStream fs = new FileStream(Path, FileMode.Open);
+            FileStream fs = new FileStream(DataPath, FileMode.Open);
 
             // Declares an object variable of the type to be deserialized.
             //List<DriveObject> driveObjects = new List<DriveObject>();
@@ -433,18 +446,18 @@ namespace BrainologyDatabaseManager.DataAccess
 
         public void BackupDB()
         {
-            File.Copy(Path, PathBackup, true);
+            File.Copy(DataPath, DataPathBackup, true);
         }
 
         public void RestoreDB()
         {
-            File.Copy(PathBackup, Path, true);
+            File.Copy(DataPathBackup, DataPath, true);
         }
 
         public void ClearDB()
         {
             BackupDB();
-            File.Delete(Path);
+            File.Delete(DataPath);
         }
 
     }

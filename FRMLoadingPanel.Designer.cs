@@ -62,9 +62,9 @@ namespace BrainologyDatabaseManager
             this.metroLabel2.AutoSize = true;
             this.metroLabel2.Location = new System.Drawing.Point(24, 92);
             this.metroLabel2.Name = "metroLabel2";
-            this.metroLabel2.Size = new System.Drawing.Size(256, 19);
+            this.metroLabel2.Size = new System.Drawing.Size(331, 19);
             this.metroLabel2.TabIndex = 2;
-            this.metroLabel2.Text = "Sign into BrainologyDatabase@gmail.com";
+            this.metroLabel2.Text = "Sign into BrainologyDatabase@gmail.com if Prompted";
             this.metroLabel2.WrapToLine = true;
             // 
             // metroLabel3
@@ -89,6 +89,7 @@ namespace BrainologyDatabaseManager
             this.Name = "FRMLoadingPanel";
             this.Style = MetroFramework.MetroColorStyle.Magenta;
             this.Text = "Brainology Database Loading...";
+            this.Load += new System.EventHandler(this.FRMLoadingPanel_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

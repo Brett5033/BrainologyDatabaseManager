@@ -52,18 +52,19 @@ namespace BrainologyDatabaseManager
         List<List<DriveObject>> Opti_DeletableObjects;
         string ExcelPath = string.Format(@"{0}\BrainologyDatbaseExcelSaves",Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
 
-        public FRMMBDatabase()
+        public FRMMBDatabase(DriveDB db)
         {
             InitializeComponent();
             this.Icon = BrainologyDatabaseManager.Properties.Resources.marketingbrainologylogo_icon;
+            // Load all drive data from the XML File
+            driveDatabase = db;
+            
         }
 
         private void FRMMBDatabase_Load(object sender, EventArgs e)
         {
-            // Load all drive data from the XML File
-            driveDatabase = new DriveDB(LBLUploadProgress);
             driveDatabase.ReadXMLContents();
-            this.BringToFront();
+            Activate();
 
             // Drive Manager Load
             DisplayActiveDrives();
@@ -170,7 +171,7 @@ namespace BrainologyDatabaseManager
 
                 ReadInFilters();
 
-                List<List<DriveObject>> matchingObjects = DataManager.SearchByName(TXTSearch.Text, ref Search_TotalSearches, Search_filterOptions);
+                List<List<DriveObject>> matchingObjects = DataManager.SearchDrives(TXTSearch.Text, ref Search_TotalSearches, Search_filterOptions);
                 Search_DisplayedObjects = matchingObjects;
 
                 //Update Search Count
@@ -326,7 +327,6 @@ namespace BrainologyDatabaseManager
             }
         }
 
-
         private void RefreshTagList()
         {
 
@@ -397,6 +397,11 @@ namespace BrainologyDatabaseManager
             // Just By-Pass The Data About a Node
             //if (tNode.Nodes.Count == 0)
             //    return;
+
+            if(tNode.Parent == null && tNode.Nodes.Count == 0)
+            {
+                return;
+            }
             
             while (tNode.Parent != null)
             {
@@ -982,7 +987,7 @@ namespace BrainologyDatabaseManager
             return sortedArray;
         }
 
-        private void BTNProcessOptimization_Click(object sender, EventArgs e)
+        private void ProcessOptimization()
         {
             if (TXTOptiNumCopies.Text == "" || !Int32.TryParse(TXTOptiNumCopies.Text, out int copiesAllowed))
             {
@@ -993,7 +998,7 @@ namespace BrainologyDatabaseManager
                 MessageBox.Show("Please input a valid decimal or whole number for Minimum Size", "Input Error");
             }
             else
-                {
+            {
                 int[] sortedDrivePriority = GetDrivePriority();
                 minimumSize *= 1024;
 
@@ -1005,10 +1010,10 @@ namespace BrainologyDatabaseManager
                 FilterOptions filterOptions = new FilterOptions();
                 filterOptions.AlphaSort = true;
                 int count = 0;
-                List<List<DriveObject>> FilteredList = DataManager.SearchByName(TXTOptiFilter.Text, ref count, filterOptions);
+                List<List<DriveObject>> FilteredList = DataManager.SearchDrives(TXTOptiFilter.Text, ref count, filterOptions);
                 List<List<DriveObject>> PriorityList = new List<List<DriveObject>>();
                 // Sort results according to drive priority
-                for(int i = 0; i < FilteredList.Count; i++)
+                for (int i = 0; i < FilteredList.Count; i++)
                 {
                     PriorityList.Add(FilteredList.ElementAt(sortedDrivePriority[i]));
                 }
@@ -1057,6 +1062,10 @@ namespace BrainologyDatabaseManager
                 else
                     WriteExcelSheet(sortedDrivePriority, minimumSize);
             }
+        }
+        private void BTNProcessOptimization_Click(object sender, EventArgs e)
+        {
+            ProcessOptimization();
         }
 
         /// <summary>
@@ -1237,6 +1246,10 @@ namespace BrainologyDatabaseManager
                 {
 
                 }
+                else if (currentSubForm == TabFormControl.Optimization)
+                {
+                    ProcessOptimization();
+                }
                 e.Handled = true;
             }
         }
@@ -1356,10 +1369,19 @@ namespace BrainologyDatabaseManager
                 driveDatabase.UploadGoogleDriveData(false);
         }
 
-        #region ToolTips
+        private void TTMain_Popup(object sender, PopupEventArgs e)
+        {
 
-        // Main App
+        }
 
-        #endregion
+        private void LNKUserGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(LNKUserGuide.Text);
+        }
+
+        private void LNKGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(LNKGithub.Text);
+        }
     }
 }

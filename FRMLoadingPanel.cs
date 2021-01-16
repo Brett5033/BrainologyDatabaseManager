@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrainologyDatabaseManager.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,5 +18,24 @@ namespace BrainologyDatabaseManager
             InitializeComponent();
             this.Icon = BrainologyDatabaseManager.Properties.Resources.marketingbrainologylogo_icon;
         }
+
+        DriveDB db;
+
+        public void LoadMainForm()
+        {
+            Console.WriteLine("Loading Main Form");
+            this.Hide();
+            FRMMBDatabase MainForm = new FRMMBDatabase(db);
+
+            MainForm.ShowDialog();
+            this.Close();
+            
+        }
+
+        private void FRMLoadingPanel_Load(object sender, EventArgs e)
+        {
+            db = new DriveDB(this);
+        }
     }
+
 }

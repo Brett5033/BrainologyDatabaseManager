@@ -19,7 +19,7 @@ namespace BrainologyDatabaseManager
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FRMMBDatabase());
+            Application.Run(new FRMLoadingPanel());
         }
     }
 }

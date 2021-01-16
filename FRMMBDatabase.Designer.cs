@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem17 = new System.Windows.Forms.ListViewItem(new string[] {
             ""}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.Window, null);
             this.PNLSubForms = new System.Windows.Forms.Panel();
             this.MTABWindowSelector = new MetroFramework.Controls.MetroTabControl();
@@ -71,7 +71,6 @@
             this.CBXDrive = new MetroFramework.Controls.MetroCheckBox();
             this.CLBXTags = new System.Windows.Forms.CheckedListBox();
             this.GBSearchAttributes = new System.Windows.Forms.GroupBox();
-            this.metroCheckBox1 = new MetroFramework.Controls.MetroCheckBox();
             this.CBXExactMatch = new MetroFramework.Controls.MetroCheckBox();
             this.GBXFilter = new System.Windows.Forms.GroupBox();
             this.RBTNTag = new MetroFramework.Controls.MetroRadioButton();
@@ -101,6 +100,10 @@
             this.LBXFileData = new System.Windows.Forms.ListBox();
             this.TVDriveView = new System.Windows.Forms.TreeView();
             this.TPStorageOptimization = new System.Windows.Forms.TabPage();
+            this.LBLMegaBytes = new MetroFramework.Controls.MetroLabel();
+            this.LBLMinimunSize = new MetroFramework.Controls.MetroLabel();
+            this.TXTMinimumSize = new MetroFramework.Controls.MetroTextBox();
+            this.CBXSaveToExcel = new MetroFramework.Controls.MetroCheckBox();
             this.CBXConsolidateResults = new MetroFramework.Controls.MetroCheckBox();
             this.LBLOptiNumCopies = new MetroFramework.Controls.MetroLabel();
             this.TXTOptiNumCopies = new MetroFramework.Controls.MetroTextBox();
@@ -125,11 +128,13 @@
             this.LBLUploadProgress = new MetroFramework.Controls.MetroLabel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.LBLFormClosing = new MetroFramework.Controls.MetroLabel();
-            this.metroToolTip1 = new MetroFramework.Components.MetroToolTip();
-            this.CBXSaveToExcel = new MetroFramework.Controls.MetroCheckBox();
-            this.TXTMinimumSize = new MetroFramework.Controls.MetroTextBox();
-            this.LBLMinimunSize = new MetroFramework.Controls.MetroLabel();
-            this.LBLMegaBytes = new MetroFramework.Controls.MetroLabel();
+            this.TTMain = new MetroFramework.Components.MetroToolTip();
+            this.LBLUserGuide = new MetroFramework.Controls.MetroLabel();
+            this.PNLUserGuide = new MetroFramework.Controls.MetroPanel();
+            this.PNLGithub = new MetroFramework.Controls.MetroPanel();
+            this.LBLGitHub = new MetroFramework.Controls.MetroLabel();
+            this.LNKUserGuide = new System.Windows.Forms.LinkLabel();
+            this.LNKGithub = new System.Windows.Forms.LinkLabel();
             this.MTABWindowSelector.SuspendLayout();
             this.TPWelcome.SuspendLayout();
             this.TPSearchManager.SuspendLayout();
@@ -143,6 +148,8 @@
             this.metroPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.PNLUserGuide.SuspendLayout();
+            this.PNLGithub.SuspendLayout();
             this.SuspendLayout();
             // 
             // PNLSubForms
@@ -175,6 +182,8 @@
             // TPWelcome
             // 
             this.TPWelcome.BackColor = System.Drawing.SystemColors.Window;
+            this.TPWelcome.Controls.Add(this.PNLGithub);
+            this.TPWelcome.Controls.Add(this.PNLUserGuide);
             this.TPWelcome.Controls.Add(this.metroLabel1);
             this.TPWelcome.Controls.Add(this.label2);
             this.TPWelcome.Location = new System.Drawing.Point(4, 38);
@@ -183,17 +192,18 @@
             this.TPWelcome.Size = new System.Drawing.Size(1004, 598);
             this.TPWelcome.TabIndex = 0;
             this.TPWelcome.Text = "  Welcome  ";
+            this.TPWelcome.ToolTipText = "Basic Info";
             // 
             // metroLabel1
             // 
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.FontSize = MetroFramework.MetroLabelSize.Tall;
-            this.metroLabel1.Location = new System.Drawing.Point(220, 17);
+            this.metroLabel1.Location = new System.Drawing.Point(30, 113);
             this.metroLabel1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(394, 25);
+            this.metroLabel1.Size = new System.Drawing.Size(423, 25);
             this.metroLabel1.TabIndex = 2;
-            this.metroLabel1.Text = "Welcome, Database Software is a Work In Progress";
+            this.metroLabel1.Text = "Welcome, Database Software is still a Work In Progress";
             // 
             // label2
             // 
@@ -234,6 +244,7 @@
             this.TPSearchManager.Size = new System.Drawing.Size(1004, 598);
             this.TPSearchManager.TabIndex = 1;
             this.TPSearchManager.Text = "  Search Database  ";
+            this.TPSearchManager.ToolTipText = "Search Database with Filters and Tags";
             // 
             // BTNRemoveAllTags
             // 
@@ -242,6 +253,7 @@
             this.BTNRemoveAllTags.Size = new System.Drawing.Size(81, 23);
             this.BTNRemoveAllTags.TabIndex = 47;
             this.BTNRemoveAllTags.Text = "Remove All";
+            this.TTMain.SetToolTip(this.BTNRemoveAllTags, "Removes all tags from the selected Item");
             this.BTNRemoveAllTags.UseSelectable = true;
             this.BTNRemoveAllTags.Click += new System.EventHandler(this.BTNRemoveAllTags_Click);
             // 
@@ -252,6 +264,7 @@
             this.BTNClearSelectedTags.Size = new System.Drawing.Size(82, 23);
             this.BTNClearSelectedTags.TabIndex = 46;
             this.BTNClearSelectedTags.Text = "Clear Selected";
+            this.TTMain.SetToolTip(this.BTNClearSelectedTags, "Unchecks all tags");
             this.BTNClearSelectedTags.UseSelectable = true;
             this.BTNClearSelectedTags.Click += new System.EventHandler(this.BTNClearSelectedTags_Click);
             // 
@@ -262,6 +275,7 @@
             this.BTNRemoveSelectedTags.Size = new System.Drawing.Size(80, 25);
             this.BTNRemoveSelectedTags.TabIndex = 45;
             this.BTNRemoveSelectedTags.Text = "Remove Tags";
+            this.TTMain.SetToolTip(this.BTNRemoveSelectedTags, "Removes the checked tags from the selected Item");
             this.BTNRemoveSelectedTags.UseSelectable = true;
             this.BTNRemoveSelectedTags.Click += new System.EventHandler(this.BTNRemoveSelectedTags_Click);
             // 
@@ -295,6 +309,7 @@
             this.BTNNewTagPreset.Size = new System.Drawing.Size(179, 26);
             this.BTNNewTagPreset.TabIndex = 10;
             this.BTNNewTagPreset.Text = "Create New Preset";
+            this.TTMain.SetToolTip(this.BTNNewTagPreset, "Creates Preset from Name and Checked Tags");
             this.BTNNewTagPreset.UseSelectable = true;
             this.BTNNewTagPreset.Click += new System.EventHandler(this.BTNNewTagPreset_Click);
             // 
@@ -333,6 +348,7 @@
             this.TXTTagPresetName.ShortcutsEnabled = true;
             this.TXTTagPresetName.Size = new System.Drawing.Size(179, 23);
             this.TXTTagPresetName.TabIndex = 8;
+            this.TTMain.SetToolTip(this.TXTTagPresetName, "Name for new Preset");
             this.TXTTagPresetName.UseSelectable = true;
             this.TXTTagPresetName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTTagPresetName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -344,6 +360,7 @@
             this.BTNTagPresetRemove.Size = new System.Drawing.Size(85, 23);
             this.BTNTagPresetRemove.TabIndex = 7;
             this.BTNTagPresetRemove.Text = "Remove Tags";
+            this.TTMain.SetToolTip(this.BTNTagPresetRemove, "Remove checked tags from selected preset");
             this.BTNTagPresetRemove.UseSelectable = true;
             this.BTNTagPresetRemove.Click += new System.EventHandler(this.BTNTagPresetRemove_Click);
             // 
@@ -363,6 +380,7 @@
             this.BTNTagPresetAdd.Size = new System.Drawing.Size(88, 23);
             this.BTNTagPresetAdd.TabIndex = 5;
             this.BTNTagPresetAdd.Text = "Add Tags";
+            this.TTMain.SetToolTip(this.BTNTagPresetAdd, "Add checked tags to selected preset");
             this.BTNTagPresetAdd.UseSelectable = true;
             this.BTNTagPresetAdd.Click += new System.EventHandler(this.BTNTagPresetAdd_Click);
             // 
@@ -373,6 +391,7 @@
             this.BTNApplyTagPreset.Size = new System.Drawing.Size(179, 23);
             this.BTNApplyTagPreset.TabIndex = 4;
             this.BTNApplyTagPreset.Text = "Apply Preset";
+            this.TTMain.SetToolTip(this.BTNApplyTagPreset, "Checks all tags within the preset, unchecks others");
             this.BTNApplyTagPreset.UseSelectable = true;
             this.BTNApplyTagPreset.Click += new System.EventHandler(this.BTNApplyTagPreset_Click);
             // 
@@ -384,6 +403,7 @@
             this.LBXTagPresets.Size = new System.Drawing.Size(179, 121);
             this.LBXTagPresets.Sorted = true;
             this.LBXTagPresets.TabIndex = 3;
+            this.TTMain.SetToolTip(this.LBXTagPresets, "List of Tag Presets");
             this.LBXTagPresets.SelectedIndexChanged += new System.EventHandler(this.LBXTagPresets_SelectedIndexChanged);
             // 
             // metroLabel3
@@ -402,6 +422,7 @@
             this.BTNApplyTags.Size = new System.Drawing.Size(81, 25);
             this.BTNApplyTags.TabIndex = 43;
             this.BTNApplyTags.Text = "Apply Tags";
+            this.TTMain.SetToolTip(this.BTNApplyTags, "Adds the checked tags to the selected Item");
             this.BTNApplyTags.UseSelectable = true;
             this.BTNApplyTags.Click += new System.EventHandler(this.BTNApplyTag_Click);
             // 
@@ -430,6 +451,7 @@
             this.BTNDeleteTag.Size = new System.Drawing.Size(72, 23);
             this.BTNDeleteTag.TabIndex = 5;
             this.BTNDeleteTag.Text = "Delete Tag";
+            this.TTMain.SetToolTip(this.BTNDeleteTag, "!Caution! Deletes a Tag from all Items/Presets");
             this.BTNDeleteTag.UseSelectable = true;
             this.BTNDeleteTag.Click += new System.EventHandler(this.BTNDeleteTag_Click);
             // 
@@ -449,6 +471,7 @@
             this.BTNTagCreate.Size = new System.Drawing.Size(71, 23);
             this.BTNTagCreate.TabIndex = 3;
             this.BTNTagCreate.Text = "Create Tag";
+            this.TTMain.SetToolTip(this.BTNTagCreate, "Create a tag (Duplicates cannot be made)");
             this.BTNTagCreate.UseSelectable = true;
             this.BTNTagCreate.Click += new System.EventHandler(this.BTNTagCreate_Click);
             // 
@@ -478,6 +501,7 @@
             this.TXTTagWizardName.ShortcutsEnabled = true;
             this.TXTTagWizardName.Size = new System.Drawing.Size(155, 23);
             this.TXTTagWizardName.TabIndex = 2;
+            this.TTMain.SetToolTip(this.TXTTagWizardName, "Name to both create or delete a tag");
             this.TXTTagWizardName.UseSelectable = true;
             this.TXTTagWizardName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTTagWizardName.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -545,6 +569,7 @@
             this.TXTTagSearch.Size = new System.Drawing.Size(202, 19);
             this.TXTTagSearch.Style = MetroFramework.MetroColorStyle.Magenta;
             this.TXTTagSearch.TabIndex = 40;
+            this.TTMain.SetToolTip(this.TXTTagSearch, "Filter Tags by phrase");
             this.TXTTagSearch.UseSelectable = true;
             this.TXTTagSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTTagSearch.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -559,6 +584,7 @@
             this.BTNSearch.Size = new System.Drawing.Size(87, 50);
             this.BTNSearch.TabIndex = 39;
             this.BTNSearch.Text = "Search";
+            this.TTMain.SetToolTip(this.BTNSearch, "Applies search filters and displays matching entries below");
             this.BTNSearch.UseSelectable = true;
             this.BTNSearch.Click += new System.EventHandler(this.BTNSearch_Click);
             // 
@@ -572,6 +598,7 @@
             this.ComboBXDriveSelect.Size = new System.Drawing.Size(141, 29);
             this.ComboBXDriveSelect.Style = MetroFramework.MetroColorStyle.Magenta;
             this.ComboBXDriveSelect.TabIndex = 38;
+            this.TTMain.SetToolTip(this.ComboBXDriveSelect, "Drive to Search");
             this.ComboBXDriveSelect.UseSelectable = true;
             // 
             // CBXSpecifyDrive
@@ -584,6 +611,7 @@
             this.CBXSpecifyDrive.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXSpecifyDrive.TabIndex = 37;
             this.CBXSpecifyDrive.Text = "Specify Drives:";
+            this.TTMain.SetToolTip(this.CBXSpecifyDrive, "Limits search to a specific drive");
             this.CBXSpecifyDrive.UseSelectable = true;
             this.CBXSpecifyDrive.CheckedChanged += new System.EventHandler(this.CBXSpecifyDrive_CheckedChanged);
             // 
@@ -649,6 +677,7 @@
             this.TXTSearch.Size = new System.Drawing.Size(263, 19);
             this.TXTSearch.Style = MetroFramework.MetroColorStyle.Magenta;
             this.TXTSearch.TabIndex = 33;
+            this.TTMain.SetToolTip(this.TXTSearch, "Searches for entries that contain the phrase (ie. Apple contains ap)");
             this.TXTSearch.UseSelectable = true;
             this.TXTSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTSearch.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -668,6 +697,7 @@
             this.groupBox1.TabIndex = 31;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sort By:";
+            this.TTMain.SetToolTip(this.groupBox1, "How the display sorts the matching items (Multiple can be Applied)");
             // 
             // CBXSize
             // 
@@ -679,6 +709,7 @@
             this.CBXSize.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXSize.TabIndex = 32;
             this.CBXSize.Text = "Size";
+            this.TTMain.SetToolTip(this.CBXSize, "Sort by file size, Largest at the top");
             this.CBXSize.UseSelectable = true;
             // 
             // CBXAlpha
@@ -691,6 +722,7 @@
             this.CBXAlpha.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXAlpha.TabIndex = 31;
             this.CBXAlpha.Text = "Alpha";
+            this.TTMain.SetToolTip(this.CBXAlpha, "Alphabetical Sorting");
             this.CBXAlpha.UseSelectable = true;
             // 
             // CBXDate
@@ -703,6 +735,7 @@
             this.CBXDate.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXDate.TabIndex = 30;
             this.CBXDate.Text = "Date";
+            this.TTMain.SetToolTip(this.CBXDate, "Sort by date modified, Earlier at the top");
             this.CBXDate.UseSelectable = true;
             // 
             // CBXDrive
@@ -717,6 +750,7 @@
             this.CBXDrive.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXDrive.TabIndex = 29;
             this.CBXDrive.Text = "Drive";
+            this.TTMain.SetToolTip(this.CBXDrive, "Groups items by their respective root drive (ie Drive 10)");
             this.CBXDrive.UseSelectable = true;
             // 
             // CLBXTags
@@ -730,10 +764,10 @@
             this.CLBXTags.Size = new System.Drawing.Size(167, 212);
             this.CLBXTags.Sorted = true;
             this.CLBXTags.TabIndex = 32;
+            this.TTMain.SetToolTip(this.CLBXTags, "List of Tags, Only checked tags will apply/remove");
             // 
             // GBSearchAttributes
             // 
-            this.GBSearchAttributes.Controls.Add(this.metroCheckBox1);
             this.GBSearchAttributes.Controls.Add(this.CBXExactMatch);
             this.GBSearchAttributes.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GBSearchAttributes.Location = new System.Drawing.Point(544, 30);
@@ -745,18 +779,6 @@
             this.GBSearchAttributes.TabStop = false;
             this.GBSearchAttributes.Text = " Quantifiers:";
             // 
-            // metroCheckBox1
-            // 
-            this.metroCheckBox1.AutoSize = true;
-            this.metroCheckBox1.Location = new System.Drawing.Point(4, 42);
-            this.metroCheckBox1.Margin = new System.Windows.Forms.Padding(2);
-            this.metroCheckBox1.Name = "metroCheckBox1";
-            this.metroCheckBox1.Size = new System.Drawing.Size(33, 15);
-            this.metroCheckBox1.Style = MetroFramework.MetroColorStyle.Magenta;
-            this.metroCheckBox1.TabIndex = 28;
-            this.metroCheckBox1.Text = "--";
-            this.metroCheckBox1.UseSelectable = true;
-            // 
             // CBXExactMatch
             // 
             this.CBXExactMatch.AutoSize = true;
@@ -767,6 +789,7 @@
             this.CBXExactMatch.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXExactMatch.TabIndex = 27;
             this.CBXExactMatch.Text = "Exact Match";
+            this.TTMain.SetToolTip(this.CBXExactMatch, "Makes the search case-sensitive (ie. A does not equal a)");
             this.CBXExactMatch.UseSelectable = true;
             // 
             // GBXFilter
@@ -782,6 +805,7 @@
             this.GBXFilter.TabIndex = 29;
             this.GBXFilter.TabStop = false;
             this.GBXFilter.Text = "Filter:";
+            this.TTMain.SetToolTip(this.GBXFilter, "Determines what items are found");
             // 
             // RBTNTag
             // 
@@ -793,6 +817,7 @@
             this.RBTNTag.Style = MetroFramework.MetroColorStyle.Magenta;
             this.RBTNTag.TabIndex = 28;
             this.RBTNTag.Text = "Tag";
+            this.TTMain.SetToolTip(this.RBTNTag, "Searches by if any of a items tags contain the phrase");
             this.RBTNTag.UseSelectable = true;
             // 
             // RBTNName
@@ -807,6 +832,7 @@
             this.RBTNName.TabIndex = 27;
             this.RBTNName.TabStop = true;
             this.RBTNName.Text = "Name";
+            this.TTMain.SetToolTip(this.RBTNName, "Searches by name");
             this.RBTNName.UseSelectable = true;
             // 
             // TVSearchView
@@ -817,6 +843,7 @@
             this.TVSearchView.Name = "TVSearchView";
             this.TVSearchView.Size = new System.Drawing.Size(548, 408);
             this.TVSearchView.TabIndex = 28;
+            this.TTMain.SetToolTip(this.TVSearchView, "Hit (+) to open a item, click to select");
             this.TVSearchView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TVSearchView_AfterSelect);
             // 
             // TPDriveManager
@@ -850,6 +877,7 @@
             this.TPDriveManager.Size = new System.Drawing.Size(1004, 598);
             this.TPDriveManager.TabIndex = 2;
             this.TPDriveManager.Text = "  Drive Manager  ";
+            this.TPDriveManager.ToolTipText = "Manually edit data and view data layout";
             // 
             // BTNUploadXML
             // 
@@ -861,6 +889,7 @@
             this.BTNUploadXML.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNUploadXML.TabIndex = 55;
             this.BTNUploadXML.Text = "Upload XML";
+            this.TTMain.SetToolTip(this.BTNUploadXML, "Uploads Data to Google Drive");
             this.BTNUploadXML.UseSelectable = true;
             this.BTNUploadXML.Click += new System.EventHandler(this.BTNUploadXML_Click);
             // 
@@ -874,6 +903,7 @@
             this.BTNDownloadXML.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNDownloadXML.TabIndex = 54;
             this.BTNDownloadXML.Text = "Download XML";
+            this.TTMain.SetToolTip(this.BTNDownloadXML, "Downloads Data from Google Drive");
             this.BTNDownloadXML.UseSelectable = true;
             this.BTNDownloadXML.Click += new System.EventHandler(this.BTNDownloadXML_Click);
             // 
@@ -904,6 +934,7 @@
             this.TXTDrivePath.Size = new System.Drawing.Size(265, 23);
             this.TXTDrivePath.Style = MetroFramework.MetroColorStyle.Magenta;
             this.TXTDrivePath.TabIndex = 53;
+            this.TTMain.SetToolTip(this.TXTDrivePath, "Folder Path to scan");
             this.TXTDrivePath.UseSelectable = true;
             this.TXTDrivePath.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTDrivePath.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -935,6 +966,7 @@
             this.TXTNickname.Size = new System.Drawing.Size(157, 23);
             this.TXTNickname.Style = MetroFramework.MetroColorStyle.Magenta;
             this.TXTNickname.TabIndex = 52;
+            this.TTMain.SetToolTip(this.TXTNickname, "Replaces the folder name (ie. D:// to \"Drive 10\")");
             this.TXTNickname.UseSelectable = true;
             this.TXTNickname.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTNickname.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -957,6 +989,7 @@
             this.LBLChangesMade.Size = new System.Drawing.Size(231, 19);
             this.LBLChangesMade.TabIndex = 50;
             this.LBLChangesMade.Text = "Changes Made, Please Write Changes";
+            this.TTMain.SetToolTip(this.LBLChangesMade, "Hit the Write Drive Data Button");
             this.LBLChangesMade.Visible = false;
             // 
             // metroLabel2
@@ -969,6 +1002,7 @@
             this.metroLabel2.Size = new System.Drawing.Size(134, 19);
             this.metroLabel2.TabIndex = 49;
             this.metroLabel2.Text = "! Use Only If Trained !";
+            this.TTMain.SetToolTip(this.metroLabel2, "!Caution! This menu has powerful manual control");
             this.metroLabel2.UseCustomBackColor = true;
             // 
             // BTNDelete
@@ -981,6 +1015,7 @@
             this.BTNDelete.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNDelete.TabIndex = 48;
             this.BTNDelete.Text = "Delete Entry";
+            this.TTMain.SetToolTip(this.BTNDelete, "Delete the selected item");
             this.BTNDelete.UseSelectable = true;
             this.BTNDelete.Click += new System.EventHandler(this.BTNDelete_Click);
             // 
@@ -994,6 +1029,7 @@
             this.BTNRefreshDrives.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNRefreshDrives.TabIndex = 47;
             this.BTNRefreshDrives.Text = "Refresh";
+            this.TTMain.SetToolTip(this.BTNRefreshDrives, "Refresh Local Drives");
             this.BTNRefreshDrives.UseSelectable = true;
             this.BTNRefreshDrives.Click += new System.EventHandler(this.BTNRefreshDrives_Click);
             // 
@@ -1007,6 +1043,7 @@
             this.BTNRestore.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNRestore.TabIndex = 46;
             this.BTNRestore.Text = "Restore";
+            this.TTMain.SetToolTip(this.BTNRestore, "Restores backup from a local copy");
             this.BTNRestore.UseSelectable = true;
             this.BTNRestore.Click += new System.EventHandler(this.BTNRestore_Click);
             // 
@@ -1020,6 +1057,7 @@
             this.BTNBackup.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNBackup.TabIndex = 45;
             this.BTNBackup.Text = "Backup";
+            this.TTMain.SetToolTip(this.BTNBackup, "Backups data to a local copy");
             this.BTNBackup.UseSelectable = true;
             this.BTNBackup.Click += new System.EventHandler(this.BTNBackup_Click);
             // 
@@ -1033,6 +1071,7 @@
             this.BTNClearFile.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNClearFile.TabIndex = 44;
             this.BTNClearFile.Text = "Clear";
+            this.TTMain.SetToolTip(this.BTNClearFile, "!Caution! Deletes all data from the Local System");
             this.BTNClearFile.UseSelectable = true;
             this.BTNClearFile.Click += new System.EventHandler(this.BTNClearFile_Click);
             // 
@@ -1046,6 +1085,7 @@
             this.BTNReadDriveData.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNReadDriveData.TabIndex = 43;
             this.BTNReadDriveData.Text = "Read Drive Data";
+            this.TTMain.SetToolTip(this.BTNReadDriveData, "Updates data from the Local System");
             this.BTNReadDriveData.UseSelectable = true;
             this.BTNReadDriveData.Click += new System.EventHandler(this.BTNReadDriveData_Click);
             // 
@@ -1059,6 +1099,7 @@
             this.BTNWriteDriveData.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNWriteDriveData.TabIndex = 42;
             this.BTNWriteDriveData.Text = "Write Drive Data";
+            this.TTMain.SetToolTip(this.BTNWriteDriveData, "Saves data to the Local System");
             this.BTNWriteDriveData.UseSelectable = true;
             this.BTNWriteDriveData.Click += new System.EventHandler(this.BTNWriteDriveData_Click);
             // 
@@ -1081,6 +1122,7 @@
             this.BTNFindFolder.Size = new System.Drawing.Size(86, 31);
             this.BTNFindFolder.TabIndex = 40;
             this.BTNFindFolder.Text = "File Explorer";
+            this.TTMain.SetToolTip(this.BTNFindFolder, "Choose a folder to scan");
             this.BTNFindFolder.UseSelectable = true;
             this.BTNFindFolder.Click += new System.EventHandler(this.BTNFindFolder_Click);
             // 
@@ -1093,6 +1135,7 @@
             this.BTNLoadDriveData.Size = new System.Drawing.Size(92, 23);
             this.BTNLoadDriveData.TabIndex = 39;
             this.BTNLoadDriveData.Text = "Load Drive Data";
+            this.TTMain.SetToolTip(this.BTNLoadDriveData, "Scans the path, adding the respective item");
             this.BTNLoadDriveData.UseSelectable = true;
             this.BTNLoadDriveData.Click += new System.EventHandler(this.BTNLoadDriveData_Click);
             // 
@@ -1123,6 +1166,7 @@
             this.LBXDrives.Name = "LBXDrives";
             this.LBXDrives.Size = new System.Drawing.Size(175, 95);
             this.LBXDrives.TabIndex = 35;
+            this.TTMain.SetToolTip(this.LBXDrives, "Lists all Root Drives on the Local System");
             // 
             // LBXFileData
             // 
@@ -1133,6 +1177,7 @@
             this.LBXFileData.Name = "LBXFileData";
             this.LBXFileData.Size = new System.Drawing.Size(354, 76);
             this.LBXFileData.TabIndex = 34;
+            this.TTMain.SetToolTip(this.LBXFileData, "Metadata of the selected item");
             // 
             // TVDriveView
             // 
@@ -1143,6 +1188,7 @@
             this.TVDriveView.Name = "TVDriveView";
             this.TVDriveView.Size = new System.Drawing.Size(269, 314);
             this.TVDriveView.TabIndex = 32;
+            this.TTMain.SetToolTip(this.TVDriveView, "Shows the relation between all loaded items");
             this.TVDriveView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TVDriveView_AfterSelect);
             // 
             // TPStorageOptimization
@@ -1168,16 +1214,86 @@
             this.TPStorageOptimization.Size = new System.Drawing.Size(1004, 598);
             this.TPStorageOptimization.TabIndex = 3;
             this.TPStorageOptimization.Text = "  Storage Optimization  ";
+            this.TPStorageOptimization.ToolTipText = "Generate report for clearing drive storage safely";
+            // 
+            // LBLMegaBytes
+            // 
+            this.LBLMegaBytes.AutoSize = true;
+            this.LBLMegaBytes.Location = new System.Drawing.Point(908, 19);
+            this.LBLMegaBytes.Name = "LBLMegaBytes";
+            this.LBLMegaBytes.Size = new System.Drawing.Size(29, 19);
+            this.LBLMegaBytes.TabIndex = 13;
+            this.LBLMegaBytes.Text = "mb";
+            // 
+            // LBLMinimunSize
+            // 
+            this.LBLMinimunSize.AutoSize = true;
+            this.LBLMinimunSize.Location = new System.Drawing.Point(730, 19);
+            this.LBLMinimunSize.Name = "LBLMinimunSize";
+            this.LBLMinimunSize.Size = new System.Drawing.Size(95, 19);
+            this.LBLMinimunSize.TabIndex = 12;
+            this.LBLMinimunSize.Text = "Minimum Size:";
+            // 
+            // TXTMinimumSize
+            // 
+            // 
+            // 
+            // 
+            this.TXTMinimumSize.CustomButton.Image = null;
+            this.TXTMinimumSize.CustomButton.Location = new System.Drawing.Point(59, 1);
+            this.TXTMinimumSize.CustomButton.Name = "";
+            this.TXTMinimumSize.CustomButton.Size = new System.Drawing.Size(21, 21);
+            this.TXTMinimumSize.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.TXTMinimumSize.CustomButton.TabIndex = 1;
+            this.TXTMinimumSize.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TXTMinimumSize.CustomButton.UseSelectable = true;
+            this.TXTMinimumSize.CustomButton.Visible = false;
+            this.TXTMinimumSize.Lines = new string[] {
+        "1"};
+            this.TXTMinimumSize.Location = new System.Drawing.Point(828, 18);
+            this.TXTMinimumSize.MaxLength = 32767;
+            this.TXTMinimumSize.Name = "TXTMinimumSize";
+            this.TXTMinimumSize.PasswordChar = '\0';
+            this.TXTMinimumSize.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.TXTMinimumSize.SelectedText = "";
+            this.TXTMinimumSize.SelectionLength = 0;
+            this.TXTMinimumSize.SelectionStart = 0;
+            this.TXTMinimumSize.ShortcutsEnabled = true;
+            this.TXTMinimumSize.Size = new System.Drawing.Size(81, 23);
+            this.TXTMinimumSize.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.TXTMinimumSize.TabIndex = 11;
+            this.TXTMinimumSize.Text = "1";
+            this.TTMain.SetToolTip(this.TXTMinimumSize, "Minimum file/folder size to show");
+            this.TXTMinimumSize.UseSelectable = true;
+            this.TXTMinimumSize.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.TXTMinimumSize.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // 
+            // CBXSaveToExcel
+            // 
+            this.CBXSaveToExcel.AutoSize = true;
+            this.CBXSaveToExcel.Checked = true;
+            this.CBXSaveToExcel.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CBXSaveToExcel.Location = new System.Drawing.Point(8, 360);
+            this.CBXSaveToExcel.Name = "CBXSaveToExcel";
+            this.CBXSaveToExcel.Size = new System.Drawing.Size(133, 15);
+            this.CBXSaveToExcel.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.CBXSaveToExcel.TabIndex = 10;
+            this.CBXSaveToExcel.Text = "Save To Excel Instead";
+            this.TTMain.SetToolTip(this.CBXSaveToExcel, "(Recommended) Saves data to Excel Sheet");
+            this.CBXSaveToExcel.UseSelectable = true;
             // 
             // CBXConsolidateResults
             // 
             this.CBXConsolidateResults.AutoSize = true;
+            this.CBXConsolidateResults.Checked = true;
+            this.CBXConsolidateResults.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CBXConsolidateResults.Location = new System.Drawing.Point(8, 333);
             this.CBXConsolidateResults.Name = "CBXConsolidateResults";
             this.CBXConsolidateResults.Size = new System.Drawing.Size(126, 15);
             this.CBXConsolidateResults.Style = MetroFramework.MetroColorStyle.Magenta;
             this.CBXConsolidateResults.TabIndex = 9;
             this.CBXConsolidateResults.Text = "Consolidate Results";
+            this.TTMain.SetToolTip(this.CBXConsolidateResults, "(Recommended) Shows highest folder that can be deleted");
             this.CBXConsolidateResults.UseSelectable = true;
             // 
             // LBLOptiNumCopies
@@ -1218,6 +1334,7 @@
             this.TXTOptiNumCopies.Style = MetroFramework.MetroColorStyle.Magenta;
             this.TXTOptiNumCopies.TabIndex = 7;
             this.TXTOptiNumCopies.Text = "2";
+            this.TTMain.SetToolTip(this.TXTOptiNumCopies, "Only shows files that occur more than the # of Copies");
             this.TXTOptiNumCopies.UseSelectable = true;
             this.TXTOptiNumCopies.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTOptiNumCopies.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -1257,6 +1374,7 @@
             this.TXTOptiFilter.ShortcutsEnabled = true;
             this.TXTOptiFilter.Size = new System.Drawing.Size(297, 23);
             this.TXTOptiFilter.TabIndex = 5;
+            this.TTMain.SetToolTip(this.TXTOptiFilter, "Filter by items that contain the phrase");
             this.TXTOptiFilter.UseSelectable = true;
             this.TXTOptiFilter.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.TXTOptiFilter.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
@@ -1299,6 +1417,7 @@
             this.RBTNOptiFilesOnly.Style = MetroFramework.MetroColorStyle.Magenta;
             this.RBTNOptiFilesOnly.TabIndex = 3;
             this.RBTNOptiFilesOnly.Text = "Files Only";
+            this.TTMain.SetToolTip(this.RBTNOptiFilesOnly, "Show only Files");
             this.RBTNOptiFilesOnly.UseSelectable = true;
             // 
             // RBTNOptFoldersOnly
@@ -1310,6 +1429,7 @@
             this.RBTNOptFoldersOnly.Style = MetroFramework.MetroColorStyle.Magenta;
             this.RBTNOptFoldersOnly.TabIndex = 2;
             this.RBTNOptFoldersOnly.Text = "Folders Only";
+            this.TTMain.SetToolTip(this.RBTNOptFoldersOnly, "Show only folders");
             this.RBTNOptFoldersOnly.UseSelectable = true;
             // 
             // BTNProcessOptimization
@@ -1319,6 +1439,7 @@
             this.BTNProcessOptimization.Size = new System.Drawing.Size(118, 23);
             this.BTNProcessOptimization.TabIndex = 3;
             this.BTNProcessOptimization.Text = "Process";
+            this.TTMain.SetToolTip(this.BTNProcessOptimization, "Begin the Optimization Algorithm");
             this.BTNProcessOptimization.UseSelectable = true;
             this.BTNProcessOptimization.Click += new System.EventHandler(this.BTNProcessOptimization_Click);
             // 
@@ -1334,9 +1455,9 @@
             this.LVOptimizationResults.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.LVOptimizationResults.FullRowSelect = true;
             this.LVOptimizationResults.GridLines = true;
-            listViewItem2.StateImageIndex = 0;
+            listViewItem17.StateImageIndex = 0;
             this.LVOptimizationResults.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem17});
             this.LVOptimizationResults.Location = new System.Drawing.Point(141, 46);
             this.LVOptimizationResults.Margin = new System.Windows.Forms.Padding(2);
             this.LVOptimizationResults.Name = "LVOptimizationResults";
@@ -1389,6 +1510,7 @@
             this.LBXDrivePriority.Name = "LBXDrivePriority";
             this.LBXDrivePriority.Size = new System.Drawing.Size(119, 160);
             this.LBXDrivePriority.TabIndex = 0;
+            this.TTMain.SetToolTip(this.LBXDrivePriority, "Drag and drop drives to order (Top = Highest Priority)");
             this.LBXDrivePriority.DragDrop += new System.Windows.Forms.DragEventHandler(this.LBXDrivePriority_DragDrop);
             this.LBXDrivePriority.DragOver += new System.Windows.Forms.DragEventHandler(this.LBXDrivePriority_DragOver);
             this.LBXDrivePriority.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LBXDrivePriority_MouseDown);
@@ -1403,6 +1525,7 @@
             this.BTNScanSystem.Style = MetroFramework.MetroColorStyle.Magenta;
             this.BTNScanSystem.TabIndex = 5;
             this.BTNScanSystem.Text = "Scan System";
+            this.TTMain.SetToolTip(this.BTNScanSystem, "Scans, Loads, Updates, and Saves all Root Drives");
             this.BTNScanSystem.UseSelectable = true;
             this.BTNScanSystem.Click += new System.EventHandler(this.BTNScanSystem_Click);
             // 
@@ -1414,6 +1537,7 @@
             this.PGBarScanSystem.Size = new System.Drawing.Size(81, 19);
             this.PGBarScanSystem.Style = MetroFramework.MetroColorStyle.Magenta;
             this.PGBarScanSystem.TabIndex = 7;
+            this.TTMain.SetToolTip(this.PGBarScanSystem, "Loading In Progress. May take a few seconds");
             this.PGBarScanSystem.Visible = false;
             // 
             // LBLProgress
@@ -1462,73 +1586,90 @@
             this.LBLFormClosing.Text = "Program Closing...";
             this.LBLFormClosing.Visible = false;
             // 
-            // metroToolTip1
+            // TTMain
             // 
-            this.metroToolTip1.Style = MetroFramework.MetroColorStyle.Blue;
-            this.metroToolTip1.StyleManager = null;
-            this.metroToolTip1.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TTMain.AutoPopDelay = 10000;
+            this.TTMain.InitialDelay = 500;
+            this.TTMain.ReshowDelay = 100;
+            this.TTMain.Style = MetroFramework.MetroColorStyle.Blue;
+            this.TTMain.StyleManager = null;
+            this.TTMain.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.TTMain.Popup += new System.Windows.Forms.PopupEventHandler(this.TTMain_Popup);
             // 
-            // CBXSaveToExcel
+            // LBLUserGuide
             // 
-            this.CBXSaveToExcel.AutoSize = true;
-            this.CBXSaveToExcel.Location = new System.Drawing.Point(8, 360);
-            this.CBXSaveToExcel.Name = "CBXSaveToExcel";
-            this.CBXSaveToExcel.Size = new System.Drawing.Size(133, 15);
-            this.CBXSaveToExcel.Style = MetroFramework.MetroColorStyle.Magenta;
-            this.CBXSaveToExcel.TabIndex = 10;
-            this.CBXSaveToExcel.Text = "Save To Excel Instead";
-            this.CBXSaveToExcel.UseSelectable = true;
+            this.LBLUserGuide.AutoSize = true;
+            this.LBLUserGuide.Location = new System.Drawing.Point(13, 13);
+            this.LBLUserGuide.Name = "LBLUserGuide";
+            this.LBLUserGuide.Size = new System.Drawing.Size(155, 19);
+            this.LBLUserGuide.TabIndex = 4;
+            this.LBLUserGuide.Text = "Google Docs User Guide:";
             // 
-            // TXTMinimumSize
+            // PNLUserGuide
             // 
+            this.PNLUserGuide.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PNLUserGuide.Controls.Add(this.LNKUserGuide);
+            this.PNLUserGuide.Controls.Add(this.LBLUserGuide);
+            this.PNLUserGuide.HorizontalScrollbarBarColor = true;
+            this.PNLUserGuide.HorizontalScrollbarHighlightOnWheel = false;
+            this.PNLUserGuide.HorizontalScrollbarSize = 10;
+            this.PNLUserGuide.Location = new System.Drawing.Point(28, 159);
+            this.PNLUserGuide.Name = "PNLUserGuide";
+            this.PNLUserGuide.Size = new System.Drawing.Size(648, 101);
+            this.PNLUserGuide.TabIndex = 5;
+            this.PNLUserGuide.VerticalScrollbarBarColor = true;
+            this.PNLUserGuide.VerticalScrollbarHighlightOnWheel = false;
+            this.PNLUserGuide.VerticalScrollbarSize = 10;
             // 
+            // PNLGithub
             // 
+            this.PNLGithub.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PNLGithub.Controls.Add(this.LNKGithub);
+            this.PNLGithub.Controls.Add(this.LBLGitHub);
+            this.PNLGithub.HorizontalScrollbarBarColor = true;
+            this.PNLGithub.HorizontalScrollbarHighlightOnWheel = false;
+            this.PNLGithub.HorizontalScrollbarSize = 10;
+            this.PNLGithub.Location = new System.Drawing.Point(28, 281);
+            this.PNLGithub.Name = "PNLGithub";
+            this.PNLGithub.Size = new System.Drawing.Size(648, 100);
+            this.PNLGithub.TabIndex = 6;
+            this.PNLGithub.VerticalScrollbarBarColor = true;
+            this.PNLGithub.VerticalScrollbarHighlightOnWheel = false;
+            this.PNLGithub.VerticalScrollbarSize = 10;
             // 
-            this.TXTMinimumSize.CustomButton.Image = null;
-            this.TXTMinimumSize.CustomButton.Location = new System.Drawing.Point(59, 1);
-            this.TXTMinimumSize.CustomButton.Name = "";
-            this.TXTMinimumSize.CustomButton.Size = new System.Drawing.Size(21, 21);
-            this.TXTMinimumSize.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
-            this.TXTMinimumSize.CustomButton.TabIndex = 1;
-            this.TXTMinimumSize.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
-            this.TXTMinimumSize.CustomButton.UseSelectable = true;
-            this.TXTMinimumSize.CustomButton.Visible = false;
-            this.TXTMinimumSize.Lines = new string[] {
-        "1"};
-            this.TXTMinimumSize.Location = new System.Drawing.Point(828, 18);
-            this.TXTMinimumSize.MaxLength = 32767;
-            this.TXTMinimumSize.Name = "TXTMinimumSize";
-            this.TXTMinimumSize.PasswordChar = '\0';
-            this.TXTMinimumSize.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.TXTMinimumSize.SelectedText = "";
-            this.TXTMinimumSize.SelectionLength = 0;
-            this.TXTMinimumSize.SelectionStart = 0;
-            this.TXTMinimumSize.ShortcutsEnabled = true;
-            this.TXTMinimumSize.Size = new System.Drawing.Size(81, 23);
-            this.TXTMinimumSize.Style = MetroFramework.MetroColorStyle.Magenta;
-            this.TXTMinimumSize.TabIndex = 11;
-            this.TXTMinimumSize.Text = "1";
-            this.TXTMinimumSize.UseSelectable = true;
-            this.TXTMinimumSize.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
-            this.TXTMinimumSize.WaterMarkFont = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Pixel);
+            // LBLGitHub
             // 
-            // LBLMinimunSize
+            this.LBLGitHub.AutoSize = true;
+            this.LBLGitHub.Location = new System.Drawing.Point(21, 15);
+            this.LBLGitHub.Name = "LBLGitHub";
+            this.LBLGitHub.Size = new System.Drawing.Size(146, 19);
+            this.LBLGitHub.TabIndex = 2;
+            this.LBLGitHub.Text = "GitHub To Report Bugs:";
             // 
-            this.LBLMinimunSize.AutoSize = true;
-            this.LBLMinimunSize.Location = new System.Drawing.Point(730, 19);
-            this.LBLMinimunSize.Name = "LBLMinimunSize";
-            this.LBLMinimunSize.Size = new System.Drawing.Size(95, 19);
-            this.LBLMinimunSize.TabIndex = 12;
-            this.LBLMinimunSize.Text = "Minimum Size:";
+            // LNKUserGuide
             // 
-            // LBLMegaBytes
+            this.LNKUserGuide.AutoSize = true;
+            this.LNKUserGuide.Location = new System.Drawing.Point(10, 42);
+            this.LNKUserGuide.Name = "LNKUserGuide";
+            this.LNKUserGuide.Size = new System.Drawing.Size(531, 13);
+            this.LNKUserGuide.TabIndex = 6;
+            this.LNKUserGuide.TabStop = true;
+            this.LNKUserGuide.Text = "https://docs.google.com/document/d/1-_55qFkDXY5pfsM403MFEtjdXk6aa1vialnIvEXgIDU/e" +
+    "dit?usp=sharing";
+            this.TTMain.SetToolTip(this.LNKUserGuide, "In-Depth Guide to the Software");
+            this.LNKUserGuide.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LNKUserGuide_LinkClicked);
             // 
-            this.LBLMegaBytes.AutoSize = true;
-            this.LBLMegaBytes.Location = new System.Drawing.Point(908, 19);
-            this.LBLMegaBytes.Name = "LBLMegaBytes";
-            this.LBLMegaBytes.Size = new System.Drawing.Size(29, 19);
-            this.LBLMegaBytes.TabIndex = 13;
-            this.LBLMegaBytes.Text = "mb";
+            // LNKGithub
+            // 
+            this.LNKGithub.AutoSize = true;
+            this.LNKGithub.Location = new System.Drawing.Point(18, 46);
+            this.LNKGithub.Name = "LNKGithub";
+            this.LNKGithub.Size = new System.Drawing.Size(288, 13);
+            this.LNKGithub.TabIndex = 3;
+            this.LNKGithub.TabStop = true;
+            this.LNKGithub.Text = "https://github.com/Brett5033/BrainologyDatabaseManager";
+            this.TTMain.SetToolTip(this.LNKGithub, "Report any Bugs, Quirks, or Enhancment Ideas under issues");
+            this.LNKGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LNKGithub_LinkClicked);
             // 
             // FRMMBDatabase
             // 
@@ -1581,6 +1722,10 @@
             this.metroPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.PNLUserGuide.ResumeLayout(false);
+            this.PNLUserGuide.PerformLayout();
+            this.PNLGithub.ResumeLayout(false);
+            this.PNLGithub.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1626,7 +1771,6 @@
         private MetroFramework.Controls.MetroCheckBox CBXDrive;
         private System.Windows.Forms.CheckedListBox CLBXTags;
         private System.Windows.Forms.GroupBox GBSearchAttributes;
-        private MetroFramework.Controls.MetroCheckBox metroCheckBox1;
         private MetroFramework.Controls.MetroCheckBox CBXExactMatch;
         private System.Windows.Forms.GroupBox GBXFilter;
         private MetroFramework.Controls.MetroRadioButton RBTNTag;
@@ -1681,11 +1825,17 @@
         private MetroFramework.Controls.MetroButton BTNRemoveSelectedTags;
         private MetroFramework.Controls.MetroButton BTNDeleteTag;
         private MetroFramework.Controls.MetroLabel LBLFormClosing;
-        private MetroFramework.Components.MetroToolTip metroToolTip1;
+        private MetroFramework.Components.MetroToolTip TTMain;
         private MetroFramework.Controls.MetroCheckBox CBXConsolidateResults;
         private MetroFramework.Controls.MetroCheckBox CBXSaveToExcel;
         private MetroFramework.Controls.MetroLabel LBLMegaBytes;
         private MetroFramework.Controls.MetroLabel LBLMinimunSize;
         private MetroFramework.Controls.MetroTextBox TXTMinimumSize;
+        private MetroFramework.Controls.MetroLabel LBLUserGuide;
+        private MetroFramework.Controls.MetroPanel PNLUserGuide;
+        private MetroFramework.Controls.MetroPanel PNLGithub;
+        private MetroFramework.Controls.MetroLabel LBLGitHub;
+        private System.Windows.Forms.LinkLabel LNKGithub;
+        private System.Windows.Forms.LinkLabel LNKUserGuide;
     }
 }
