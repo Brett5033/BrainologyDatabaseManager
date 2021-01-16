@@ -254,7 +254,7 @@ namespace BrainologyDatabaseManager
                         // If drive sort active, filters subnodes by root drive node
                         driveNode.Nodes.Add(rootNode);
 
-                        rootNode.Nodes.Add(obj.getDriveObjectType() + ",  Date: " + obj.date.ToString() + ", Size: " + obj.size);
+                        rootNode.Nodes.Add(obj.getDriveObjectType() + ",  Date: " + obj.date.ToString() + ", Size: " + obj.getFormattedSize());
 
                         string existsOnDrives = "Exists on Drives: ";
                         for (int j = 0; j < Search_DisplayedObjects.Count; j++)
@@ -317,7 +317,7 @@ namespace BrainologyDatabaseManager
                     // If drive sort active, filters subnodes by root drive node
                     TVSearchView.Nodes.Add(rootNode);
 
-                    rootNode.Nodes.Add(obj.getDriveObjectType() + ",  Date: " + obj.date.ToString() + ", Size: " + obj.size);
+                    rootNode.Nodes.Add(obj.getDriveObjectType() + ",  Date: " + obj.date.ToString() + ", Size: " + obj.getFormattedSize());
 
                     string existsOnDrives = "Exists on Drives: ";
                     for (int j = 0; j < Search_DisplayedObjects.Count; j++)
