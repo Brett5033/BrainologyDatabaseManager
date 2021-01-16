@@ -184,6 +184,7 @@ namespace BrainologyDatabaseManager
                 //
                 if (Search_SearchCount == 0)
                 {
+                    TVSearchView.Nodes.Clear();
                     TVSearchView.Nodes.Add("No Items Found");
                 }
                 else
