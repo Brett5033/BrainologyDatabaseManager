@@ -170,7 +170,7 @@ namespace BrainologyDatabaseManager
                 
 
                 ReadInFilters();
-
+                Search_TotalSearches = 0;
                 List<List<DriveObject>> matchingObjects = DataManager.SearchDrives(TXTSearch.Text, ref Search_TotalSearches, Search_filterOptions);
                 Search_DisplayedObjects = matchingObjects;
 
