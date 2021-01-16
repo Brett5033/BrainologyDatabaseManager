@@ -101,7 +101,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
         private async void AsyncDownloadGoogleDrive()
         {
-            FailedConnection = false;
+            FailedConnection = true;
             do
             {
                 await Task.Run(() => DownloadGoogleDriveData());
@@ -312,13 +312,14 @@ namespace BrainologyDatabaseManager.DataAccess
             {
                 foreach (var file in files)
                 {
+                    DataManager.LogMessage("{0} ({1})", file.Name, file.Id);
                     // Download Drives.xml
                     //file.ExportLinks.Keys.
                     //OutputStream outputStream = new ByteArrayOutputStream();
                     //driveService.files().get(fileId).executeMediaAndDownloadTo(outputStream);
                     if (file.Name == "Drives.xml")
                     {
-                        DataManager.LogMessage("{0} ({1})", file.Name, file.Id);
+                        
                         PreviousMD5 = file.Md5Checksum;
                         DownloadFile(service, file, DataPath);
                         ReadXMLContents();
