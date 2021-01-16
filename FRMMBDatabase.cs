@@ -1173,9 +1173,17 @@ namespace BrainologyDatabaseManager
             string fileName = "Brainology_Database_Optimization.xls";
 
             xlWorkBook = xlApp.Workbooks.Add(misValue);
+            int driveOffset = 0;
             for(int i = 0; i < priorityList.Length; i++)
             {
-                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.Add(xlWorkBook.Worksheets[i+1], misValue, misValue, misValue);
+                if(Opti_DeletableObjects.ElementAt(i).Count == 0)
+                {
+                    // Skip Drive, increase i offset to keep Worksheets in order
+                    driveOffset++;
+                    continue;
+                }
+
+                xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets.Add(xlWorkBook.Worksheets[i+1-driveOffset], misValue, misValue, misValue);
                 xlWorkSheet.Name = DataManager.DriveData.ElementAt(priorityList[i]).name;
                 
                 xlWorkSheet.Cells[1, 1] = "Name";
