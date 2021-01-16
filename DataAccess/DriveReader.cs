@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BrainologyDatabaseManager.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,13 +17,23 @@ namespace BrainologyDatabaseManager.Common
         /// <returns></returns>
         public static DriveObject getDriveContents(string DrivePath)
         {
-            Console.WriteLine("Getting Drive Contents of " + DrivePath);
+            DataManager.LogMessage("Getting Drive Contents of " + DrivePath);
             // Form Directory Object
             DriveObject rootDrive = ConstructDriveObject(DrivePath, DriveObject.DriveObjectType.Directory);
-            Console.WriteLine("Root Drive Object made");
+            DataManager.LogMessage("Root Drive Object made");
             ProcessDirectory(rootDrive);
             return rootDrive;
-        } 
+        }
+
+        public static DriveObject getDriveContents(string DrivePath, string AltName)
+        {
+            DataManager.LogMessage("Getting Drive Contents of " + DrivePath);
+            // Form Directory Object
+            DriveObject rootDrive = ConstructDriveObject(DrivePath, DriveObject.DriveObjectType.Directory, AltName);
+            DataManager.LogMessage("Root Drive Object made");
+            ProcessDirectory(rootDrive);
+            return rootDrive;
+        }
 
         /// <summary>
         /// Recursivly searches through a given path, building nested DriveObjects for all subdirectories and files.
@@ -34,7 +45,7 @@ namespace BrainologyDatabaseManager.Common
             try
             {
                 
-                Console.WriteLine("Processing Directory of path: " + curDirectory.path);
+                DataManager.LogMessage("Processing Directory of path: " + curDirectory.path);
                 // Recurse into subdirectories of this directory.
                 string[] subdirectoryEntries = Directory.GetDirectories(curDirectory.path);
                 foreach (string subdirectory in subdirectoryEntries)
@@ -62,7 +73,7 @@ namespace BrainologyDatabaseManager.Common
             }
             catch (System.UnauthorizedAccessException e)
             {
-                Console.WriteLine(e.Message);
+                DataManager.LogMessage(e.Message);
             }
 
             return size;
@@ -75,7 +86,7 @@ namespace BrainologyDatabaseManager.Common
         /// <param name="path"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        private static DriveObject ConstructDriveObject(string path, DriveObject.DriveObjectType type)
+        private static DriveObject ConstructDriveObject(string path, DriveObject.DriveObjectType type, string altName = "")
         {
             string name;
             DateTime date;
@@ -84,7 +95,10 @@ namespace BrainologyDatabaseManager.Common
             if(type == DriveObject.DriveObjectType.Directory)
             {
                 DirectoryInfo dir = new DirectoryInfo(path);
-                name = dir.Name;
+                if (altName == "")
+                    name = dir.Name;
+                else
+                    name = altName;
                 date = dir.LastWriteTime;
                 size = 0m;
             }

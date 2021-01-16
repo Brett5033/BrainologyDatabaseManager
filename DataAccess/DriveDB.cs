@@ -395,6 +395,7 @@ namespace BrainologyDatabaseManager.DataAccess
             //serializer.Serialize(writer, obj);
             DataManager.DatabaseChanges = true;
 
+
             DataManagerWrapper dataWrapper = new DataManagerWrapper();
             dataWrapper.CacheData();
             serializer.Serialize(writer, dataWrapper);

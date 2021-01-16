@@ -1339,7 +1339,7 @@ namespace BrainologyDatabaseManager
 
 
             //PGBarScanSystem.Value = 75;
-            if (DataManager.DatabaseChanges)
+            if (DataManager.UnsavedChanges)
             {
                 driveDatabase.SerializeToXML();
                 driveDatabase.UploadGoogleDriveData(false);
@@ -1363,6 +1363,8 @@ namespace BrainologyDatabaseManager
             // so use only thread-safe code
             var SystemDrives = DriveInfo.GetDrives();
             string RootPath = Path.GetPathRoot(Environment.SystemDirectory);
+            if (SystemDrives.Length > 0)
+                DataManager.UnsavedChanges = true;
             for(int i = 0; i < SystemDrives.Length; i++)
             {
                 // TODO: More Testing required, not sure if different systems would have different C drive names
@@ -1375,13 +1377,13 @@ namespace BrainologyDatabaseManager
                 bool newDrive = true;
                 for(int j = 0; j < DataManager.DriveData.Count; j++)
                 {
-                    if(SystemDrives[i].Name == DataManager.DriveData.ElementAt(j).name)
+                    if(SystemDrives[i].Name == DataManager.DriveData.ElementAt(j).name || SystemDrives[i].VolumeLabel == DataManager.DriveData.ElementAt(j).name)
                     {
                         //Matching Drive Found in Database, Remove drive from Database
                         DataManager.DriveData.RemoveAt(j);
 
                         // Read in Data from root drive
-                        DriveObject d = DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName);
+                        DriveObject d = DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel);
                         DataManager.DriveData.Insert(j, d);
                         DataManager.ChangedObjects.Add(new DriveObject(d));
                         newDrive = false;
@@ -1391,7 +1393,7 @@ namespace BrainologyDatabaseManager
                 {
                     // Read in Data from root drive
                     DataManager.LogMessage("New Drive Found");
-                    DataManager.DriveData.Add(DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName));
+                    DataManager.DriveData.Add(DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel));
                 }
 
                 // Use progress to notify UI thread that progress has

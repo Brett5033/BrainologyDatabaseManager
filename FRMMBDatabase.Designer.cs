@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem(new string[] {
             ""}, -1, System.Drawing.Color.Empty, System.Drawing.SystemColors.Window, null);
             this.PNLSubForms = new System.Windows.Forms.Panel();
             this.MTABWindowSelector = new MetroFramework.Controls.MetroTabControl();
@@ -170,7 +170,7 @@
             this.MTABWindowSelector.Controls.Add(this.TPStorageOptimization);
             this.MTABWindowSelector.Location = new System.Drawing.Point(3, 87);
             this.MTABWindowSelector.Name = "MTABWindowSelector";
-            this.MTABWindowSelector.SelectedIndex = 0;
+            this.MTABWindowSelector.SelectedIndex = 2;
             this.MTABWindowSelector.Size = new System.Drawing.Size(1012, 608);
             this.MTABWindowSelector.Style = MetroFramework.MetroColorStyle.Magenta;
             this.MTABWindowSelector.TabIndex = 4;
@@ -1190,7 +1190,7 @@
             // BTNFindFolder
             // 
             this.BTNFindFolder.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.BTNFindFolder.Location = new System.Drawing.Point(308, 24);
+            this.BTNFindFolder.Location = new System.Drawing.Point(328, 37);
             this.BTNFindFolder.Margin = new System.Windows.Forms.Padding(2);
             this.BTNFindFolder.Name = "BTNFindFolder";
             this.BTNFindFolder.Size = new System.Drawing.Size(86, 31);
@@ -1529,9 +1529,9 @@
             this.LVOptimizationResults.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.LVOptimizationResults.FullRowSelect = true;
             this.LVOptimizationResults.GridLines = true;
-            listViewItem1.StateImageIndex = 0;
+            listViewItem2.StateImageIndex = 0;
             this.LVOptimizationResults.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
+            listViewItem2});
             this.LVOptimizationResults.Location = new System.Drawing.Point(141, 46);
             this.LVOptimizationResults.Margin = new System.Windows.Forms.Padding(2);
             this.LVOptimizationResults.Name = "LVOptimizationResults";
