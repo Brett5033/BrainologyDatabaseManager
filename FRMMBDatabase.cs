@@ -86,7 +86,7 @@ namespace BrainologyDatabaseManager
             DebugForm = new FRMDebug(this);
             HideDebug();
 
-            MTABWindowSelector.SelectTab((int)TabFormControl.Welcome);
+            //MTABWindowSelector.SelectTab((int)TabFormControl.Welcome);
         }
 
         private void MTABWindowSelector_Deselecting(object sender, TabControlCancelEventArgs e)
