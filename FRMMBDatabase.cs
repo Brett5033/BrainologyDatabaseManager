@@ -20,7 +20,7 @@ using System.Diagnostics;
 namespace BrainologyDatabaseManager
 {
     public partial class FRMMBDatabase : MetroForm
-    {  
+    {
         public enum TabFormControl
         {
             Welcome,
@@ -32,12 +32,16 @@ namespace BrainologyDatabaseManager
         // Class Variables
 
         public TabFormControl currentSubForm;
-        
+
         public DriveDB driveDatabase;
+
+        // Loading
+        private int LoadingCounter = 0;
 
         // Drive Manager
         private DriveObject DM_CurrentlySelectedObject = null;
         private DriveObject DM_ParentOfCurrent = null;
+        private bool DM_ShowSubDirectories = false;
 
         // Search Manager
         private int Search_SearchCount = 0;
@@ -50,7 +54,7 @@ namespace BrainologyDatabaseManager
 
         // Optimization Manager
         List<List<DriveObject>> Opti_DeletableObjects;
-        string ExcelPath = string.Format(@"{0}\BrainologyDatbaseExcelSaves",Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+        string ExcelPath = string.Format(@"{0}\BrainologyDatbaseExcelSaves", Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
 
         // Debug
         public bool DebugFormShowing = false;
@@ -62,7 +66,7 @@ namespace BrainologyDatabaseManager
             this.Icon = BrainologyDatabaseManager.Properties.Resources.marketingbrainologylogo_icon;
             // Load all drive data from the XML File
             driveDatabase = db;
-            
+
         }
 
         private void FRMMBDatabase_Load(object sender, EventArgs e)
@@ -72,14 +76,14 @@ namespace BrainologyDatabaseManager
 
             // Drive Manager Load
             DisplayActiveDrives();
-            displayDriveReadIn();
+            PopulateDriveView();
 
             // Search Manager Load
             Search_filterOptions = new FilterOptions();
             Search_DisplayedObjects = new List<List<DriveObject>>();
             RefreshTagList();
             RefreshPresetList();
-
+            ToggleTagMenus(false);
             // Optimization
 
             // Debug
@@ -88,6 +92,7 @@ namespace BrainologyDatabaseManager
 
             //MTABWindowSelector.SelectTab((int)TabFormControl.Welcome);
         }
+
 
         private void MTABWindowSelector_Deselecting(object sender, TabControlCancelEventArgs e)
         {
@@ -113,7 +118,7 @@ namespace BrainologyDatabaseManager
                     }
                 }
             }
-            else if(e.TabPageIndex == (int)TabFormControl.Optimization)
+            else if (e.TabPageIndex == (int)TabFormControl.Optimization)
             {
 
             }
@@ -125,23 +130,22 @@ namespace BrainologyDatabaseManager
             if (e.TabPageIndex == (int)TabFormControl.Welcome)
             {
                 currentSubForm = TabFormControl.Welcome;
-            } 
+            }
             else if (e.TabPageIndex == (int)TabFormControl.Search)
             {
                 ListActiveDrives();
-                
                 currentSubForm = TabFormControl.Search;
-            } 
-            else if(e.TabPageIndex == (int)TabFormControl.DriveLoad)
+            }
+            else if (e.TabPageIndex == (int)TabFormControl.DriveLoad)
             {
                 DisplayActiveDrives();
-                displayDriveReadIn();
+                PopulateDriveView();
                 currentSubForm = TabFormControl.DriveLoad;
             }
             else if (e.TabPageIndex == (int)TabFormControl.Optimization)
             {
                 LBXDrivePriority.Items.Clear();
-                foreach(DriveObject obj in DataManager.DriveData)
+                foreach (DriveObject obj in DataManager.DriveData)
                 {
                     LBXDrivePriority.Items.Add(obj.name);
                 }
@@ -179,14 +183,19 @@ namespace BrainologyDatabaseManager
             {
                 Search_filterOptions.DriveIndex = ComboBXDriveSelect.SelectedIndex;
             }
-
         }
 
         private void RefreshSearch()
         {
+
+        }
+
+        private async void GetSearchData()
+        {
+            LoadProgressSpinner(true);
+            await Task.Delay(1);
             if (TXTSearch.Text != "")
             {
-                
 
                 ReadInFilters();
                 Search_TotalSearches = 0;
@@ -211,8 +220,11 @@ namespace BrainologyDatabaseManager
                     RefreshSearchResults();
                 }
 
-                TXTSearchData.Text = "Found " + Search_SearchCount + " Matching Entries in " + Search_TotalSearches + " Total Searches";
+                
+                 TXTSearchData.Text = "Found " + Search_SearchCount + " Matching Entries in " + Search_TotalSearches + " Total Searches"; 
+               
             }
+            LoadProgressSpinner(false);
         }
 
         private void RefreshSearchResults()
@@ -393,8 +405,9 @@ namespace BrainologyDatabaseManager
 
         private void BTNSearch_Click(object sender, EventArgs e)
         {
-            RefreshSearch();
+            GetSearchData();
         }
+
 
         private void ListActiveDrives()
         {
@@ -446,6 +459,38 @@ namespace BrainologyDatabaseManager
                 Search_SelectedNode = Search_DisplayedObjects.ElementAt(indexes[0]).ElementAt(0);
         }
 
+        #region Tags
+
+        private void BTNShowTag_Click(object sender, EventArgs e)
+        {
+            ToggleTagMenus();
+        }
+
+        private void ToggleTagMenus(bool turnOn = true)
+        {
+            if (!turnOn || PNLTags.Visible)
+            {
+                //Turn off
+                PNLTags.Enabled = false;
+                PNLTags.Visible = false;
+                BTNShowTag.Text = "Show Tags";//950
+                SuspendLayout();
+                TVSearchView.Width = 950;
+                TVSearchView.Size = new Size(TVSearchView.Width, TVSearchView.Height);
+                ResumeLayout();
+            }
+            else
+            {
+                // Turn On
+                PNLTags.Enabled = true;
+                PNLTags.Visible = true;
+                BTNShowTag.Text = "Hide Tags";//545
+                SuspendLayout();
+                TVSearchView.Width = 545;
+                TVSearchView.Size = new Size(TVSearchView.Width, TVSearchView.Height);
+                ResumeLayout();
+            }
+        }
         /// <summary>
         /// Search Tag Registry based on search filter, displaying results to the Tag Checked-ListBox
         /// </summary>
@@ -702,7 +747,8 @@ namespace BrainologyDatabaseManager
             }
         }
 
-        
+        #endregion
+
         #endregion
 
         #region DriveManager
@@ -723,12 +769,14 @@ namespace BrainologyDatabaseManager
         {
             if (TXTDrivePath.Text != "" && Directory.Exists(TXTDrivePath.Text))
             {
-                PGBarScanSystem.Visible = true;
-                LBLProgress.Visible = true;
-                PGBarScanSystem.Value = 0;
+                //PGBarScanSystem.Visible = true;
+                //LBLProgress.Visible = true;
+                //PGBarScanSystem.Value = 0;
 
                 DriveObject d = new DriveObject();
+                LoadProgressSpinner(true);
                 await Task.Run(() => LoadNewDriveDataHelper(ref d));
+                
 
                 if (TXTNickname.Text != "")
                 {
@@ -739,9 +787,10 @@ namespace BrainologyDatabaseManager
                 displayDriveContents(DataManager.DriveData.Last(), TVDriveView.Nodes);
                 DataManager.UnsavedChanges = true;
 
-                PGBarScanSystem.Value = 100;
-                PGBarScanSystem.Visible = false;
-                LBLProgress.Visible = false;
+                //PGBarScanSystem.Value = 100;
+                //PGBarScanSystem.Visible = false;
+                //LBLProgress.Visible = false;
+                LoadProgressSpinner(false);
             }
             else if (TXTDrivePath.Text == "")
             {
@@ -768,18 +817,29 @@ namespace BrainologyDatabaseManager
         {
             TreeNode newNode = new TreeNode(currentDriveObj.name);
             nodes.Add(newNode);
-            foreach (DriveObject obj in currentDriveObj.getSubDirectories())
+            if (DM_ShowSubDirectories)
             {
-                displayDriveContents(obj, newNode.Nodes);
+                foreach (DriveObject obj in currentDriveObj.getSubDirectories())
+                {
+                    displayDriveContents(obj, newNode.Nodes);
+                }
             }
         }
 
         /// <summary>
         /// Reads in all DriveObjects stored within the DataManager List
         /// </summary>
-        public void displayDriveReadIn()
+        public async void PopulateDriveView()
         {
-            ClearTreeView();
+            LoadProgressSpinner(true);
+            await Task.Delay(10);
+            AsyncPopulateDriveView();
+            LoadProgressSpinner(false);
+        }
+
+        private void AsyncPopulateDriveView()
+        {
+           ClearTreeView();
             for (int i = 0; i < DataManager.DriveData.Count; i++)
             {
                 if (DataManager.DriveData.ElementAt(i) == null)
@@ -883,7 +943,7 @@ namespace BrainologyDatabaseManager
             {
                 driveDatabase.ClearDB();
                 DataManager.DriveData.Clear();
-                displayDriveReadIn();
+                PopulateDriveView();
             }
         }
 
@@ -897,7 +957,7 @@ namespace BrainologyDatabaseManager
             if (MessageBox.Show("Are you sure you want to restore the backup? \n(Only do this if you know what you are doing)", "Backup Data", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
                 driveDatabase.RestoreDB();
-                displayDriveReadIn();
+                PopulateDriveView();
             }
         }
 
@@ -935,7 +995,7 @@ namespace BrainologyDatabaseManager
                     if (deleted)
                     {
                         DataManager.ChangedObjects.Add(new DriveObject(DM_CurrentlySelectedObject));
-                        displayDriveReadIn();
+                        PopulateDriveView();
                         MessageBox.Show("Entry Removed Successfully", "Delete Entry");
                         DataManager.UnsavedChanges = true;
                         LBLChangesMade.Enabled = true;
@@ -954,15 +1014,34 @@ namespace BrainologyDatabaseManager
 
         }
 
-        private void BTNUploadXML_Click(object sender, EventArgs e)
+        private void BTNShowSubs_Click(object sender, EventArgs e)
         {
-            driveDatabase.UploadGoogleDriveData(true);
+            if (DM_ShowSubDirectories)
+            {
+                DM_ShowSubDirectories = false;
+                BTNShowSubs.Text = "Hide Sub Directories";
+            }
+            else
+            {
+                DM_ShowSubDirectories = true;
+                BTNShowSubs.Text = "Show Sub Directories";
+            }
+            PopulateDriveView();
         }
 
-        private void BTNDownloadXML_Click(object sender, EventArgs e)
+        private async void BTNUploadXML_Click(object sender, EventArgs e)
         {
-            driveDatabase.DownloadGoogleDriveData();
-            displayDriveReadIn();
+            LoadProgressSpinner(true);
+            await Task.Run(() => driveDatabase.UploadGoogleDriveData(true));
+            LoadProgressSpinner(true);
+        }
+
+        private async void BTNDownloadXML_Click(object sender, EventArgs e)
+        {
+            LoadProgressSpinner(true);
+            await Task.Run(() => driveDatabase.DownloadGoogleDriveData());
+            LoadProgressSpinner(false);
+            PopulateDriveView();
         }
         #endregion
 
@@ -1007,7 +1086,7 @@ namespace BrainologyDatabaseManager
             return sortedArray;
         }
 
-        private void ProcessOptimization()
+        private async void ProcessOptimization()
         {
             if (TXTOptiNumCopies.Text == "" || !Int32.TryParse(TXTOptiNumCopies.Text, out int copiesAllowed))
             {
@@ -1030,86 +1109,103 @@ namespace BrainologyDatabaseManager
                 FilterOptions filterOptions = new FilterOptions();
                 filterOptions.AlphaSort = true;
                 int count = 0;
-                List<List<DriveObject>> FilteredList = DataManager.SearchDrives(TXTOptiFilter.Text, ref count, filterOptions);
-                List<List<DriveObject>> PriorityList = new List<List<DriveObject>>();
-                // Sort results according to drive priority
-                for (int i = 0; i < FilteredList.Count; i++)
-                {
-                    PriorityList.Add(FilteredList.ElementAt(sortedDrivePriority[i]));
-                }
+                string searchTerm = TXTOptiFilter.Text;
 
-                // We have a 2d list of all matching DriveObjects
+                List<List<DriveObject>> Temp_DeletableObjects = new List<List<DriveObject>>();
+                // Start Thread
+                LoadProgressSpinner(true);
+                await Task.Run(() => ProcessOptimizationAsync(Temp_DeletableObjects, copiesAllowed, minimumSize, sortedDrivePriority, Both, FoldersOnly, FilesOnly, filterOptions, count, searchTerm));
+                LoadProgressSpinner(false);
 
-                var dictionary = new Dictionary<DriveObject, int>();
-                Opti_DeletableObjects = new List<List<DriveObject>>();
-
-                for (int i = 0; i < PriorityList.Count; i++)
-                {
-                    Opti_DeletableObjects.Add(new List<DriveObject>());
-                    foreach (DriveObject obj in PriorityList.ElementAt(i))
-                    {
-                        // Check Filters
-                        if (Both || FoldersOnly && obj.driveObjectType == DriveObject.DriveObjectType.Directory || FilesOnly && obj.driveObjectType == DriveObject.DriveObjectType.File)
-                        {
-                            if (dictionary.ContainsKey(obj))
-                            {
-                                // At least 1 copy has been found
-                                // Add to count value, if above copies allowed
-                                int copies = 0;
-                                if (dictionary.TryGetValue(obj, out copies))
-                                {
-                                    // Increments the map count (ie. adding itself)
-                                    copies++;
-                                    if (copies > copiesAllowed)
-                                    {
-                                        // Found a duplicate that can be deleted
-                                        Opti_DeletableObjects.ElementAt(i).Add(obj);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                // Object is not present, add to list
-                                dictionary.Add(obj, 1);
-                            }
-                        }
-                    }
-                }
-                if (CBXConsolidateResults.Checked)
-                    ConsolidateResults();
+                Opti_DeletableObjects = Temp_DeletableObjects;
+                // End Thread
                 if (!CBXSaveToExcel.Checked)
                     DisplayOptimizationList(sortedDrivePriority, minimumSize);
                 else
                     WriteExcelSheet(sortedDrivePriority, minimumSize);
             }
         }
-        private void BTNProcessOptimization_Click(object sender, EventArgs e)
+
+        private void ProcessOptimizationAsync(List<List<DriveObject>> Temp_DeletableObjects, int copiesAllowed, decimal minimumSize ,int[] sortedDrivePriority,bool Both, bool FoldersOnly, bool FilesOnly, FilterOptions filterOptions, int count, string searchTerm)
         {
+            List<List<DriveObject>> FilteredList = DataManager.SearchDrives(searchTerm, ref count, filterOptions);
+            List<List<DriveObject>> PriorityList = new List<List<DriveObject>>();
+            // Sort results according to drive priority
+            for (int i = 0; i < FilteredList.Count; i++)
+            {
+                PriorityList.Add(FilteredList.ElementAt(sortedDrivePriority[i]));
+            }
+
+            // We have a 2d list of all matching DriveObjects
+
+            var dictionary = new Dictionary<DriveObject, int>();
+            
+            for (int i = 0; i < PriorityList.Count; i++)
+            {
+                Temp_DeletableObjects.Add(new List<DriveObject>());
+                foreach (DriveObject obj in PriorityList.ElementAt(i))
+                {
+                    // Check Filters
+                    if (Both || FoldersOnly && obj.driveObjectType == DriveObject.DriveObjectType.Directory || FilesOnly && obj.driveObjectType == DriveObject.DriveObjectType.File)
+                    {
+                        if (dictionary.ContainsKey(obj))
+                        {
+                            // At least 1 copy has been found
+                            // Add to count value, if above copies allowed
+                            int copies = 0;
+                            if (dictionary.TryGetValue(obj, out copies))
+                            {
+                                // Increments the map count (ie. adding itself)
+                                copies++;
+                                if (copies > copiesAllowed)
+                                {
+                                    // Found a duplicate that can be deleted
+                                    Temp_DeletableObjects.ElementAt(i).Add(obj);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // Object is not present, add to list
+                            dictionary.Add(obj, 1);
+                        }
+                    }
+                }
+            }
+            if (CBXConsolidateResults.Checked)
+                ConsolidateResults(Temp_DeletableObjects);
+        }
+
+        private async void BTNProcessOptimization_Click(object sender, EventArgs e)
+        {
+            LoadProgressSpinner(true);
+            await Task.Delay(10);
             ProcessOptimization();
+            LoadProgressSpinner(false);
         }
 
         /// <summary>
         /// Minimizes the list of Deletable DriveObjects by removing child Objects whose parent and siblings are also deletable
         /// </summary>
-        private void ConsolidateResults()
+        private void ConsolidateResults(List<List<DriveObject>> Temp_DeletableObjects)
         {
             for(int i = 0; i < DataManager.DriveData.Count; i++)
             {
-                DataManager.LogMessage(string.Format("{0} deletable objects in {1} before Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
-                ConsolidateHelper(i, DataManager.DriveData.ElementAt(i), false);
-                DataManager.LogMessage(string.Format("{0} deletable objects in {1} after Consolidation", Opti_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
+                DataManager.LogMessage(string.Format("{0} deletable objects in {1} before Consolidation", Temp_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
+                ConsolidateHelper(Temp_DeletableObjects,i, DataManager.DriveData.ElementAt(i), false);
+                DataManager.LogMessage(string.Format("{0} deletable objects in {1} after Consolidation", Temp_DeletableObjects.ElementAt(i).Count, DataManager.DriveData.ElementAt(i).name));
                 // A root node should never be removed cause yeah
             }
         }
 
-        private bool ConsolidateHelper(int listIndex, DriveObject currObj, bool IntentToRemove)
+        private bool ConsolidateHelper(List<List<DriveObject>> Temp_DeletableObjects, int listIndex, DriveObject currObj, bool IntentToRemove)
         {
             if (!IntentToRemove) // First Pass, looking to see if children match
             {
                 bool AllChildrenAreRedundant = true;
                 for (int i = 0; i < currObj.getSubDirectories().Count; i++)
                 {
-                    if (!ConsolidateHelper(listIndex, currObj.getSubDirectory(i), false))
+                    if (!ConsolidateHelper(Temp_DeletableObjects, listIndex, currObj.getSubDirectory(i), false))
                     {
                         // A single child is not deletable, the whole root folder should not be deleted
                         AllChildrenAreRedundant = false;
@@ -1120,23 +1216,23 @@ namespace BrainologyDatabaseManager
                     // All children should be removed from the deletable list
                     for (int i = 0; i < currObj.getSubDirectories().Count; i++)
                     {
-                        ConsolidateHelper(listIndex, currObj.getSubDirectory(i), true);
+                        ConsolidateHelper(Temp_DeletableObjects, listIndex, currObj.getSubDirectory(i), true);
                     }
                 }
                 // True only if itself and all its children are deletable
-                return DriveObjectIsDeletable(currObj) && AllChildrenAreRedundant;
+                return DriveObjectIsDeletable(Temp_DeletableObjects , currObj) && AllChildrenAreRedundant;
             }
             else
             {
                 // I think this doesnt not have to traverse down as each parent should only have to look at its children nodes
-                return Opti_DeletableObjects.ElementAt(listIndex).Remove(currObj);
+                return Temp_DeletableObjects.ElementAt(listIndex).Remove(currObj);
             }
 
         }
 
-        private bool DriveObjectIsDeletable(DriveObject obj)
+        private bool DriveObjectIsDeletable(List<List<DriveObject>> Temp_DeletableObjects , DriveObject obj)
         {
-            foreach(List<DriveObject> list in Opti_DeletableObjects)
+            foreach(List<DriveObject> list in Temp_DeletableObjects)
             {
                 if (list.Contains(obj))
                     return true;
@@ -1241,14 +1337,17 @@ namespace BrainologyDatabaseManager
             {
                 DataManager.LogMessage("Directory Exists");
                 xlWorkBook.SaveAs(string.Format(@"{0}\.{1}", ExcelPath, fileName), Excel.XlFileFormat.xlWorkbookNormal, misValue, misValue, misValue, misValue, Excel.XlSaveAsAccessMode.xlExclusive, misValue, misValue, misValue, misValue, misValue);
+                DataManager.LogMessage("Saving Complete");
             }
             else
             {
                 DataManager.LogMessage("Directory Not Found");
             }
+            DataManager.LogMessage("Closing Book");
             xlWorkBook.Close(true, misValue, misValue);
             xlApp.Quit();
 
+            DataManager.LogMessage("Marshal releasing");
             Marshal.ReleaseComObject(xlWorkSheet);
             Marshal.ReleaseComObject(xlWorkBook);
             Marshal.ReleaseComObject(xlApp);
@@ -1289,7 +1388,7 @@ namespace BrainologyDatabaseManager
             {
                 if(currentSubForm == TabFormControl.Search)
                 {
-                    RefreshSearch();
+                    GetSearchData();
                 }
                 else if(currentSubForm == TabFormControl.DriveLoad)
                 {
@@ -1319,44 +1418,67 @@ namespace BrainologyDatabaseManager
             }
         }
 
+        public void LoadProgressSpinner(bool enable, string message = "Loading...")
+        {
+            // Adds 1 to the counter if enabled, subtracts 1 if not
+            if (enable)
+            {
+                LoadingCounter++;
+            }
+            else
+            {
+                LoadingCounter--;
+            }
+
+            // Always can change the text
+            LBLProgressSpinner.Text = message;
+            // If some method is still loading, keep the spinner running
+            // Prevents the stopping and starting of the spinner
+            if (!enable && LoadingCounter > 0)
+                return;
+
+            PBXLoadingLogo.Enabled = enable;
+            PBXLoadingLogo.Visible = enable;
+
+            LBLProgressSpinner.Enabled = enable;
+            LBLProgressSpinner.Visible = enable;
+
+        }
+
         private async void BTNScanSystem_Click(object sender, EventArgs e)
         {
             DataManager.LogMessage("Starting System Scan");
-            PGBarScanSystem.Visible = true;
-            LBLProgress.Visible = true;
-            //this.Enabled = false;
-            PGBarScanSystem.Value = 0;
-            var progress = new Progress<int>(v =>
-            {
-                // This lambda is executed in context of UI thread,
-                // so it can safely update form controls
-                PGBarScanSystem.Value = v;
-            });
+
 
             // Run operation in another thread
+            LoadProgressSpinner(true);
 
-            await Task.Run(() => ScanSystem(progress));
+            await Task.Run(() => ScanSystem());
+            DataManager.LogMessage("Scan System Complete");
 
-
-            //PGBarScanSystem.Value = 75;
             if (DataManager.UnsavedChanges)
             {
-                driveDatabase.SerializeToXML();
-                driveDatabase.UploadGoogleDriveData(false);
+                await Task.Run(() => SaveAndUpload());
             }
             //await Task.Run(() => driveDatabase.SerializeDrives());
-            
+            LoadProgressSpinner(false);
             // Drive Manager Load
             DisplayActiveDrives();
-            displayDriveReadIn();
+            PopulateDriveView();
 
-            PGBarScanSystem.Value = 100;
-            PGBarScanSystem.Visible = false;
             LBLProgress.Visible = false;
             this.Enabled = true;
         }
 
-        public void ScanSystem(IProgress<int> progress)
+        private void SaveAndUpload()
+        {
+            DataManager.LogMessage("Scan: Save to XML");
+            driveDatabase.SerializeToXML();
+            DataManager.LogMessage("Scan: Upload to Drive");
+            driveDatabase.UploadGoogleDriveData(false);
+        }
+
+        public void ScanSystem()
         {
             // This method is executed in the context of
             // another thread (different than the main UI thread),
@@ -1395,11 +1517,6 @@ namespace BrainologyDatabaseManager
                     DataManager.LogMessage("New Drive Found");
                     DataManager.DriveData.Add(DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel));
                 }
-
-                // Use progress to notify UI thread that progress has
-                // changed
-                if (progress != null)
-                    progress.Report((i * (int)(50/SystemDrives.Length)));
             }
             
         }
@@ -1413,12 +1530,13 @@ namespace BrainologyDatabaseManager
                 e.Cancel = true;
                 try
                 {
-                    LBLFormClosing.Visible = true;
+                    LoadProgressSpinner(true);
+
                     await Task.Run(() => ClosingFormHelper());
                 }
                 finally
                 {
-                    LBLFormClosing.Visible = false;
+                    LoadProgressSpinner(false);
                 }
 
                 DataManager.LogMessage("Form Closing");
@@ -1441,5 +1559,6 @@ namespace BrainologyDatabaseManager
 
         }
 
+        
     }
 }

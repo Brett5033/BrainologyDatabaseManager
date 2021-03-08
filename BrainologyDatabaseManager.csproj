@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.15.%2a</ApplicationVersion>
+    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -112,6 +112,12 @@
     <Compile Include="DataAccess\DriveDB.cs" />
     <Compile Include="DataAccess\DriveReader.cs" />
     <Compile Include="DataAccess\DataManager.cs" />
+    <Compile Include="FRMProgressSpinner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FRMProgressSpinner.Designer.cs">
+      <DependentUpon>FRMProgressSpinner.cs</DependentUpon>
+    </Compile>
     <Compile Include="FRMDebug.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FRMMBDatabase.resx">
       <DependentUpon>FRMMBDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FRMProgressSpinner.resx">
+      <DependentUpon>FRMProgressSpinner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
