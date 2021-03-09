@@ -85,6 +85,7 @@
             this.RBTNName = new MetroFramework.Controls.MetroRadioButton();
             this.TVSearchView = new System.Windows.Forms.TreeView();
             this.TPDriveManager = new System.Windows.Forms.TabPage();
+            this.BTNShowSubs = new MetroFramework.Controls.MetroButton();
             this.BTNUploadXML = new MetroFramework.Controls.MetroButton();
             this.BTNDownloadXML = new MetroFramework.Controls.MetroButton();
             this.TXTDrivePath = new MetroFramework.Controls.MetroTextBox();
@@ -139,7 +140,6 @@
             this.LBLUserLog = new MetroFramework.Controls.MetroLabel();
             this.LBLProgressSpinner = new MetroFramework.Controls.MetroLabel();
             this.PBXLoadingLogo = new System.Windows.Forms.PictureBox();
-            this.BTNShowSubs = new MetroFramework.Controls.MetroButton();
             this.MTABWindowSelector.SuspendLayout();
             this.TPWelcome.SuspendLayout();
             this.PNLGithub.SuspendLayout();
@@ -177,7 +177,7 @@
             this.MTABWindowSelector.Controls.Add(this.TPStorageOptimization);
             this.MTABWindowSelector.Location = new System.Drawing.Point(3, 87);
             this.MTABWindowSelector.Name = "MTABWindowSelector";
-            this.MTABWindowSelector.SelectedIndex = 2;
+            this.MTABWindowSelector.SelectedIndex = 1;
             this.MTABWindowSelector.Size = new System.Drawing.Size(1012, 608);
             this.MTABWindowSelector.Style = MetroFramework.MetroColorStyle.Magenta;
             this.MTABWindowSelector.TabIndex = 4;
@@ -743,7 +743,6 @@
             this.CBXSpecifyDrive.Text = "Specify Drives:";
             this.TTMain.SetToolTip(this.CBXSpecifyDrive, "Limits search to a specific drive");
             this.CBXSpecifyDrive.UseSelectable = true;
-            this.CBXSpecifyDrive.CheckedChanged += new System.EventHandler(this.CBXSpecifyDrive_CheckedChanged);
             // 
             // LBLDriveSelect
             // 
@@ -986,6 +985,20 @@
             this.TPDriveManager.TabIndex = 2;
             this.TPDriveManager.Text = "  Drive Manager  ";
             this.TPDriveManager.ToolTipText = "Manually edit data and view data layout";
+            // 
+            // BTNShowSubs
+            // 
+            this.BTNShowSubs.FontWeight = MetroFramework.MetroButtonWeight.Regular;
+            this.BTNShowSubs.Location = new System.Drawing.Point(19, 438);
+            this.BTNShowSubs.Margin = new System.Windows.Forms.Padding(2);
+            this.BTNShowSubs.Name = "BTNShowSubs";
+            this.BTNShowSubs.Size = new System.Drawing.Size(132, 24);
+            this.BTNShowSubs.Style = MetroFramework.MetroColorStyle.Magenta;
+            this.BTNShowSubs.TabIndex = 56;
+            this.BTNShowSubs.Text = "Show Sub Directories";
+            this.TTMain.SetToolTip(this.BTNShowSubs, "Shows/Hides all sub folders/files");
+            this.BTNShowSubs.UseSelectable = true;
+            this.BTNShowSubs.Click += new System.EventHandler(this.BTNShowSubs_Click);
             // 
             // BTNUploadXML
             // 
@@ -1732,20 +1745,6 @@
             this.PBXLoadingLogo.TabIndex = 19;
             this.PBXLoadingLogo.TabStop = false;
             this.PBXLoadingLogo.Visible = false;
-            // 
-            // BTNShowSubs
-            // 
-            this.BTNShowSubs.FontWeight = MetroFramework.MetroButtonWeight.Regular;
-            this.BTNShowSubs.Location = new System.Drawing.Point(19, 438);
-            this.BTNShowSubs.Margin = new System.Windows.Forms.Padding(2);
-            this.BTNShowSubs.Name = "BTNShowSubs";
-            this.BTNShowSubs.Size = new System.Drawing.Size(132, 24);
-            this.BTNShowSubs.Style = MetroFramework.MetroColorStyle.Magenta;
-            this.BTNShowSubs.TabIndex = 56;
-            this.BTNShowSubs.Text = "Show Sub Directories";
-            this.TTMain.SetToolTip(this.BTNShowSubs, "Shows/Hides all sub folders/files");
-            this.BTNShowSubs.UseSelectable = true;
-            this.BTNShowSubs.Click += new System.EventHandler(this.BTNShowSubs_Click);
             // 
             // FRMMBDatabase
             // 

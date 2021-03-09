@@ -20,6 +20,7 @@ namespace BrainologyDatabaseManager.DataAccess
 
         public static List<TagPreset> RegisteredPresets = new List<TagPreset>();
 
+
         /// <summary>
         /// True when new files have been manually added but not written to XML file.
         /// </summary>

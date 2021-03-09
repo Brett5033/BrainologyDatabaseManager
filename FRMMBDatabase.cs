@@ -241,7 +241,11 @@ namespace BrainologyDatabaseManager
                         continue;
                     }*/
 
-                    TreeNode driveNode = new TreeNode(DataManager.DriveData.ElementAt(i).name);
+                    TreeNode driveNode;
+                    if(Search_filterOptions.SpecifyDrives)
+                        driveNode = new TreeNode(DataManager.DriveData.ElementAt(Search_filterOptions.DriveIndex).name);
+                    else
+                        driveNode = new TreeNode(DataManager.DriveData.ElementAt(i).name);
 
                     TVSearchView.Nodes.Add(driveNode);
 
@@ -416,11 +420,6 @@ namespace BrainologyDatabaseManager
             {
                 ComboBXDriveSelect.Items.Add(obj.name);
             }
-        }
-        private void CBXSpecifyDrive_CheckedChanged(object sender, EventArgs e)
-        {
-            ComboBXDriveSelect.Enabled = CBXSpecifyDrive.Checked;
-            Search_filterOptions.SpecifyDrives = CBXSpecifyDrive.Checked;
         }
 
         private void TVSearchView_AfterSelect(object sender, TreeViewEventArgs e)
@@ -1033,7 +1032,7 @@ namespace BrainologyDatabaseManager
         {
             LoadProgressSpinner(true);
             await Task.Run(() => driveDatabase.UploadGoogleDriveData(true));
-            LoadProgressSpinner(true);
+            LoadProgressSpinner(false);
         }
 
         private async void BTNDownloadXML_Click(object sender, EventArgs e)
