@@ -13,12 +13,27 @@ namespace BrainologyDatabaseManager
 {
     public partial class FRMDebug : MetroFramework.Forms.MetroForm
     {
-
+        Timer timer;
         FRMMBDatabase MainForm;
         public FRMDebug(FRMMBDatabase MainForm)
         {
             this.MainForm = MainForm;
             InitializeComponent();
+        }
+
+        private void FRMDebug_Load(object sender, EventArgs e)
+        {
+            timer = new Timer();
+            timer.Tick += new EventHandler(TimerEvent);
+            DisplayDebugMessages();
+            timer.Interval = 1000;
+            timer.Start();
+        }
+
+        private void TimerEvent(object myObject,EventArgs myEventArgs)
+        {
+            // Timer ticked, try to grab new Messages
+            DisplayDebugMessages();
         }
 
         private void DisplayDebugMessages()
@@ -40,19 +55,10 @@ namespace BrainologyDatabaseManager
             LBXDebugLog.Items.Clear();
         }
 
-        private void FRMDebug_Enter(object sender, EventArgs e)
-        {
-            DisplayDebugMessages();
-        }
-
         private void FRMDebug_FormClosing(object sender, FormClosingEventArgs e)
         {
+            timer.Stop();
             MainForm.DebugFormShowing = false;
-        }
-
-        private void FRMDebug_MouseEnter(object sender, EventArgs e)
-        {
-            DisplayDebugMessages();
         }
     }
 }

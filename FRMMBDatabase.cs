@@ -29,7 +29,7 @@ namespace BrainologyDatabaseManager
             Optimization
         }
 
-        // Class Variables
+        #region ClassVariables
 
         public TabFormControl currentSubForm;
 
@@ -37,6 +37,7 @@ namespace BrainologyDatabaseManager
 
         // Loading
         private int LoadingCounter = 0;
+        private Stack<string> LoadingMessages = new Stack<string>();
 
         // Drive Manager
         private DriveObject DM_CurrentlySelectedObject = null;
@@ -60,6 +61,8 @@ namespace BrainologyDatabaseManager
         public bool DebugFormShowing = false;
         FRMDebug DebugForm;
 
+        #endregion
+
         public FRMMBDatabase(DriveDB db)
         {
             InitializeComponent();
@@ -69,6 +72,7 @@ namespace BrainologyDatabaseManager
 
         }
 
+        #region Tabs
         private void FRMMBDatabase_Load(object sender, EventArgs e)
         {
             driveDatabase.ReadXMLContents();
@@ -96,6 +100,12 @@ namespace BrainologyDatabaseManager
 
         private void MTABWindowSelector_Deselecting(object sender, TabControlCancelEventArgs e)
         {
+            // Dont allow moving tabs if loading is still in progress
+            if(LoadingCounter > 0)
+            {
+                e.Cancel = true;
+            }
+
             // Check for any saves that need to be made
             if (e.TabPageIndex == (int)TabFormControl.Welcome)
             {
@@ -151,6 +161,7 @@ namespace BrainologyDatabaseManager
                 }
             }
         }
+        #endregion
 
         #region Welcome
         private void LNKUserGuide_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1381,6 +1392,95 @@ namespace BrainologyDatabaseManager
         
         #endregion
 
+        #region Scan
+        private async void BTNScanSystem_Click(object sender, EventArgs e)
+        {
+            DataManager.LogMessage("Starting System Scan");
+
+
+            // Run operation in another thread
+            LoadProgressSpinner(true,"Scanning System");
+
+            await Task.Run(() => ScanSystem());
+            DataManager.LogMessage("Scan System Complete");
+
+            if (DataManager.UnsavedChanges)
+            {
+                LoadProgressSpinner(true, "Saving Data");
+                await Task.Run(() => driveDatabase.SerializeToXML());
+                LoadProgressSpinner(true, "Uploading Data");
+                await Task.Run(() => driveDatabase.UploadGoogleDriveData(false));
+                DataManager.LogMessage("Data saved and uploaded");
+            }
+            //await Task.Run(() => driveDatabase.SerializeDrives());
+            
+            // Drive Manager Load
+            DisplayActiveDrives();
+            PopulateDriveView();
+
+            // Prob a better way to do this but clears the loading stack 
+            LoadProgressSpinner(false);
+            LoadProgressSpinner(false);
+            LoadProgressSpinner(false);
+
+            //LBLProgress.Visible = false;
+            //this.Enabled = true;
+        }
+
+        public void ScanSystem()
+        {
+            // This method is executed in the context of
+            // another thread (different than the main UI thread),
+            // so use only thread-safe code
+            var SystemDrives = DriveInfo.GetDrives();
+            string RootPath = Path.GetPathRoot(Environment.SystemDirectory);
+            for(int i = 0; i < SystemDrives.Length; i++)
+            {
+                // TODO: More Testing required, not sure if different systems would have different C drive names
+                if (SystemDrives[i].RootDirectory.FullName == RootPath)
+                {
+                    DataManager.LogMessage(SystemDrives[i].Name + " is Root Directory, Pass");
+                    continue;
+                }
+
+                // A new/changed non-root drive has been found
+                DataManager.UnsavedChanges = true;
+
+                /*DataManager.DriveData.Add(d);
+                DataManager.ChangedObjects.Add(new DriveObject(d));
+                displayDriveContents(DataManager.DriveData.Last(), TVDriveView.Nodes);
+                DataManager.UnsavedChanges = true;*/
+
+                // Clear matching drives from the data set
+                bool newDrive = true;
+                for(int j = 0; j < DataManager.DriveData.Count; j++)
+                {
+                    if(SystemDrives[i].Name == DataManager.DriveData.ElementAt(j).name || SystemDrives[i].VolumeLabel == DataManager.DriveData.ElementAt(j).name)
+                    {
+                        //Matching Drive Found in Database, Remove drive from Database
+                        DataManager.DriveData.RemoveAt(j);
+
+                        // Read in Data from root drive
+                        DriveObject d = DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel);
+                        DataManager.DriveData.Insert(j, d);
+                        DataManager.ChangedObjects.Add(new DriveObject(d));
+                        newDrive = false;
+                    }
+                }
+                if (newDrive)
+                {
+                    // Read in Data from root drive
+                    DataManager.LogMessage("New Drive Found");
+                    DriveObject d = DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel);
+                    DataManager.DriveData.Add(d);
+                    DataManager.ChangedObjects.Add(d);
+                }
+            }
+            
+        }
+        #endregion
+
+        #region GeneralForm
         private void FRMMBDatabase_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Control && e.KeyCode == Keys.Enter)
@@ -1423,18 +1523,26 @@ namespace BrainologyDatabaseManager
             if (enable)
             {
                 LoadingCounter++;
+                LoadingMessages.Push(message);
             }
             else
             {
                 LoadingCounter--;
+                if(LoadingMessages.Count > 0)
+                    LoadingMessages.Pop();
             }
 
-            // Always can change the text
-            LBLProgressSpinner.Text = message;
+            if (LoadingMessages.Count > 0) // Messages still in stack
+            {
+                LBLProgressSpinner.Text = LoadingMessages.Peek();
+            }
             // If some method is still loading, keep the spinner running
             // Prevents the stopping and starting of the spinner
             if (!enable && LoadingCounter > 0)
+            {
                 return;
+            }
+                
 
             PBXLoadingLogo.Enabled = enable;
             PBXLoadingLogo.Visible = enable;
@@ -1444,81 +1552,6 @@ namespace BrainologyDatabaseManager
 
         }
 
-        private async void BTNScanSystem_Click(object sender, EventArgs e)
-        {
-            DataManager.LogMessage("Starting System Scan");
-
-
-            // Run operation in another thread
-            LoadProgressSpinner(true);
-
-            await Task.Run(() => ScanSystem());
-            DataManager.LogMessage("Scan System Complete");
-
-            if (DataManager.UnsavedChanges)
-            {
-                await Task.Run(() => SaveAndUpload());
-            }
-            //await Task.Run(() => driveDatabase.SerializeDrives());
-            LoadProgressSpinner(false);
-            // Drive Manager Load
-            DisplayActiveDrives();
-            PopulateDriveView();
-
-            LBLProgress.Visible = false;
-            this.Enabled = true;
-        }
-
-        private void SaveAndUpload()
-        {
-            DataManager.LogMessage("Scan: Save to XML");
-            driveDatabase.SerializeToXML();
-            DataManager.LogMessage("Scan: Upload to Drive");
-            driveDatabase.UploadGoogleDriveData(false);
-        }
-
-        public void ScanSystem()
-        {
-            // This method is executed in the context of
-            // another thread (different than the main UI thread),
-            // so use only thread-safe code
-            var SystemDrives = DriveInfo.GetDrives();
-            string RootPath = Path.GetPathRoot(Environment.SystemDirectory);
-            if (SystemDrives.Length > 0)
-                DataManager.UnsavedChanges = true;
-            for(int i = 0; i < SystemDrives.Length; i++)
-            {
-                // TODO: More Testing required, not sure if different systems would have different C drive names
-                if (SystemDrives[i].RootDirectory.FullName == RootPath)
-                {
-                    DataManager.LogMessage(SystemDrives[i].Name + " is Root Directory, Pass");
-                    continue;
-                }
-                // Clear matching drives from the data set
-                bool newDrive = true;
-                for(int j = 0; j < DataManager.DriveData.Count; j++)
-                {
-                    if(SystemDrives[i].Name == DataManager.DriveData.ElementAt(j).name || SystemDrives[i].VolumeLabel == DataManager.DriveData.ElementAt(j).name)
-                    {
-                        //Matching Drive Found in Database, Remove drive from Database
-                        DataManager.DriveData.RemoveAt(j);
-
-                        // Read in Data from root drive
-                        DriveObject d = DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel);
-                        DataManager.DriveData.Insert(j, d);
-                        DataManager.ChangedObjects.Add(new DriveObject(d));
-                        newDrive = false;
-                    }
-                }
-                if (newDrive)
-                {
-                    // Read in Data from root drive
-                    DataManager.LogMessage("New Drive Found");
-                    DataManager.DriveData.Add(DriveReader.getDriveContents(SystemDrives.ElementAt(i).RootDirectory.FullName, SystemDrives.ElementAt(i).VolumeLabel));
-                }
-            }
-            
-        }
 
         private bool asyncShouldClose = false;
         private async void FRMMBDatabase_FormClosing(object sender, FormClosingEventArgs e)
@@ -1552,12 +1585,7 @@ namespace BrainologyDatabaseManager
             if (DataManager.DatabaseChanges)
                 driveDatabase.UploadGoogleDriveData(false);
         }
+        #endregion
 
-        private void TTMain_Popup(object sender, PopupEventArgs e)
-        {
-
-        }
-
-        
     }
 }

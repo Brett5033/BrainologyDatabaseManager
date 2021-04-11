@@ -394,7 +394,7 @@ namespace BrainologyDatabaseManager.DataAccess
             //foreach(DriveObject obj in DataManager.DriveData)
             //serializer.Serialize(writer, obj);
             DataManager.DatabaseChanges = true;
-
+            DataManager.UnsavedChanges = false;
 
             DataManagerWrapper dataWrapper = new DataManagerWrapper();
             dataWrapper.CacheData();

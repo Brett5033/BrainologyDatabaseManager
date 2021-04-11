@@ -35,9 +35,10 @@ namespace BrainologyDatabaseManager
             // 
             // BTNClearDebug
             // 
-            this.BTNClearDebug.Location = new System.Drawing.Point(192, 23);
+            this.BTNClearDebug.Location = new System.Drawing.Point(256, 28);
+            this.BTNClearDebug.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.BTNClearDebug.Name = "BTNClearDebug";
-            this.BTNClearDebug.Size = new System.Drawing.Size(75, 25);
+            this.BTNClearDebug.Size = new System.Drawing.Size(100, 31);
             this.BTNClearDebug.TabIndex = 3;
             this.BTNClearDebug.Text = "Clear";
             this.BTNClearDebug.UseSelectable = true;
@@ -46,24 +47,27 @@ namespace BrainologyDatabaseManager
             // LBXDebugLog
             // 
             this.LBXDebugLog.FormattingEnabled = true;
-            this.LBXDebugLog.Location = new System.Drawing.Point(12, 54);
+            this.LBXDebugLog.ItemHeight = 16;
+            this.LBXDebugLog.Location = new System.Drawing.Point(16, 66);
+            this.LBXDebugLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.LBXDebugLog.Name = "LBXDebugLog";
             this.LBXDebugLog.ScrollAlwaysVisible = true;
-            this.LBXDebugLog.Size = new System.Drawing.Size(776, 381);
+            this.LBXDebugLog.Size = new System.Drawing.Size(1033, 468);
             this.LBXDebugLog.TabIndex = 2;
             // 
             // FRMDebug
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1067, 554);
             this.Controls.Add(this.BTNClearDebug);
             this.Controls.Add(this.LBXDebugLog);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "FRMDebug";
+            this.Padding = new System.Windows.Forms.Padding(27, 74, 27, 25);
             this.Text = "Debug Log";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FRMDebug_FormClosing);
-            this.Enter += new System.EventHandler(this.FRMDebug_Enter);
-            this.MouseEnter += new System.EventHandler(this.FRMDebug_MouseEnter);
+            this.Load += new System.EventHandler(this.FRMDebug_Load);
             this.ResumeLayout(false);
 
         }
