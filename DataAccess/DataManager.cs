@@ -11,6 +11,8 @@ namespace BrainologyDatabaseManager.DataAccess
 {
     public static class DataManager
     {
+
+        public static string versionNumber;
         /// <summary>
         /// List of Drives as DriveObjects
         /// </summary>

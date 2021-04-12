@@ -34,6 +34,7 @@ namespace BrainologyDatabaseManager
 
         private void FRMLoadingPanel_Load(object sender, EventArgs e)
         {
+            DataManager.versionNumber = ProductVersion;
             db = new DriveDB(this);
         }
     }

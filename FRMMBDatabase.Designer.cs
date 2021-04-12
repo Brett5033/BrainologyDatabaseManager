@@ -140,6 +140,7 @@
             this.LBLUserLog = new MetroFramework.Controls.MetroLabel();
             this.LBLProgressSpinner = new MetroFramework.Controls.MetroLabel();
             this.PBXLoadingLogo = new System.Windows.Forms.PictureBox();
+            this.LBLVersionNumber = new MetroFramework.Controls.MetroLabel();
             this.MTABWindowSelector.SuspendLayout();
             this.TPWelcome.SuspendLayout();
             this.PNLGithub.SuspendLayout();
@@ -176,7 +177,7 @@
             this.MTABWindowSelector.Controls.Add(this.TPDriveManager);
             this.MTABWindowSelector.Controls.Add(this.TPStorageOptimization);
             this.MTABWindowSelector.Location = new System.Drawing.Point(4, 107);
-            this.MTABWindowSelector.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MTABWindowSelector.Margin = new System.Windows.Forms.Padding(4);
             this.MTABWindowSelector.Name = "MTABWindowSelector";
             this.MTABWindowSelector.SelectedIndex = 0;
             this.MTABWindowSelector.Size = new System.Drawing.Size(1349, 748);
@@ -210,7 +211,7 @@
             this.PNLGithub.HorizontalScrollbarHighlightOnWheel = false;
             this.PNLGithub.HorizontalScrollbarSize = 12;
             this.PNLGithub.Location = new System.Drawing.Point(37, 346);
-            this.PNLGithub.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PNLGithub.Margin = new System.Windows.Forms.Padding(4);
             this.PNLGithub.Name = "PNLGithub";
             this.PNLGithub.Size = new System.Drawing.Size(863, 123);
             this.PNLGithub.TabIndex = 6;
@@ -250,7 +251,7 @@
             this.PNLUserGuide.HorizontalScrollbarHighlightOnWheel = false;
             this.PNLUserGuide.HorizontalScrollbarSize = 12;
             this.PNLUserGuide.Location = new System.Drawing.Point(37, 196);
-            this.PNLUserGuide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PNLUserGuide.Margin = new System.Windows.Forms.Padding(4);
             this.PNLUserGuide.Name = "PNLUserGuide";
             this.PNLUserGuide.Size = new System.Drawing.Size(863, 124);
             this.PNLUserGuide.TabIndex = 5;
@@ -370,7 +371,7 @@
             // BTNRemoveAllTags
             // 
             this.BTNRemoveAllTags.Location = new System.Drawing.Point(115, 351);
-            this.BTNRemoveAllTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNRemoveAllTags.Margin = new System.Windows.Forms.Padding(4);
             this.BTNRemoveAllTags.Name = "BTNRemoveAllTags";
             this.BTNRemoveAllTags.Size = new System.Drawing.Size(108, 28);
             this.BTNRemoveAllTags.TabIndex = 47;
@@ -385,10 +386,10 @@
             // 
             // 
             this.TXTTagSearch.CustomButton.Image = null;
-            this.TXTTagSearch.CustomButton.Location = new System.Drawing.Point(329, 1);
+            this.TXTTagSearch.CustomButton.Location = new System.Drawing.Point(247, 1);
             this.TXTTagSearch.CustomButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.TXTTagSearch.CustomButton.Name = "";
-            this.TXTTagSearch.CustomButton.Size = new System.Drawing.Size(28, 26);
+            this.TXTTagSearch.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.TXTTagSearch.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTTagSearch.CustomButton.TabIndex = 1;
             this.TXTTagSearch.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -417,7 +418,7 @@
             // BTNClearSelectedTags
             // 
             this.BTNClearSelectedTags.Location = new System.Drawing.Point(0, 351);
-            this.BTNClearSelectedTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNClearSelectedTags.Margin = new System.Windows.Forms.Padding(4);
             this.BTNClearSelectedTags.Name = "BTNClearSelectedTags";
             this.BTNClearSelectedTags.Size = new System.Drawing.Size(109, 28);
             this.BTNClearSelectedTags.TabIndex = 46;
@@ -437,7 +438,7 @@
             this.metroPanel2.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel2.HorizontalScrollbarSize = 12;
             this.metroPanel2.Location = new System.Drawing.Point(0, 388);
-            this.metroPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.metroPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel2.Name = "metroPanel2";
             this.metroPanel2.Size = new System.Drawing.Size(222, 114);
             this.metroPanel2.TabIndex = 42;
@@ -448,7 +449,7 @@
             // BTNDeleteTag
             // 
             this.BTNDeleteTag.Location = new System.Drawing.Point(115, 74);
-            this.BTNDeleteTag.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNDeleteTag.Margin = new System.Windows.Forms.Padding(4);
             this.BTNDeleteTag.Name = "BTNDeleteTag";
             this.BTNDeleteTag.Size = new System.Drawing.Size(96, 28);
             this.BTNDeleteTag.TabIndex = 5;
@@ -470,7 +471,7 @@
             // BTNTagCreate
             // 
             this.BTNTagCreate.Location = new System.Drawing.Point(8, 74);
-            this.BTNTagCreate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNTagCreate.Margin = new System.Windows.Forms.Padding(4);
             this.BTNTagCreate.Name = "BTNTagCreate";
             this.BTNTagCreate.Size = new System.Drawing.Size(95, 28);
             this.BTNTagCreate.TabIndex = 3;
@@ -485,10 +486,10 @@
             // 
             // 
             this.TXTTagWizardName.CustomButton.Image = null;
-            this.TXTTagWizardName.CustomButton.Location = new System.Drawing.Point(241, 2);
-            this.TXTTagWizardName.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTTagWizardName.CustomButton.Location = new System.Drawing.Point(181, 2);
+            this.TXTTagWizardName.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTTagWizardName.CustomButton.Name = "";
-            this.TXTTagWizardName.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTTagWizardName.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTTagWizardName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTTagWizardName.CustomButton.TabIndex = 1;
             this.TXTTagWizardName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -496,7 +497,7 @@
             this.TXTTagWizardName.CustomButton.Visible = false;
             this.TXTTagWizardName.Lines = new string[0];
             this.TXTTagWizardName.Location = new System.Drawing.Point(4, 38);
-            this.TXTTagWizardName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTTagWizardName.Margin = new System.Windows.Forms.Padding(4);
             this.TXTTagWizardName.MaxLength = 32767;
             this.TXTTagWizardName.Name = "TXTTagWizardName";
             this.TXTTagWizardName.PasswordChar = '\0';
@@ -515,7 +516,7 @@
             // BTNRemoveSelectedTags
             // 
             this.BTNRemoveSelectedTags.Location = new System.Drawing.Point(116, 313);
-            this.BTNRemoveSelectedTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNRemoveSelectedTags.Margin = new System.Windows.Forms.Padding(4);
             this.BTNRemoveSelectedTags.Name = "BTNRemoveSelectedTags";
             this.BTNRemoveSelectedTags.Size = new System.Drawing.Size(107, 31);
             this.BTNRemoveSelectedTags.TabIndex = 45;
@@ -527,7 +528,7 @@
             // BTNApplyTags
             // 
             this.BTNApplyTags.Location = new System.Drawing.Point(0, 313);
-            this.BTNApplyTags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNApplyTags.Margin = new System.Windows.Forms.Padding(4);
             this.BTNApplyTags.Name = "BTNApplyTags";
             this.BTNApplyTags.Size = new System.Drawing.Size(108, 31);
             this.BTNApplyTags.TabIndex = 43;
@@ -552,7 +553,7 @@
             this.metroPanel3.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel3.HorizontalScrollbarSize = 12;
             this.metroPanel3.Location = new System.Drawing.Point(229, 43);
-            this.metroPanel3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.metroPanel3.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel3.Name = "metroPanel3";
             this.metroPanel3.Size = new System.Drawing.Size(277, 459);
             this.metroPanel3.TabIndex = 44;
@@ -563,7 +564,7 @@
             // BTNNewTagPreset
             // 
             this.BTNNewTagPreset.Location = new System.Drawing.Point(19, 415);
-            this.BTNNewTagPreset.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNNewTagPreset.Margin = new System.Windows.Forms.Padding(4);
             this.BTNNewTagPreset.Name = "BTNNewTagPreset";
             this.BTNNewTagPreset.Size = new System.Drawing.Size(239, 32);
             this.BTNNewTagPreset.TabIndex = 10;
@@ -588,10 +589,10 @@
             // 
             // 
             this.TXTTagPresetName.CustomButton.Image = null;
-            this.TXTTagPresetName.CustomButton.Location = new System.Drawing.Point(284, 2);
-            this.TXTTagPresetName.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTTagPresetName.CustomButton.Location = new System.Drawing.Point(213, 2);
+            this.TXTTagPresetName.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTTagPresetName.CustomButton.Name = "";
-            this.TXTTagPresetName.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTTagPresetName.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTTagPresetName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTTagPresetName.CustomButton.TabIndex = 1;
             this.TXTTagPresetName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -599,7 +600,7 @@
             this.TXTTagPresetName.CustomButton.Visible = false;
             this.TXTTagPresetName.Lines = new string[0];
             this.TXTTagPresetName.Location = new System.Drawing.Point(19, 377);
-            this.TXTTagPresetName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTTagPresetName.Margin = new System.Windows.Forms.Padding(4);
             this.TXTTagPresetName.MaxLength = 32767;
             this.TXTTagPresetName.Name = "TXTTagPresetName";
             this.TXTTagPresetName.PasswordChar = '\0';
@@ -618,7 +619,7 @@
             // BTNTagPresetRemove
             // 
             this.BTNTagPresetRemove.Location = new System.Drawing.Point(144, 308);
-            this.BTNTagPresetRemove.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNTagPresetRemove.Margin = new System.Windows.Forms.Padding(4);
             this.BTNTagPresetRemove.Name = "BTNTagPresetRemove";
             this.BTNTagPresetRemove.Size = new System.Drawing.Size(113, 28);
             this.BTNTagPresetRemove.TabIndex = 7;
@@ -640,7 +641,7 @@
             // BTNTagPresetAdd
             // 
             this.BTNTagPresetAdd.Location = new System.Drawing.Point(19, 308);
-            this.BTNTagPresetAdd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNTagPresetAdd.Margin = new System.Windows.Forms.Padding(4);
             this.BTNTagPresetAdd.Name = "BTNTagPresetAdd";
             this.BTNTagPresetAdd.Size = new System.Drawing.Size(117, 28);
             this.BTNTagPresetAdd.TabIndex = 5;
@@ -652,7 +653,7 @@
             // BTNApplyTagPreset
             // 
             this.BTNApplyTagPreset.Location = new System.Drawing.Point(19, 220);
-            this.BTNApplyTagPreset.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNApplyTagPreset.Margin = new System.Windows.Forms.Padding(4);
             this.BTNApplyTagPreset.Name = "BTNApplyTagPreset";
             this.BTNApplyTagPreset.Size = new System.Drawing.Size(239, 28);
             this.BTNApplyTagPreset.TabIndex = 4;
@@ -666,7 +667,7 @@
             this.LBXTagPresets.FormattingEnabled = true;
             this.LBXTagPresets.ItemHeight = 16;
             this.LBXTagPresets.Location = new System.Drawing.Point(19, 55);
-            this.LBXTagPresets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LBXTagPresets.Margin = new System.Windows.Forms.Padding(4);
             this.LBXTagPresets.Name = "LBXTagPresets";
             this.LBXTagPresets.Size = new System.Drawing.Size(237, 148);
             this.LBXTagPresets.Sorted = true;
@@ -703,10 +704,10 @@
             // 
             // 
             this.TXTSearchData.CustomButton.Image = null;
-            this.TXTSearchData.CustomButton.Location = new System.Drawing.Point(532, 1);
+            this.TXTSearchData.CustomButton.Location = new System.Drawing.Point(399, 1);
             this.TXTSearchData.CustomButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.TXTSearchData.CustomButton.Name = "";
-            this.TXTSearchData.CustomButton.Size = new System.Drawing.Size(28, 26);
+            this.TXTSearchData.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.TXTSearchData.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTSearchData.CustomButton.TabIndex = 1;
             this.TXTSearchData.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -796,10 +797,10 @@
             // 
             // 
             this.TXTSearch.CustomButton.Image = null;
-            this.TXTSearch.CustomButton.Location = new System.Drawing.Point(439, 1);
+            this.TXTSearch.CustomButton.Location = new System.Drawing.Point(329, 1);
             this.TXTSearch.CustomButton.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.TXTSearch.CustomButton.Name = "";
-            this.TXTSearch.CustomButton.Size = new System.Drawing.Size(28, 26);
+            this.TXTSearch.CustomButton.Size = new System.Drawing.Size(21, 21);
             this.TXTSearch.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTSearch.CustomButton.TabIndex = 1;
             this.TXTSearch.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1003,7 +1004,7 @@
             this.TPDriveManager.Controls.Add(this.LBXFileData);
             this.TPDriveManager.Controls.Add(this.TVDriveView);
             this.TPDriveManager.Location = new System.Drawing.Point(4, 38);
-            this.TPDriveManager.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TPDriveManager.Margin = new System.Windows.Forms.Padding(4);
             this.TPDriveManager.Name = "TPDriveManager";
             this.TPDriveManager.Padding = new System.Windows.Forms.Padding(31, 33, 31, 33);
             this.TPDriveManager.Size = new System.Drawing.Size(1341, 706);
@@ -1059,10 +1060,10 @@
             // 
             // 
             this.TXTDrivePath.CustomButton.Image = null;
-            this.TXTDrivePath.CustomButton.Location = new System.Drawing.Point(436, 2);
-            this.TXTDrivePath.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTDrivePath.CustomButton.Location = new System.Drawing.Point(327, 2);
+            this.TXTDrivePath.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTDrivePath.CustomButton.Name = "";
-            this.TXTDrivePath.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTDrivePath.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTDrivePath.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTDrivePath.CustomButton.TabIndex = 1;
             this.TXTDrivePath.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1070,7 +1071,7 @@
             this.TXTDrivePath.CustomButton.Visible = false;
             this.TXTDrivePath.Lines = new string[0];
             this.TXTDrivePath.Location = new System.Drawing.Point(31, 46);
-            this.TXTDrivePath.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTDrivePath.Margin = new System.Windows.Forms.Padding(4);
             this.TXTDrivePath.MaxLength = 32767;
             this.TXTDrivePath.Name = "TXTDrivePath";
             this.TXTDrivePath.PasswordChar = '\0';
@@ -1093,10 +1094,10 @@
             // 
             // 
             this.TXTNickname.CustomButton.Image = null;
-            this.TXTNickname.CustomButton.Location = new System.Drawing.Point(244, 2);
-            this.TXTNickname.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTNickname.CustomButton.Location = new System.Drawing.Point(183, 2);
+            this.TXTNickname.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTNickname.CustomButton.Name = "";
-            this.TXTNickname.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTNickname.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTNickname.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTNickname.CustomButton.TabIndex = 1;
             this.TXTNickname.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1104,7 +1105,7 @@
             this.TXTNickname.CustomButton.Visible = false;
             this.TXTNickname.Lines = new string[0];
             this.TXTNickname.Location = new System.Drawing.Point(175, 79);
-            this.TXTNickname.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTNickname.Margin = new System.Windows.Forms.Padding(4);
             this.TXTNickname.MaxLength = 32767;
             this.TXTNickname.Name = "TXTNickname";
             this.TXTNickname.PasswordChar = '\0';
@@ -1310,7 +1311,7 @@
             this.LBXDrives.FormattingEnabled = true;
             this.LBXDrives.ItemHeight = 16;
             this.LBXDrives.Location = new System.Drawing.Point(439, 382);
-            this.LBXDrives.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LBXDrives.Margin = new System.Windows.Forms.Padding(4);
             this.LBXDrives.Name = "LBXDrives";
             this.LBXDrives.Size = new System.Drawing.Size(232, 116);
             this.LBXDrives.TabIndex = 35;
@@ -1322,7 +1323,7 @@
             this.LBXFileData.FormattingEnabled = true;
             this.LBXFileData.ItemHeight = 17;
             this.LBXFileData.Location = new System.Drawing.Point(439, 149);
-            this.LBXFileData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.LBXFileData.Margin = new System.Windows.Forms.Padding(4);
             this.LBXFileData.Name = "LBXFileData";
             this.LBXFileData.Size = new System.Drawing.Size(471, 72);
             this.LBXFileData.TabIndex = 34;
@@ -1391,10 +1392,10 @@
             // 
             // 
             this.TXTMinimumSize.CustomButton.Image = null;
-            this.TXTMinimumSize.CustomButton.Location = new System.Drawing.Point(109, 2);
-            this.TXTMinimumSize.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTMinimumSize.CustomButton.Location = new System.Drawing.Point(82, 2);
+            this.TXTMinimumSize.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTMinimumSize.CustomButton.Name = "";
-            this.TXTMinimumSize.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTMinimumSize.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTMinimumSize.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTMinimumSize.CustomButton.TabIndex = 1;
             this.TXTMinimumSize.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1403,7 +1404,7 @@
             this.TXTMinimumSize.Lines = new string[] {
         "1"};
             this.TXTMinimumSize.Location = new System.Drawing.Point(1104, 22);
-            this.TXTMinimumSize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTMinimumSize.Margin = new System.Windows.Forms.Padding(4);
             this.TXTMinimumSize.MaxLength = 32767;
             this.TXTMinimumSize.Name = "TXTMinimumSize";
             this.TXTMinimumSize.PasswordChar = '\0';
@@ -1427,7 +1428,7 @@
             this.CBXSaveToExcel.Checked = true;
             this.CBXSaveToExcel.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CBXSaveToExcel.Location = new System.Drawing.Point(11, 443);
-            this.CBXSaveToExcel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CBXSaveToExcel.Margin = new System.Windows.Forms.Padding(4);
             this.CBXSaveToExcel.Name = "CBXSaveToExcel";
             this.CBXSaveToExcel.Size = new System.Drawing.Size(148, 17);
             this.CBXSaveToExcel.Style = MetroFramework.MetroColorStyle.Magenta;
@@ -1442,7 +1443,7 @@
             this.CBXConsolidateResults.Checked = true;
             this.CBXConsolidateResults.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CBXConsolidateResults.Location = new System.Drawing.Point(11, 410);
-            this.CBXConsolidateResults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CBXConsolidateResults.Margin = new System.Windows.Forms.Padding(4);
             this.CBXConsolidateResults.Name = "CBXConsolidateResults";
             this.CBXConsolidateResults.Size = new System.Drawing.Size(138, 17);
             this.CBXConsolidateResults.Style = MetroFramework.MetroColorStyle.Magenta;
@@ -1467,10 +1468,10 @@
             // 
             // 
             this.TXTOptiNumCopies.CustomButton.Image = null;
-            this.TXTOptiNumCopies.CustomButton.Location = new System.Drawing.Point(4, 2);
-            this.TXTOptiNumCopies.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTOptiNumCopies.CustomButton.Location = new System.Drawing.Point(3, 2);
+            this.TXTOptiNumCopies.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTOptiNumCopies.CustomButton.Name = "";
-            this.TXTOptiNumCopies.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTOptiNumCopies.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTOptiNumCopies.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTOptiNumCopies.CustomButton.TabIndex = 1;
             this.TXTOptiNumCopies.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1479,7 +1480,7 @@
             this.TXTOptiNumCopies.Lines = new string[] {
         "2"};
             this.TXTOptiNumCopies.Location = new System.Drawing.Point(889, 22);
-            this.TXTOptiNumCopies.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTOptiNumCopies.Margin = new System.Windows.Forms.Padding(4);
             this.TXTOptiNumCopies.MaxLength = 32767;
             this.TXTOptiNumCopies.Name = "TXTOptiNumCopies";
             this.TXTOptiNumCopies.PasswordChar = '\0';
@@ -1513,10 +1514,10 @@
             // 
             // 
             this.TXTOptiFilter.CustomButton.Image = null;
-            this.TXTOptiFilter.CustomButton.Location = new System.Drawing.Point(493, 2);
-            this.TXTOptiFilter.CustomButton.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.TXTOptiFilter.CustomButton.Location = new System.Drawing.Point(370, 2);
+            this.TXTOptiFilter.CustomButton.Margin = new System.Windows.Forms.Padding(5);
             this.TXTOptiFilter.CustomButton.Name = "";
-            this.TXTOptiFilter.CustomButton.Size = new System.Drawing.Size(31, 28);
+            this.TXTOptiFilter.CustomButton.Size = new System.Drawing.Size(23, 23);
             this.TXTOptiFilter.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
             this.TXTOptiFilter.CustomButton.TabIndex = 1;
             this.TXTOptiFilter.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
@@ -1524,7 +1525,7 @@
             this.TXTOptiFilter.CustomButton.Visible = false;
             this.TXTOptiFilter.Lines = new string[0];
             this.TXTOptiFilter.Location = new System.Drawing.Point(277, 20);
-            this.TXTOptiFilter.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TXTOptiFilter.Margin = new System.Windows.Forms.Padding(4);
             this.TXTOptiFilter.MaxLength = 32767;
             this.TXTOptiFilter.Name = "TXTOptiFilter";
             this.TXTOptiFilter.PasswordChar = '\0';
@@ -1549,7 +1550,7 @@
             this.metroPanel1.HorizontalScrollbarHighlightOnWheel = false;
             this.metroPanel1.HorizontalScrollbarSize = 12;
             this.metroPanel1.Location = new System.Drawing.Point(24, 310);
-            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.metroPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.metroPanel1.Name = "metroPanel1";
             this.metroPanel1.Size = new System.Drawing.Size(157, 82);
             this.metroPanel1.TabIndex = 4;
@@ -1562,7 +1563,7 @@
             this.RBTNOptiBoth.AutoSize = true;
             this.RBTNOptiBoth.Checked = true;
             this.RBTNOptiBoth.Location = new System.Drawing.Point(4, 57);
-            this.RBTNOptiBoth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RBTNOptiBoth.Margin = new System.Windows.Forms.Padding(4);
             this.RBTNOptiBoth.Name = "RBTNOptiBoth";
             this.RBTNOptiBoth.Size = new System.Drawing.Size(50, 17);
             this.RBTNOptiBoth.Style = MetroFramework.MetroColorStyle.Magenta;
@@ -1575,7 +1576,7 @@
             // 
             this.RBTNOptiFilesOnly.AutoSize = true;
             this.RBTNOptiFilesOnly.Location = new System.Drawing.Point(4, 31);
-            this.RBTNOptiFilesOnly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RBTNOptiFilesOnly.Margin = new System.Windows.Forms.Padding(4);
             this.RBTNOptiFilesOnly.Name = "RBTNOptiFilesOnly";
             this.RBTNOptiFilesOnly.Size = new System.Drawing.Size(79, 17);
             this.RBTNOptiFilesOnly.Style = MetroFramework.MetroColorStyle.Magenta;
@@ -1588,7 +1589,7 @@
             // 
             this.RBTNOptFoldersOnly.AutoSize = true;
             this.RBTNOptFoldersOnly.Location = new System.Drawing.Point(5, 5);
-            this.RBTNOptFoldersOnly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RBTNOptFoldersOnly.Margin = new System.Windows.Forms.Padding(4);
             this.RBTNOptFoldersOnly.Name = "RBTNOptFoldersOnly";
             this.RBTNOptFoldersOnly.Size = new System.Drawing.Size(97, 17);
             this.RBTNOptFoldersOnly.Style = MetroFramework.MetroColorStyle.Magenta;
@@ -1600,7 +1601,7 @@
             // BTNProcessOptimization
             // 
             this.BTNProcessOptimization.Location = new System.Drawing.Point(24, 267);
-            this.BTNProcessOptimization.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BTNProcessOptimization.Margin = new System.Windows.Forms.Padding(4);
             this.BTNProcessOptimization.Name = "BTNProcessOptimization";
             this.BTNProcessOptimization.Size = new System.Drawing.Size(157, 28);
             this.BTNProcessOptimization.TabIndex = 3;
@@ -1729,7 +1730,7 @@
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.pictureBox1.Image = global::BrainologyDatabaseManager.Properties.Resources.MarketingBrainologyLogoWebsiteNewS;
             this.pictureBox1.Location = new System.Drawing.Point(488, 17);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(256, 85);
             this.pictureBox1.TabIndex = 10;
@@ -1786,13 +1787,21 @@
             this.PBXLoadingLogo.Image = global::BrainologyDatabaseManager.Properties.Resources.MarketingBrainologyLogo;
             this.PBXLoadingLogo.InitialImage = global::BrainologyDatabaseManager.Properties.Resources.MarketingBrainologyLogo;
             this.PBXLoadingLogo.Location = new System.Drawing.Point(1152, 17);
-            this.PBXLoadingLogo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PBXLoadingLogo.Margin = new System.Windows.Forms.Padding(4);
             this.PBXLoadingLogo.Name = "PBXLoadingLogo";
             this.PBXLoadingLogo.Size = new System.Drawing.Size(107, 98);
             this.PBXLoadingLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.PBXLoadingLogo.TabIndex = 19;
             this.PBXLoadingLogo.TabStop = false;
             this.PBXLoadingLogo.Visible = false;
+            // 
+            // LBLVersionNumber
+            // 
+            this.LBLVersionNumber.AutoSize = true;
+            this.LBLVersionNumber.Location = new System.Drawing.Point(23, 74);
+            this.LBLVersionNumber.Name = "LBLVersionNumber";
+            this.LBLVersionNumber.Size = new System.Drawing.Size(0, 0);
+            this.LBLVersionNumber.TabIndex = 20;
             // 
             // FRMMBDatabase
             // 
@@ -1804,6 +1813,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BorderStyle = MetroFramework.Forms.MetroFormBorderStyle.FixedSingle;
             this.ClientSize = new System.Drawing.Size(1359, 884);
+            this.Controls.Add(this.LBLVersionNumber);
             this.Controls.Add(this.PBXLoadingLogo);
             this.Controls.Add(this.LBLProgressSpinner);
             this.Controls.Add(this.LBLUserLog);
@@ -1970,5 +1980,6 @@
         private MetroFramework.Controls.MetroLabel LBLProgressSpinner;
         private System.Windows.Forms.PictureBox PBXLoadingLogo;
         private MetroFramework.Controls.MetroButton BTNShowSubs;
+        private MetroFramework.Controls.MetroLabel LBLVersionNumber;
     }
 }
